@@ -19,6 +19,16 @@ void SysTick_Handler(void)
 	}
 	#endif
 
+
+	#ifdef Service_Input_Key
+	F_KEY_COUNT++;
+	if (F_KEY_COUNT >= 10)
+	{
+		F_KEY_COUNT = 0;		F_KEY_FLAG = 1;
+	}
+	#endif
+
+
 	#ifdef F_LED_Blink
 	F_LED_COUNT++;
 	if (F_LED_COUNT >= 500)

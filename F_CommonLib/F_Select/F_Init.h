@@ -11,7 +11,9 @@ void F_INIT(void)
 	KEY_PAD_INIT_STM32F4();
 	#endif
 
-
+	#ifdef Service_Input_Key
+	KEY_INPUT_INIT();
+	#endif
 
 	/*串口*/
 	#ifdef F_STM32_F4

@@ -1,8 +1,8 @@
 #include "./F_HMI_STM32F4.h"
 #include "all_config.h"
-#include "math.h"
-#include "string.h"
-#include "stdio.h"
+#ifdef Service_Display_HMI
+
+
 /*
  * STM32F4串口屏使用说明：
  * 1 把这句话放到串口初始化下边
@@ -20,7 +20,7 @@
 #define High_ARR 224
 #define Low_ARR  336
 
-#ifdef Service_Display_HMI
+
 
 #ifdef F_STM32_F4
 extern UART_HandleTypeDef huart1;

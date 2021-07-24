@@ -36,18 +36,18 @@
 //*******************************选择协议*******************************//
 //#define F_IIC
 //#define F_SPI
-//#define F_USART
-#define F_FSK
+#define F_USART
+//#define F_FSK
 
 
 //*******************************选择外设*******************************//
-//#define Service_Input_Key		//按键
+#define Service_Input_Key			//按键
 //#define Service_Input_Keypad		//矩阵键盘
-//#define Service_Display_LCD_240		//lcd
-//#define Service_Display_LCD_480		//lcd
-//#define Service_Display_OLED_IIC		//oled
+//#define Service_Display_LCD_240	//lcd
+//#define Service_Display_LCD_480	//lcd
+//#define Service_Display_OLED_IIC	//oled
 //#define Service_Display_HMI		//串口屏
-#define Service_UserCode		//用户函数
+//#define Service_UserCode			//用户函数
 
 
 

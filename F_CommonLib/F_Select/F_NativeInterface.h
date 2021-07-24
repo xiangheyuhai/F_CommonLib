@@ -64,8 +64,8 @@
 /*按键*/
 #ifdef Service_Input_Key
 #include "stm32f4xx_hal_gpio.h"
-#include "F_Service\F_Input\F_Key\F_Key.c"
-#include "F_Service\F_Input\F_Key\F_Key.h"
+#include "F_Service/F_Input/F_Key/F_Key.c"
+#include "F_Service/F_Input/F_Key/F_Key.h"
 #endif
 
 
