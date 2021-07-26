@@ -6,9 +6,9 @@
 
 
 #define ADC_Fliter_Times 30		//Fliter_Times为几个数取一次平均值
-#define ADC_1_Channel_Num 3		//ADC1开了3个通道
-#define ADC_2_Channel_Num 3		//ADC2开了3个通道
-#define ADC_All_Channel_Num 6   //总的ADC通道数
+#define ADC_1_Channel_Num 2		//ADC1开了3个通道
+#define ADC_2_Channel_Num 0		//ADC2开了3个通道
+#define ADC_All_Channel_Num 2   //总的ADC通道数
 extern u16 ADC_1_Value_DMA[ADC_1_Channel_Num];			//3为ADC1开的通道数量
 extern u16 ADC_2_Value_DMA[ADC_2_Channel_Num];			//2为ADC2开的通道数量
 extern u32 ADC_Value_Sum[ADC_All_Channel_Num];	 		//存放滤波时的总和
@@ -18,7 +18,7 @@ extern u8 ADC_Fliter_Flag;		//extern到滴答定时器或者其他中
 extern u8 ADC_Fliter_Count;		//extern到滴答定时器或者其他中
 
 
-//void ADC_Fliter(u8 adc_fliter_times);
+void ADC_Fliter(u8 adc_fliter_times);
 
 
 

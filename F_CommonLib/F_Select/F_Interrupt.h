@@ -43,7 +43,7 @@ void SysTick_Handler(void)
 
 	#ifdef F_ADC
 	ADC_Fliter_Count++;
-	if (ADC_Fliter_Count >= 50)
+	if (ADC_Fliter_Count >= 2)
 	{
 		ADC_Fliter_Count = 0;
 		ADC_Fliter_Flag = 1;
@@ -53,6 +53,7 @@ void SysTick_Handler(void)
 
 
 	#ifdef F_AD9959
+	#ifdef F_AD9959_Sweep_Fre
 	if (AD9959_Mode == AD9959_Mode_Sweep)
 	{
 		AD9959_SweepCount++;
@@ -78,10 +79,25 @@ void SysTick_Handler(void)
 			}
 		}
 	}
+
 	#endif
 
-
-
+	#ifdef F_AD9959_Sweep_Pha
+	if (AD9959_Mode == AD9959_Mode_Sweep)
+	{
+		AD9959_SweepCount++;
+		if (AD9959_SweepCount >= AD9959_SweepTime)
+		{
+			AD9959_SweepCount = 0;
+			AD9959_NowSinPhr[0] = AD9959_SweepMinPha + AD9959_SweepStepPha*AD9959_SweepCountTimes;
+			AD9959_SweepCountTimes++;
+			if (AD9959_NowSinPhr[0] > AD9959_SweepMaxPha)
+				AD9959_SweepCountTimes = 0;
+			Write_Phase(0, AD9959_NowSinPhr[0]);
+		}
+	}
+	#endif
+	#endif
 
 }
 #endif

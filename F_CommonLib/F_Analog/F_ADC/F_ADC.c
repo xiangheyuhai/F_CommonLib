@@ -24,20 +24,20 @@ void ADC_Fliter(u8 adc_fliter_times)
 		if (adc_fliter_count_temp <= adc_fliter_times)//没有达到滤波次数，不停地累加
 		{
 			ADC_Value_Sum[0] += ADC_1_Value_DMA[0];
-			ADC_Value_Sum[1] += ADC_1_Value_DMA[0];
-			ADC_Value_Sum[2] += ADC_1_Value_DMA[1];
+			ADC_Value_Sum[1] += ADC_1_Value_DMA[1];
+//			ADC_Value_Sum[2] += ADC_1_Value_DMA[1];
 		}
 		else//达到滤波次数，sum归零，得到平均值
 		{
 			adc_fliter_count_temp = 0;
 
-			ADC_Value_Real[0] = (u16)(ADC_Value_Sum[0]/(ADC_Fliter_Times));
-			ADC_Value_Real[1] = (u16)(ADC_Value_Sum[1]/(ADC_Fliter_Times));
-			ADC_Value_Real[2] = (u16)(ADC_Value_Sum[2]/(ADC_Fliter_Times));
+			ADC_Value_Real[0] = (u16)(ADC_Value_Sum[0]/(adc_fliter_times));
+			ADC_Value_Real[1] = (u16)(ADC_Value_Sum[1]/(adc_fliter_times));
+//			ADC_Value_Real[2] = (u16)(ADC_Value_Sum[2]/(ADC_Fliter_Times));
 
 			ADC_Value_Sum[0] = 0;
 			ADC_Value_Sum[1] = 0;
-			ADC_Value_Sum[2] = 0;
+//			ADC_Value_Sum[2] = 0;
 		}
 	}
 }

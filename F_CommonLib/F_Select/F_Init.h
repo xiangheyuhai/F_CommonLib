@@ -19,6 +19,7 @@ void F_INIT(void)
 	#ifdef F_STM32_F4
 	#ifdef F_USART
 	HAL_UART_Receive_IT(&huart1, (uint8_t *)&aRxBuffer, 1);
+	printf("ok\r\n");
 	#endif
 	#endif
 
@@ -41,7 +42,7 @@ void F_INIT(void)
 	/*AD9959*/
 	#ifdef F_AD9959
 	AD9959_GPIO_Init();
-	Write_frequence(0,15000);//15000Hz
+//	Write_frequence(0,15000);//15000Hz
 	#endif
 
 
@@ -64,7 +65,7 @@ void F_INIT(void)
 
 
 	#ifdef F_ADC
-	HAL_ADC_Start_DMA(&hadc1, (uint32_t *)ADC_1_Value_DMA, 3);//转换后的结果放到ADC_Value_DMA_1
+	HAL_ADC_Start_DMA(&hadc1, (uint32_t *)ADC_1_Value_DMA, 2);//转换后的结果放到ADC_Value_DMA_1
 	#endif
 
 

@@ -20,6 +20,11 @@ extern u8  AD9959_SweepWaveFlag;   	//是否显示波形
 extern u32 AD9959_SweepCount;    	//extern到定时器中--ms
 extern u32 AD9959_SweepCountTimes; 	//extern到定时器中
 
+extern u32 AD9959_SweepMaxPha; 	//最大扫描相位
+extern u32	AD9959_SweepMinPha;  	//最小扫描相位
+extern u32 AD9959_SweepStepPha;   	//扫相步进相位
+
+
 
 extern u32 AD9959_FixedMaxFre; 		//最大固定输出频率--Hz
 extern u32 AD9959_FixedMinFre;  	//最小固定输出频率--Hz

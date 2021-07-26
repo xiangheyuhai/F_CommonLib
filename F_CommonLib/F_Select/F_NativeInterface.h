@@ -112,7 +112,7 @@
 
 /*ADC*/
 #ifdef F_ADC
-//#include "stm32f4xx_hal_adc.h"
+#include "stm32f4xx_hal_adc.h"
 #include "F_Analog/F_ADC/F_ADC.c"
 #include "F_Analog/F_ADC/F_ADC.h"
 #endif
