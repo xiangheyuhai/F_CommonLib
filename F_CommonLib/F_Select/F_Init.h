@@ -39,6 +39,25 @@ void F_INIT(void)
 	#endif
 
 
+	#ifdef Service_Display_LCD_480
+	LCD_480_INIT();		//初始化
+	POINT_COLOR=RED;    //画笔颜色：红色
+	LCD_Clear(WHITE);	//清屏
+	sprintf((char *)LCD_480_SHOW_BUF, "FJX_TEST");
+	LCD_ShowString(0, 0, 200, 24, 24, LCD_480_SHOW_BUF);
+	#endif
+
+
+	#ifdef Service_Display_LCD_240
+	LCD_240_INIT();		//初始化
+	LCD_Clear(WHITE);	//清屏
+	BACK_COLOR = WHITE;	//设置背景色
+	sprintf((char *)LCD_240_SHOW_BUF, "FJX_TEST");
+	LCD_ShowString(0, 0, LCD_240_SHOW_BUF, BLACK);
+//	LCD_ShowString_2412(0, 160, LCD_240_SHOW_BUF, BLACK);	//4412显示暂时有问题
+	#endif
+
+
 	/*AD9959*/
 	#ifdef F_AD9959
 	AD9959_GPIO_Init();

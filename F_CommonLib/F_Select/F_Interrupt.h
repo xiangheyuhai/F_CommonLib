@@ -65,21 +65,18 @@ void SysTick_Handler(void)
 			if (AD9959_NowSinFre[0] > AD9959_SweepMaxFre)
 			{
 				AD9959_SweepCountTimes = 0;
-
 				if (AD9959_SweepWaveFlag)
 				{
 //					HMI_Clear_ADC_Wave(1);
 				}
 			}
 			Write_frequence(0,AD9959_NowSinFre[0]);
-			Write_frequence(1,AD9959_NowSinFre[0]);
 			if (AD9959_SweepWaveFlag == 1)
 			{
 //				HMI_Send_ADC_Wave(ADC_Value_DMA_1[1],ADC_Value_DMA_1[2]);
 			}
 		}
 	}
-
 	#endif
 
 	#ifdef F_AD9959_Sweep_Pha

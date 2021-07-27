@@ -1,14 +1,11 @@
 #ifndef __F_LCD_480__H
 #define __F_LCD_480__H
-
-
 #include "all_config.h"
 
 #ifdef Service_Display_LCD_480
+#ifdef F_STM32_F4
 
-/*HAL_Delay_us*/
-void HAL_Delay_us(uint32_t nus);
-
+extern u8 LCD_480_SHOW_BUF[100];
 extern SRAM_HandleTypeDef TFTSRAM_Handler;    //SRAM句柄(用于控制LCD)
 
 //LCD重要参数集
@@ -89,7 +86,7 @@ typedef struct
 #define LGRAYBLUE        0XA651 //浅灰蓝色(中间层颜色)
 #define LBBLUE           0X2B12 //浅棕蓝色(选择条目的反色)
 
-void LCD_Init(void);													   	//初始化
+void LCD_480_INIT(void);													//初始化
 void LCD_DisplayOn(void);													//开显示
 void LCD_DisplayOff(void);													//关显示
 void LCD_Clear(u32 Color);	 												//清屏
@@ -137,6 +134,6 @@ void LCD_Set_Window(u16 sx,u16 sy,u16 width,u16 height);	//设置窗口
 
 
 
-
+#endif
 #endif
 #endif

@@ -33,12 +33,19 @@
 
 /*LCD_480*/
 #ifdef Service_Display_LCD_480
-#include "stm32f4xx_hal_sram.h"
-#include "./F_Service/F_Display/F_LCD_480/LCD_480_Select/LCD_480_STM32F1.c"
-#include "./F_Service/F_Display/F_LCD_480/LCD_480_Select/LCD_480_STM32F4.c"
-#include "./F_Service/F_Display/F_LCD_480/LCD_480.c"
-#include "./F_Service/F_Display/F_LCD_480/LCD_480.h"
-#include "./F_Service/F_Display/F_LCD_480/LCD_FONT.h"
+
+#include "./F_Service/F_Display/F_LCD_480/F_LCD_480.c"
+#include "./F_Service/F_Display/F_LCD_480/F_LCD_480.h"
+#include "./F_Service/F_Display/F_LCD_480/F_LCD_FONT.h"
+#endif
+
+
+/*LCD_240*/
+#ifdef Service_Display_LCD_240
+#include "stm32f4xx_hal_gpio.h"
+#include "./F_Service\F_Display\F_LCD_240\F_LCD_240.c"
+#include "./F_Service\F_Display\F_LCD_240\F_LCD_240.h"
+#include "./F_Service\F_Display\F_LCD_240\F_LCD_240_FONT.h"
 #endif
 
 

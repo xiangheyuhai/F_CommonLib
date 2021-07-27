@@ -16,19 +16,19 @@ u8 AD9959_Wave_Show_Mode = 1;		//跟随扫频--1  不跟随扫频--0
 u8  AD9959_SweepWaveFlag = 0;    	//是否显示波形
 u32 AD9959_SweepCount = 0;    		//extern到定时器中--ms
 u32 AD9959_SweepCountTimes = 0;     //extern到定时器中
-u32 AD9959_SweepTime = 100;    		//扫频间隔时间--ms
+u32 AD9959_SweepTime = 1000;    		//扫频间隔时间--ms
 
 
 /*
   * 扫频
  * */
-u32 AD9959_SweepMaxFre = 100000; 	//最大扫频频率--Hz
-u32	AD9959_SweepMinFre =  1000;  		//最小扫频频率--Hz
-u32 AD9959_SweepStepFre =  1000;   	//扫频步进频率--Hz
+u32 AD9959_SweepMaxFre  = 200000000; 	//最大扫频频率--Hz
+u32	AD9959_SweepMinFre  = 100000000;  		//最小扫频频率--Hz
+u32 AD9959_SweepStepFre =  1000000;   	//扫频步进频率--Hz
 
 
 /*
-  * 扫相0~16383(对应角度：0°~360°)
+  * 扫相  0~16383(对应角度：0°~360°)
  * */
 u32 AD9959_SweepMaxPha = 16383; 	//最大扫描相位
 u32	AD9959_SweepMinPha =  0;  	//最小扫描相位

@@ -1,23 +1,11 @@
-#include "./LCD_480.h"
+#include "./F_LCD_480.h"
 #ifdef Service_Display_LCD_480
 #ifdef F_STM32_F4
+#include "./F_LCD_FONT.h"
 
 
 
-#include "./LCD_FONT.h"
-
-
-
-
-
-
-
-
-
-
-
-
-
+u8 LCD_480_SHOW_BUF[100] = {0};
 
 SRAM_HandleTypeDef TFTSRAM_Handler;    //SRAM句柄(用于控制LCD)
 
@@ -65,7 +53,7 @@ void LCD_WriteReg(u16 LCD_Reg,u16 LCD_RegValue)
 u16 LCD_ReadReg(u16 LCD_Reg)
 {
 	LCD_WR_REG(LCD_Reg);		//写入要读的寄存器序号
-	HAL_Delay_us(5);
+	F_HAL_Delay_us(5);
 	return LCD_RD_DATA();		//返回读到的值
 }
 //开始写GRAM
@@ -431,45 +419,12 @@ void LCD_Set_Window(u16 sx,u16 sy,u16 width,u16 height)
 		LCD_WR_REG(lcddev.setycmd+3);LCD_WR_DATA(theight&0XFF);
 	}
 }
-//SRAM底层驱动，时钟使能，引脚分配
-//此函数会被HAL_SRAM_Init()调用
-//hsram:SRAM句柄
-void HAL_SRAM_MspInit(SRAM_HandleTypeDef *hsram)
-{
-	GPIO_InitTypeDef GPIO_Initure;
 
-	__HAL_RCC_FSMC_CLK_ENABLE();			//使能FSMC时钟
-	__HAL_RCC_GPIOD_CLK_ENABLE();			//使能GPIOD时钟
-	__HAL_RCC_GPIOE_CLK_ENABLE();			//使能GPIOE时钟
-	__HAL_RCC_GPIOF_CLK_ENABLE();			//使能GPIOF时钟
-	__HAL_RCC_GPIOG_CLK_ENABLE();			//使能GPIOG时钟
 
-	//初始化PD0,1,4,5,8,9,10,14,15
-	GPIO_Initure.Pin=GPIO_PIN_0|GPIO_PIN_1|GPIO_PIN_4|GPIO_PIN_5|GPIO_PIN_8|\
-					 GPIO_PIN_9|GPIO_PIN_10|GPIO_PIN_14|GPIO_PIN_15;
-	GPIO_Initure.Mode=GPIO_MODE_AF_PP; 		//推挽复用
-	GPIO_Initure.Pull=GPIO_PULLUP;			//上拉
-	GPIO_Initure.Speed=GPIO_SPEED_HIGH;		//高速
-	GPIO_Initure.Alternate=GPIO_AF12_FSMC;	//复用为FSMC
-	HAL_GPIO_Init(GPIOD,&GPIO_Initure);     //初始化
-
-	//初始化PE7,8,9,10,11,12,13,14,15
-	GPIO_Initure.Pin=GPIO_PIN_7|GPIO_PIN_8|GPIO_PIN_9|GPIO_PIN_10|GPIO_PIN_11|\
-                     GPIO_PIN_12|GPIO_PIN_13|GPIO_PIN_14|GPIO_PIN_15;
-	HAL_GPIO_Init(GPIOE,&GPIO_Initure);
-
-	//初始化PF12
-	GPIO_Initure.Pin=GPIO_PIN_12;
-	HAL_GPIO_Init(GPIOF,&GPIO_Initure);
-
-	//初始化PG12
-	GPIO_Initure.Pin=GPIO_PIN_12;
-	HAL_GPIO_Init(GPIOG,&GPIO_Initure);
-}
 
 //初始化lcd
 //该初始化函数可以初始化各种型号的LCD(详见本.c文件最前面的描述)
-void LCD_Init(void)
+void LCD_480_INIT(void)
 {
 	GPIO_InitTypeDef GPIO_Initure;
 	FSMC_NORSRAM_TimingTypeDef FSMC_ReadWriteTim;
@@ -510,7 +465,7 @@ void LCD_Init(void)
 	FSMC_WriteTim.AddressHoldTime=0;
 	FSMC_WriteTim.DataSetupTime=8;              	//数据保存时间为6ns*9个HCLK=54n
 	FSMC_WriteTim.AccessMode=FSMC_ACCESS_MODE_A;    //模式A
-	HAL_SRAM_Init(&TFTSRAM_Handler,&FSMC_ReadWriteTim,&FSMC_WriteTim);
+	HAL_SRAM_Init(&TFTSRAM_Handler, &FSMC_ReadWriteTim, &FSMC_WriteTim);
 
 	HAL_Delay(50); // delay 50 ms
 
@@ -550,7 +505,7 @@ void LCD_Init(void)
 			}
 		}
 	}
-	printf(" LCD ID:%x\r\n",lcddev.id); //打印LCD ID
+//	printf(" LCD ID:%x\r\n",lcddev.id); //打印LCD ID
 	if(lcddev.id==0X9341)	//9341初始化
 	{
 		LCD_WR_REG(0xCF);
@@ -1734,7 +1689,7 @@ void LCD_Init(void)
 		LCD_WriteReg(0x3500,0x00);
 		LCD_WriteReg(0x3A00,0x55);  //16-bit/pixel
 		LCD_WR_REG(0x1100);
-		HAL_Delay_us(120);
+		F_HAL_Delay_us(120);
 		LCD_WR_REG(0x2900);
 	}else if(lcddev.id==0X1963)
 	{
@@ -1742,7 +1697,7 @@ void LCD_Init(void)
 		LCD_WR_DATA(0x1D);		//参数1
 		LCD_WR_DATA(0x02);		//参数2 Divider M = 2, PLL = 300/(M+1) = 100MHz
 		LCD_WR_DATA(0x04);		//参数3 Validate M and N values
-		HAL_Delay_us(100);
+		F_HAL_Delay_us(100);
 		LCD_WR_REG(0xE0);		// Start PLL command
 		LCD_WR_DATA(0x01);		// enable PLL
 		HAL_Delay(10);
