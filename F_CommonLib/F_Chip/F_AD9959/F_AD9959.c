@@ -282,9 +282,50 @@ void Write_Phase(u8 Channel,u16 Phase)
 
 
 //AD9959初始化
-void AD9959_GPIO_Init(void)
+void AD9959_INIT(void)
 {
 	u8 FR1_DATA[3] = {0xD0,0x00,0x00};//20倍频 Charge pump control = 75uA FR1<23> -- VCO gain control =0时 system clock below 160 MHz;
+
+	AD9959_GPIO_Init();
+
+	 Intserve();  //IO口初始化
+	IntReset();  //AD9959复位
+
+  WriteData_AD9959(FR1_ADD,3,FR1_DATA,1);//写功能寄存器1
+  WriteData_AD9959(FR2_ADD,2,FR2_DATA,1);
+
+
+
+//  WriteData_AD9959(CFR_ADD,3,CFR_DATA,1);
+//  WriteData_AD9959(CPOW0_ADD,2,CPOW0_DATA,0);
+//  WriteData_AD9959(ACR_ADD,3,ACR_DATA,0);
+//  WriteData_AD9959(LSRR_ADD,2,LSRR_DATA,0);
+//  WriteData_AD9959(RDW_ADD,2,RDW_DATA,0);
+//  WriteData_AD9959(FDW_ADD,4,FDW_DATA,1);
+
+
+
+
+   //写入初始频率
+	Write_frequence(3,SinFre[3]);
+	Write_frequence(0,SinFre[0]);
+	Write_frequence(1,SinFre[1]);
+	Write_frequence(2,SinFre[2]);
+
+	Write_Phase(3, SinPhr[3]);
+	Write_Phase(0, SinPhr[0]);
+	Write_Phase(1, SinPhr[1]);
+	Write_Phase(2, SinPhr[2]);
+
+	Write_Amplitude(3, SinAmp[3]);
+	Write_Amplitude(0, SinAmp[0]);
+	Write_Amplitude(1, SinAmp[1]);
+	Write_Amplitude(2, SinAmp[2]);
+}
+
+
+void AD9959_GPIO_Init(void)
+{
 	  /* GPIO Ports Clock Enable */
 	  GPIO_InitTypeDef GPIO_InitStruct = {0};
 
@@ -340,47 +381,7 @@ void AD9959_GPIO_Init(void)
 	  GPIO_InitStruct.Pull = GPIO_NOPULL;
 	  GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_VERY_HIGH;
 	  HAL_GPIO_Init(GPIOD, &GPIO_InitStruct);
-
-
-
-
-	 Intserve();  //IO口初始化
-	IntReset();  //AD9959复位
-
-  WriteData_AD9959(FR1_ADD,3,FR1_DATA,1);//写功能寄存器1
-  WriteData_AD9959(FR2_ADD,2,FR2_DATA,1);
-
-
-
-//  WriteData_AD9959(CFR_ADD,3,CFR_DATA,1);
-//  WriteData_AD9959(CPOW0_ADD,2,CPOW0_DATA,0);
-//  WriteData_AD9959(ACR_ADD,3,ACR_DATA,0);
-//  WriteData_AD9959(LSRR_ADD,2,LSRR_DATA,0);
-//  WriteData_AD9959(RDW_ADD,2,RDW_DATA,0);
-//  WriteData_AD9959(FDW_ADD,4,FDW_DATA,1);
-
-
-
-
-   //写入初始频率
-	Write_frequence(3,SinFre[3]);
-	Write_frequence(0,SinFre[0]);
-	Write_frequence(1,SinFre[1]);
-	Write_frequence(2,SinFre[2]);
-
-	Write_Phase(3, SinPhr[3]);
-	Write_Phase(0, SinPhr[0]);
-	Write_Phase(1, SinPhr[1]);
-	Write_Phase(2, SinPhr[2]);
-
-	Write_Amplitude(3, SinAmp[3]);
-	Write_Amplitude(0, SinAmp[0]);
-	Write_Amplitude(1, SinAmp[1]);
-	Write_Amplitude(2, SinAmp[2]);
 }
-
-
-
 
 
 #endif

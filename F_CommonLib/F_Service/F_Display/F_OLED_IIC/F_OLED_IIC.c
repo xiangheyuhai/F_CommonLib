@@ -18,121 +18,61 @@ unsigned char OLED_IIC_SHOW_BUF[30] = {0};
 //[5]0 1 2 3 ... 127
 //[6]0 1 2 3 ... 127
 //[7]0 1 2 3 ... 127
-/**********************************************
-//IIC Start
-**********************************************/
-/**********************************************
-//IIC Start
-**********************************************/
-void IIC_Start(void)
-{
-	OLED_IIC_SDA_OUTPUT_INIT();     //sda线输出
-	OLED_IIC_SDA_SET;
-	OLED_IIC_SCL_SET;
-	F_HAL_Delay_us(4);
-	OLED_IIC_SDA_RESET;//START:when CLK is high,DATA change form high to low
-	F_HAL_Delay_us(4);
-	OLED_IIC_SCL_RESET;//钳住I2C总线，准备发送或接收数据
-}
-/**********************************************
-//IIC Stop
-**********************************************/
-//产生IIC停止信号
-void IIC_Stop(void)
-{
-	OLED_IIC_SDA_OUTPUT_INIT();//sda线输出
-	OLED_IIC_SCL_RESET;
-	OLED_IIC_SDA_RESET;//STOP:when CLK is high DATA change form low to high
-	F_HAL_Delay_us(4);
-	OLED_IIC_SCL_SET;
-	OLED_IIC_SDA_SET;//发送I2C总线结束信号
-	F_HAL_Delay_us(4);
-}
-//等待应答信号到来
-//返回值：1，接收应答失败
-//        0，接收应答成功
-u8 IIC_Wait_Ack()
-{
-	u8 ucErrTime=0;
-	OLED_IIC_SDA_INPUT_INIT();      //SDA设置为输入
-	OLED_IIC_SDA_SET;F_HAL_Delay_us(1);
-	OLED_IIC_SCL_SET;F_HAL_Delay_us(1);
-	while(OLED_IIC_SDA_READ)
-	{
-		ucErrTime++;
-		if(ucErrTime>250)
-		{
-			IIC_Stop();
-			return 1;
-		}
-	}
-	OLED_IIC_SCL_RESET;//时钟输出0
-	return 0;
-}
-/**********************************************
-// IIC Write byte
-**********************************************/
-
-void Write_IIC_Byte(unsigned char txd)
-{
-    u8 t;
-    OLED_IIC_SDA_OUTPUT_INIT();
-    OLED_IIC_SCL_RESET;//拉低时钟开始数据传输
-    for(t=0;t<8;t++)
-    {
-        if ((txd&0x80)>>7)
-        	OLED_IIC_SDA_SET;
-        else
-        	OLED_IIC_SDA_RESET;
-        txd<<=1;
-        F_HAL_Delay_us(2);   //对TEA5767这三个延时都是必须的
-        OLED_IIC_SCL_SET;
-		F_HAL_Delay_us(2);
-		OLED_IIC_SCL_RESET;
-		F_HAL_Delay_us(2);
-    }
 
 
-}
 /**********************************************
 // IIC Write Command
 **********************************************/
-void Write_IIC_Command(unsigned char IIC_Command)
+void IIC_Write_Command(unsigned char IIC_Command)
 {
-   IIC_Start();
-   Write_IIC_Byte(0x78);            //Slave address,SA0=0
+	IIC_Start();
+	IIC_Write_Byte(0x78);            //Slave address,SA0=0
 	IIC_Wait_Ack();
-   Write_IIC_Byte(0x00);			//write command
+
+	IIC_Write_Byte(0x00);			//write command
 	IIC_Wait_Ack();
-   Write_IIC_Byte(IIC_Command);
+
+	IIC_Write_Byte(IIC_Command);
 	IIC_Wait_Ack();
-   IIC_Stop();
+
+    IIC_Stop();
 }
+
+
 /**********************************************
 // IIC Write Data
 **********************************************/
-void Write_IIC_Data(unsigned char IIC_Data)
+void IIC_Write_Data(unsigned char IIC_Data)
 {
-   IIC_Start();
-   Write_IIC_Byte(0x78);			//D/C#=0; R/W#=0
+	IIC_Start();
+	IIC_Write_Byte(0x78);			//D/C#=0; R/W#=0
 	IIC_Wait_Ack();
-   Write_IIC_Byte(0x40);			//write data
+
+	IIC_Write_Byte(0x40);			//write data
 	IIC_Wait_Ack();
-   Write_IIC_Byte(IIC_Data);
+
+	IIC_Write_Byte(IIC_Data);
 	IIC_Wait_Ack();
-   IIC_Stop();
+
+	IIC_Stop();
 }
+
+
+/**********************************************
+// OLED_WR_Byte
+**********************************************/
 void OLED_WR_Byte(unsigned dat,unsigned cmd)
 {
 	if(cmd)
 	{
-		Write_IIC_Data(dat);
+		IIC_Write_Data(dat);
 	}
 	else
 	{
-		Write_IIC_Command(dat);
+		IIC_Write_Command(dat);
 	}
 }
+
 
 /********************************************
 // fill_Picture
@@ -153,44 +93,41 @@ void fill_picture(unsigned char fill_Data)
 }
 
 
-/***********************Delay****************************************/
-void Delay_50ms(unsigned int Del_50ms)
-{
-	unsigned int m;
-	for(;Del_50ms>0;Del_50ms--)
-		for(m=6245;m>0;m--);
-}
-
-void Delay_1ms(unsigned int Del_1ms)
-{
-	unsigned char j;
-	while(Del_1ms--)
-	{
-		for(j=0;j<123;j++);
-	}
-}
-
-//坐标设置
+/********************************************
+// 坐标设置
+********************************************/
 void OLED_Set_Pos(unsigned char x, unsigned char y)
 { 	OLED_WR_Byte(0xb0+y,OLED_CMD);
 	OLED_WR_Byte(((x&0xf0)>>4)|0x10,OLED_CMD);
 	OLED_WR_Byte((x&0x0f),OLED_CMD);
 }
-//开启OLED显示
+
+
+/********************************************
+// 开启OLED显示
+********************************************/
 void OLED_Display_On(void)
 {
 	OLED_WR_Byte(0X8D,OLED_CMD);  //SET DCDC命令
 	OLED_WR_Byte(0X14,OLED_CMD);  //DCDC ON
 	OLED_WR_Byte(0XAF,OLED_CMD);  //DISPLAY ON
 }
-//关闭OLED显示
+
+
+/********************************************
+// 关闭OLED显示
+********************************************/
 void OLED_Display_Off(void)
 {
 	OLED_WR_Byte(0X8D,OLED_CMD);  //SET DCDC命令
 	OLED_WR_Byte(0X10,OLED_CMD);  //DCDC OFF
 	OLED_WR_Byte(0XAE,OLED_CMD);  //DISPLAY OFF
 }
-//清屏函数,清完屏,整个屏幕是黑色的!和没点亮一样!!!
+
+
+/********************************************
+// 清屏函数,清完屏,整个屏幕是黑色的!和没点亮一样
+********************************************/
 void OLED_Clear(void)
 {
 	u8 i,n;
@@ -202,6 +139,9 @@ void OLED_Clear(void)
 		for(n=0;n<128;n++)OLED_WR_Byte(0,OLED_DATA);
 	} //更新显示
 }
+
+
+
 void OLED_On(void)
 {
 	u8 i,n;
@@ -213,11 +153,15 @@ void OLED_On(void)
 		for(n=0;n<128;n++)OLED_WR_Byte(1,OLED_DATA);
 	} //更新显示
 }
-//在指定位置显示一个字符,包括部分字符
-//x:0~127
-//y:0~63
-//mode:0,反白显示;1,正常显示
-//size:选择字体 16/12
+
+
+/********************************************
+// 在指定位置显示一个字符,包括部分字符
+// x:0~127
+// y:0~63
+// mode:0,反白显示;1,正常显示
+// size:选择字体 16/12
+********************************************/
 void OLED_ShowChar(u8 x,u8 y,u8 chr,u8 Char_Size)
 {
 	unsigned char c=0,i=0;
@@ -239,6 +183,22 @@ void OLED_ShowChar(u8 x,u8 y,u8 chr,u8 Char_Size)
 
 			}
 }
+
+
+/********************************************
+// 显示一个字符号串
+********************************************/
+void OLED_ShowString(u8 x,u8 y,u8 *chr,u8 Char_Size)
+{
+	unsigned char j=0;
+	while (chr[j]!='\0')
+	{
+		OLED_ShowChar(x,y,chr[j],Char_Size);
+			x+=8;
+		if(x>120){x=0;y+=2;}
+			j++;
+	}
+}
 //m^n函数
 u32 oled_pow(u8 m,u8 n)
 {
@@ -246,12 +206,16 @@ u32 oled_pow(u8 m,u8 n)
 	while(n--)result*=m;
 	return result;
 }
-//显示2个数字
-//x,y :起点坐标
-//len :数字的位数
-//size:字体大小
-//mode:模式	0,填充模式;1,叠加模式
-//num:数值(0~4294967295);
+
+
+/********************************************
+// 显示2个数字
+// x,y :起点坐标
+// len :数字的位数
+// size:字体大小
+// mode:模式	0,填充模式;1,叠加模式
+// num:数值(0~4294967295);
+********************************************/
 void OLED_ShowNum(u8 x,u8 y,u32 num,u8 len,u8 size2)
 {
 	u8 t,temp;
@@ -271,18 +235,11 @@ void OLED_ShowNum(u8 x,u8 y,u32 num,u8 len,u8 size2)
 	 	OLED_ShowChar(x+(size2/2)*t,y,temp+'0',size2);
 	}
 }
-//显示一个字符号串
-void OLED_ShowString(u8 x,u8 y,u8 *chr,u8 Char_Size)
-{
-	unsigned char j=0;
-	while (chr[j]!='\0')
-	{		OLED_ShowChar(x,y,chr[j],Char_Size);
-			x+=8;
-		if(x>120){x=0;y+=2;}
-			j++;
-	}
-}
-//显示汉字
+
+
+/********************************************
+// 显示汉字
+********************************************/
 void OLED_ShowCHinese(u8 x,u8 y,u8 no)
 {
 	u8 t,adder=0;
@@ -299,7 +256,11 @@ void OLED_ShowCHinese(u8 x,u8 y,u8 no)
 				adder+=1;
       }
 }
-/***********功能描述：显示显示BMP图片128×64起始点坐标(x,y),x的范围0～127，y为页的范围0～7*****************/
+
+
+/********************************************
+// 显示显示BMP图片128×64起始点坐标(x,y),x的范围0～127，y为页的范围0～7
+********************************************/
 void OLED_DrawBMP(unsigned char x0, unsigned char y0,unsigned char x1, unsigned char y1,unsigned char BMP[])
 {
  unsigned int j=0;
@@ -317,25 +278,14 @@ void OLED_DrawBMP(unsigned char x0, unsigned char y0,unsigned char x1, unsigned 
 	}
 }
 
-//初始化SSD1306
+
+/********************************************
+// 初始化SSD1306
+********************************************/
 void OLED_IIC_INIT(void)
 {
-	  GPIO_InitTypeDef GPIO_InitStruct = {0};
-
-	  __HAL_RCC_GPIOE_CLK_ENABLE();
-
-	  /*Configure GPIO pin Output Level */
-	  HAL_GPIO_WritePin(OLED_IIC_SCL_SDA_GPIO_Port, OLED_IIC_SDA_Pin | OLED_IIC_SCL_Pin, GPIO_PIN_RESET);
-
-	  /*Configure GPIO pins : ADF4351_UTPUT_DATA_Pin ADF4351_CLK_Pin ADF4351_CE_Pin ADF4351_LE_Pin */
-	  GPIO_InitStruct.Pin = OLED_IIC_SDA_Pin | OLED_IIC_SCL_Pin;
-	  GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
-	  GPIO_InitStruct.Pull = GPIO_NOPULL;
-	  GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_VERY_HIGH;
-	  HAL_GPIO_Init(OLED_IIC_SCL_SDA_GPIO_Port, &GPIO_InitStruct);
-
-
-  HAL_Delay(200);
+	IIC_GPIO_INIT();
+	HAL_Delay(200);
 
   	OLED_WR_Byte(0xAE,OLED_CMD);//--display off
 	OLED_WR_Byte(0x00,OLED_CMD);//---set low column address
@@ -373,41 +323,5 @@ void OLED_IIC_INIT(void)
 	OLED_WR_Byte(0xAF,OLED_CMD);//--turn on oled panel
 }
 
-/*设置SDA为输入模式*/
-void OLED_IIC_SDA_INPUT_INIT(void)
-{
-	  GPIO_InitTypeDef GPIO_InitStruct = {0};
 
-	  /*如果修改了IO口，需要修改这个*/
-	  __HAL_RCC_GPIOE_CLK_ENABLE();
-
-	  /*Configure GPIO pin Output Level */
-	  HAL_GPIO_WritePin(OLED_IIC_SDA_GPIO_Port, OLED_IIC_SDA_Pin, GPIO_PIN_RESET);
-
-	  /*Configure GPIO pin : ADF4351_INPUT_DATA_Pin */
-	  GPIO_InitStruct.Pin = OLED_IIC_SDA_Pin;
-	  GPIO_InitStruct.Mode = GPIO_MODE_INPUT;
-	  GPIO_InitStruct.Pull = GPIO_NOPULL;
-	  HAL_GPIO_Init(OLED_IIC_SDA_GPIO_Port, &GPIO_InitStruct);
-}
-
-
-/*设置SDA为输出模式*/
-void OLED_IIC_SDA_OUTPUT_INIT(void)
-{
-	  GPIO_InitTypeDef GPIO_InitStruct = {0};
-
-	  __HAL_RCC_GPIOE_CLK_ENABLE();
-
-	  /*Configure GPIO pin Output Level */
-	  HAL_GPIO_WritePin(OLED_IIC_SDA_GPIO_Port, OLED_IIC_SDA_Pin, GPIO_PIN_RESET);
-
-	  /*Configure GPIO pins : ADF4351_UTPUT_DATA_Pin ADF4351_CLK_Pin ADF4351_CE_Pin ADF4351_LE_Pin */
-	  GPIO_InitStruct.Pin = OLED_IIC_SDA_Pin;
-	  GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
-	  GPIO_InitStruct.Pull = GPIO_NOPULL;
-	  GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_VERY_HIGH;
-	  HAL_GPIO_Init(OLED_IIC_SDA_GPIO_Port, &GPIO_InitStruct);
-}
 #endif
-

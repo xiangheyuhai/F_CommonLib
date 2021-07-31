@@ -4,7 +4,7 @@
 
 /*仅用来计数*/
 u16 F_LED_COUNT = 0;
-
+extern u8 usart_flag;
 
 #ifdef F_Interrupt
 void SysTick_Handler(void)
@@ -34,7 +34,6 @@ void SysTick_Handler(void)
 	if (F_LED_COUNT >= 500)
 	{
 		F_LED_COUNT = 0;
-		HAL_GPIO_TogglePin(GPIOA, GPIO_PIN_1);
 		HAL_GPIO_TogglePin(LED0_GPIO_Port, LED0_Pin);
 		HAL_GPIO_TogglePin(LED1_GPIO_Port, LED1_Pin);
 	}

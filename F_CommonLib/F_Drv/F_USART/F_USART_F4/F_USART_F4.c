@@ -1,5 +1,4 @@
-#include "../F_USART.h"
-#include "stm32f4xx_hal_uart.h"
+#include "./F_USART_F4.h"
 #ifdef F_STM32_F4
 #ifdef F_USART
 
@@ -39,8 +38,8 @@ void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart)
 
 		if((RxBuffer[Uart1_Rx_Cnt-1] == 0x0A)&&(RxBuffer[Uart1_Rx_Cnt-2] == 0x0D)) //判断结束位
 		{
-			HAL_UART_Transmit(&huart1, (uint8_t *)&RxBuffer, Uart1_Rx_Cnt,0xFFFF); //将收到的信息发送出去
-            while(HAL_UART_GetState(&huart1) == HAL_UART_STATE_BUSY_TX);//检测UART发送结束
+//			HAL_UART_Transmit(&huart1, (uint8_t *)&RxBuffer, Uart1_Rx_Cnt,0xFFFF); //将收到的信息发送出去
+//            while(HAL_UART_GetState(&huart1) == HAL_UART_STATE_BUSY_TX);//检测UART发送结束
 			Uart1_Rx_Cnt = 0;
 			memset(RxBuffer,0x00,sizeof(RxBuffer)); //清空数组
 		}

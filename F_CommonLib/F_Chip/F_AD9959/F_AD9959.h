@@ -139,7 +139,6 @@ extern u32 AD9959_NowSinPhr[5];
 #define AD9959_SDIO3_RESET	HAL_GPIO_WritePin(AD9959_SDIO3_GPIO_Port,   AD9959_SDIO3_Pin,  GPIO_PIN_RESET)
 
 
-void AD9959_GPIO_Init(void);
 //延时
 void delay1 (u32 length);
 //IO口初始化
@@ -174,5 +173,14 @@ Channel:  输出通道
 Phase:    输出相位,范围：0~16383(对应角度：0°~360°)
 ---------------------------------------*/
 void Write_Phase(u8 Channel,u16 Phase);
+/*---------------------------------------
+函数功能：AD9959初始化
+---------------------------------------*/
+void AD9959_INIT(void);
+/*---------------------------------------
+函数功能：AD9959_GPIO初始化
+---------------------------------------*/
+void AD9959_GPIO_Init(void);
+
 #endif
 #endif

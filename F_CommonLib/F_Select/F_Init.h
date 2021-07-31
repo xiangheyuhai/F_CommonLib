@@ -5,7 +5,7 @@
 
 
 
-void F_INIT(void)
+void F_Init(void)
 {
 	#ifdef Service_Input_Keypad
 	KEY_PAD_INIT_STM32F4();
@@ -15,11 +15,18 @@ void F_INIT(void)
 	KEY_INPUT_INIT();
 	#endif
 
+	#ifdef F_Interrupt
+	#ifdef F_LED_Blink
+	HAL_GPIO_WritePin(GPIOF, GPIO_PIN_9, 0);
+	HAL_GPIO_WritePin(GPIOF, GPIO_PIN_10, 1);
+	#endif
+	#endif
+
 	/*串口*/
 	#ifdef F_STM32_F4
 	#ifdef F_USART
 	HAL_UART_Receive_IT(&huart1, (uint8_t *)&aRxBuffer, 1);
-	printf("ok\r\n");
+	printf("USART_Ok\r\n");
 	#endif
 	#endif
 
@@ -34,11 +41,13 @@ void F_INIT(void)
 	#ifdef Service_Display_OLED_IIC
 	OLED_IIC_INIT();
 	OLED_Clear();
-	sprintf((char *)OLED_IIC_SHOW_BUF, "FJX");
+	sprintf((char *)OLED_IIC_SHOW_BUF, "FJX_TEST");
 	OLED_ShowString(0,0, OLED_IIC_SHOW_BUF,16);
+	printf("OLED_IIC_Ok\r\n");
 	#endif
 
 
+	/*800*480LCD*/
 	#ifdef Service_Display_LCD_480
 	LCD_480_INIT();		//初始化
 	POINT_COLOR=RED;    //画笔颜色：红色
@@ -48,6 +57,7 @@ void F_INIT(void)
 	#endif
 
 
+	/*240*240LCD*/
 	#ifdef Service_Display_LCD_240
 	LCD_240_INIT();		//初始化
 	LCD_Clear(WHITE);	//清屏
@@ -58,10 +68,18 @@ void F_INIT(void)
 	#endif
 
 
+
 	/*AD9959*/
 	#ifdef F_AD9959
-	AD9959_GPIO_Init();
+	AD9959_INIT();
 //	Write_frequence(0,15000);//15000Hz
+	#endif
+
+
+	/*AD9954*/
+	#ifdef F_AD9954
+	AD9954_INIT();
+	AD9954_SETFRE(100000);
 	#endif
 
 
@@ -69,6 +87,15 @@ void F_INIT(void)
 	#ifdef F_ADF4351
 	F_ADF4351_Init();
 	ADF4351WriteFreq(300);//300KHz
+	#endif
+
+
+	/*RDA5820*/
+	#ifdef F_RDA5820
+	if (RDA5820_INIT())
+		printf("RDA5820 Error\r\n");
+	else
+		printf("RDA5820 Ok\r\n");
 	#endif
 
 
@@ -84,10 +111,10 @@ void F_INIT(void)
 
 
 	#ifdef F_ADC
-	HAL_ADC_Start_DMA(&hadc1, (uint32_t *)ADC_1_Value_DMA, 2);//转换后的结果放到ADC_Value_DMA_1
+
 	#endif
 
-
+	printf("F_Init_Ok\r\n");
 }
 
 

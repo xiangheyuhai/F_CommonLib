@@ -7,15 +7,26 @@
 #include "stdlib.h"
 #include "main.h"
 
+#include "./F_Select/F_MyFunction.h"
+
 
 //获取原来平台的一些函数，通过宏定义判断需要包括什么
 #ifdef F_USART
 #include "stm32f4xx_hal_uart.h"
-#include "./F_Drv/F_USART/USART_mcu_drvs/USART_STM32F4.c"
-#include "./F_Drv/F_USART/USART_mcu_drvs/USART_STM32F1.c"
-#include "./F_Drv/F_USART/F_USART.c"
-#include "./F_Drv/F_USART/F_USART.h"
+#include "./F_Drv/F_USART/F_USART_F4/F_USART_F4.c"
+#include "./F_Drv/F_USART/F_USART_F4/F_USART_F4.h"
 #endif
+
+
+/*IIC_F4*/
+#ifdef F_IIC
+#ifdef F_STM32_F4
+#include "stm32f4xx_hal_gpio.h"
+#include "./F_Drv/F_IIC/F_IIC_F4/F_IIC_F4.c"
+#include "./F_Drv/F_IIC/F_IIC_F4/F_IIC_F4.h"
+#endif
+#endif
+
 
 /*FSK*/
 #ifdef F_FSK
@@ -33,7 +44,6 @@
 
 /*LCD_480*/
 #ifdef Service_Display_LCD_480
-
 #include "./F_Service/F_Display/F_LCD_480/F_LCD_480.c"
 #include "./F_Service/F_Display/F_LCD_480/F_LCD_480.h"
 #include "./F_Service/F_Display/F_LCD_480/F_LCD_FONT.h"
@@ -94,6 +104,14 @@
 #endif
 
 
+/*AD9954*/
+#ifdef F_AD9954
+#include "stm32f4xx_hal_gpio.h"
+#include "F_Chip/F_AD9954/F_AD9954.c"
+#include "F_Chip/F_AD9954/F_AD9954.h"
+#endif
+
+
 /*ADF4351*/
 #ifdef F_ADF4351
 #include "stm32f4xx_hal_gpio.h"
@@ -106,6 +124,13 @@
 #ifdef F_AD8302
 #include "F_Chip/F_AD8302/F_AD8302.c"
 #include "F_Chip/F_AD8302/F_AD8302.h"
+#endif
+
+
+/*RDA5820*/
+#ifdef F_RDA5820
+#include "F_Chip/F_RDA5820/F_RDA5820.c"
+#include "F_Chip/F_RDA5820/F_RDA5820.h"
 #endif
 
 
