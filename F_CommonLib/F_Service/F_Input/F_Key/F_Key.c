@@ -26,14 +26,14 @@ u8 KEY_SCAN(void)
 				KEY[i].TIME++;
 //				printf("%d,%d\r\n", i, KEY[i].TIME);
 				/***********************判断长按***************************/
-				if (KEY[i].TIME > 50)			//长按超过0.5秒，一直返回LONG
+				if (KEY[i].TIME > 80)			//长按超过0.5秒，一直返回LONG
 				{
 					return_num = i*2;		return return_num;
 				}
 			}
 			KEY_Refresh(i);						//刷新电平
 			/***************************判断短按****************************/
-			if (KEY[i].READ == F_Key_Invalid_Status && KEY[i].TIME > 10 && KEY[i].TIME < 30)
+			if (KEY[i].READ == F_Key_Invalid_Status && KEY[i].TIME > 5 && KEY[i].TIME < 80)
 			{
 				KEY[i].TIME = 0;
 				return_num = i*2-1;		return return_num;

@@ -15,6 +15,7 @@ u8 ADC_Value_For_Wave[ADC_All_Channel_Num] = {0};
 
 
 /*简单滤波*/
+
 static u8 adc_fliter_count_temp = 0;	//滤波时计数用
 void ADC_Fliter(u16 adc_fliter_times)
 {
@@ -40,7 +41,20 @@ void ADC_Fliter(u16 adc_fliter_times)
 			ADC_Value_Sum[0] = 0;
 			ADC_Value_Sum[1] = 0;
 
-			printf("%d,%d\r\n", ADC_Value_Real_mV[0], ADC_Value_Real_mV[1]);
+
+//			LCD_DrawLine(LCD_x, (u16)((float)ADC_Value_Real_mV[0] * 600 / 2500), LCD_x, 700);
+
+//			LCD_x++;
+//			if (LCD_x >= 480)
+//			{
+//				LCD_x = 0;
+//				LCD_Clear(WHITE);
+//			}
+
+		}
+	}
+}
+
 
 //		  if (ADC_Value_Real_mV[1] >= 100 && ADC_Value_Real_mV[1] < 140)	//150
 //		  {
@@ -66,9 +80,9 @@ void ADC_Fliter(u16 adc_fliter_times)
 //			  OLED_ShowString(0,3, OLED_IIC_SHOW_BUF,16);
 //		  }
 
-		}
-	}
-}
+
+
+
 ///*简单滤波*/
 //static u8 adc_fliter_count_temp_0 = 0;	//滤波时计数用
 //static u8 adc_fliter_count_temp_1 = 0;	//滤波时计数用

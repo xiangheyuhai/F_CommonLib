@@ -57,6 +57,7 @@ typedef struct
 
 #define DFT_SCAN_DIR  L2R_U2D  //默认的扫描方向
 
+
 //画笔颜色
 #define WHITE         	 0xFFFF
 #define BLACK         	 0x0000
@@ -103,6 +104,8 @@ void LCD_ShowChar(u16 x,u16 y,u8 num,u8 size,u8 mode);						//显示一个字符
 void LCD_ShowNum(u16 x,u16 y,u32 num,u8 len,u8 size);  						//显示一个数字
 void LCD_ShowxNum(u16 x,u16 y,u32 num,u8 len,u8 size,u8 mode);				//显示 数字
 void LCD_ShowString(u16 x,u16 y,u16 width,u16 height,u8 size,u8 *p);		//显示一个字符串,12/16字体
+
+
 
 void LCD_WriteReg(u16 LCD_Reg, u16 LCD_RegValue);
 u16 LCD_ReadReg(u16 LCD_Reg);

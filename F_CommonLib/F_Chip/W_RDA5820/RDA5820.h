@@ -1,10 +1,14 @@
-#ifndef __F_RDA5820_H
-#define __F_RDA5820_H
-#include "all_config.h"
-#ifdef F_RDA5820
-#include "./F_RDA5820_IIC.h"
+/*
+ * RDA5820.h
+ *
+ *  Created on: 2021年7月27日
+ *      Author: Mr.Wu
+ */
 
-extern u16 RDA5820_Fre;		//单位是10KHz  默认为93.6Mhz
+#ifndef SERVICE_RDA5820_RDA5820_H_
+#define SERVICE_RDA5820_RDA5820_H_
+#include "all_config.h"
+#ifdef W_RDA5820
 
 #define RDA5820_R00		0X00  //读出16个位的ID =0X5820
 #define RDA5820_R02		0X02  //DHIZ[15],DMUTE[14],MONO[13],BASS[12],SEEKUP[9],SEEK[8],SKMODE[7],CLK_MODE[6:4],ANTENNA[2],SOFTRESET[1],ENABLE[0]
@@ -30,54 +34,30 @@ extern u16 RDA5820_Fre;		//单位是10KHz  默认为93.6Mhz
 
 
 
-u8 RDA5820_Init(void);				//初始化
-void RDA5820_WR_Reg(u8 addr,u16 val);	//写RDA5820寄存器
-u16 RDA5820_RD_Reg(u8 addr);			//读RDA5820寄存器
-void RDA5820_RX_Mode(void);//设置RDA5820为RX模式
-void RDA5820_TX_Mode(void);//设置RDA5820为TX模式
-u8 RDA5820_Rssi_Get(void);
-void RDA5820_Mute_Set(u8 mute);
-void RDA5820_Rssi_Set(u8 rssi);
-void RDA5820_Vol_Set(u8 vol);
-void RDA5820_TxPAG_Set(u8 gain);
-void RDA5820_TxPGA_Set(u8 gain);
-void RDA5820_Band_Set(u8 band);
-void RDA5820_Space_Set(u8 spc);
-void RDA5820_Freq_Set(u16 freq);
-u16 RDA5820_Freq_Get(void);
-void RDA5820_Show_Msg(void);
-void RDA5820_Add_Fre(Step_Fre);
-void RDA5820_Reduce_Fre(Step_Fre);
+#define RDA5820_u8 uint8_t
+#define RDA5820_u16 uint16_t
 
-		 				    
+RDA5820_u8 RDA5820_Init(void);					//初始化
+void RDA5820_WR_Reg(RDA5820_u8 addr,RDA5820_u16 val);	//写RDA5820寄存器
+RDA5820_u16 RDA5820_RD_Reg(RDA5820_u8 addr);			//读RDA5820寄存器
+void RDA5820_RX_Mode(void);				//设置RDA5820为RX模式
+void RDA5820_TX_Mode(void);				//设置RDA5820为TX模式
+RDA5820_u8 RDA5820_Rssi_Get(void);
+void RDA5820_Mute_Set(RDA5820_u8 mute);
+void RDA5820_Rssi_Set(RDA5820_u8 rssi);
+void RDA5820_Vol_Set(RDA5820_u8 vol);
+void RDA5820_TxPAG_Set(RDA5820_u8 gain);
+void RDA5820_TxPGA_Set(RDA5820_u8 gain);
+void RDA5820_Band_Set(RDA5820_u8 band);
+void RDA5820_Space_Set(RDA5820_u8 spc);
+void RDA5820_Freq_Set(RDA5820_u16 freq);
+RDA5820_u16 RDA5820_Freq_Get(void);
+
+
+
+
+
+
+
 #endif
-#endif
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+#endif /* SERVICE_RDA5820_RDA5820_H_ */

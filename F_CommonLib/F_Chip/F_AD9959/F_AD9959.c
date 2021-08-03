@@ -3,9 +3,9 @@
 #ifdef F_AD9959
 
 
+u32 FRE_Send = 0;
 
-
-u8 AD9959_Mode = 1;					//扫频或者点频
+u8 AD9959_Mode = 0;					//扫频或者点频
 u8 AD9959_Wave_Show_Mode = 1;		//跟随扫频--1  不跟随扫频--0
 
 
@@ -16,15 +16,15 @@ u8 AD9959_Wave_Show_Mode = 1;		//跟随扫频--1  不跟随扫频--0
 u8  AD9959_SweepWaveFlag = 0;    	//是否显示波形
 u32 AD9959_SweepCount = 0;    		//extern到定时器中--ms
 u32 AD9959_SweepCountTimes = 0;     //extern到定时器中
-u32 AD9959_SweepTime = 1000;    		//扫频间隔时间--ms
+u32 AD9959_SweepTime = 2;    		//扫频间隔时间--ms
 
 
 /*
   * 扫频
  * */
-u32 AD9959_SweepMaxFre  = 200000000; 	//最大扫频频率--Hz
-u32	AD9959_SweepMinFre  = 100000000;  		//最小扫频频率--Hz
-u32 AD9959_SweepStepFre =  1000000;   	//扫频步进频率--Hz
+u32 AD9959_SweepMaxFre  = 1000000; 	//最大扫频频率--Hz
+u32	AD9959_SweepMinFre  =    1000;  //最小扫频频率--Hz
+u32 AD9959_SweepStepFre =    1000;  //扫频步进频率--Hz
 
 
 /*
@@ -76,9 +76,9 @@ u8 RDW_DATA[4] = {0x00,0x00,0x00,0x00};//default Value = 0x--------
 u8 FDW_DATA[4] = {0x00,0x00,0x00,0x00};//default Value = 0x--------
 
 
-u32 SinFre[5] = {10000, 10000, 10000, 10000};
+u32 SinFre[5] = {40000, 40000, 40000, 40000};
 u32 SinAmp[5] = {1023, 1023, 1023, 1023};
-u32 SinPhr[5] = {0, 4096-1, 4096*2-1, 4096*3-1};
+u32 SinPhr[5] = {0, 0, 4096*2-1, 4096*3-1};
 
 
 

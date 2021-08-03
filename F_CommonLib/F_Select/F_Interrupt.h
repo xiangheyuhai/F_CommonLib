@@ -1,10 +1,12 @@
-#ifndef  __FAN_INTERRUPT_H__
-#define  __FAN_INTERRUPT_H__
+#ifndef  __FAN_INTERRUPT_H
+#define  __FAN_INTERRUPT_H
+#include "all_config.h"
 
-
-/*仅用来计数*/
+#ifdef F_LED_Blink
 u16 F_LED_COUNT = 0;
-extern u8 usart_flag;
+#endif
+
+
 
 #ifdef F_Interrupt
 void SysTick_Handler(void)
@@ -13,7 +15,7 @@ void SysTick_Handler(void)
 
 	#ifdef Service_Input_Keypad
 	F_KEYPAD_COUNT++;
-	if (F_KEYPAD_COUNT >= 500)
+	if (F_KEYPAD_COUNT >= 200)
 	{
 		F_KEYPAD_COUNT = 0;		F_KEYPAD_FLAG = 1;
 	}
@@ -22,7 +24,7 @@ void SysTick_Handler(void)
 
 	#ifdef Service_Input_Key
 	F_KEY_COUNT++;
-	if (F_KEY_COUNT >= 10)
+	if (F_KEY_COUNT >= 3)
 	{
 		F_KEY_COUNT = 0;		F_KEY_FLAG = 1;
 	}
@@ -49,27 +51,22 @@ void SysTick_Handler(void)
 	}
 	#endif
 
-
-
 	#ifdef F_AD9959
 	#ifdef F_AD9959_Sweep_Fre
 	if (AD9959_Mode == AD9959_Mode_Sweep)
 	{
 		AD9959_SweepCount++;
-		if (AD9959_SweepCount >= AD9959_SweepTime)
+		if (AD9959_SweepCount >= AD9959_SweepTime)//大于间隔时间扫一次
 		{
-			AD9959_SweepCount = 0;
+			AD9959_SweepCount = 0;//计时清零
 			AD9959_NowSinFre[0] = AD9959_SweepMinFre + AD9959_SweepStepFre*AD9959_SweepCountTimes;
 			AD9959_SweepCountTimes++;
 			if (AD9959_NowSinFre[0] > AD9959_SweepMaxFre)
 			{
 				AD9959_SweepCountTimes = 0;
-				if (AD9959_SweepWaveFlag)
-				{
-//					HMI_Clear_ADC_Wave(1);
-				}
 			}
 			Write_frequence(0,AD9959_NowSinFre[0]);
+
 			if (AD9959_SweepWaveFlag == 1)
 			{
 //				HMI_Send_ADC_Wave(ADC_Value_DMA_1[1],ADC_Value_DMA_1[2]);
@@ -77,6 +74,7 @@ void SysTick_Handler(void)
 		}
 	}
 	#endif
+
 
 	#ifdef F_AD9959_Sweep_Pha
 	if (AD9959_Mode == AD9959_Mode_Sweep)
@@ -103,32 +101,19 @@ void SysTick_Handler(void)
 
 
 #ifdef Service_Input_Keypad
-void EXTI0_IRQHandler(void)
-{
-  HAL_GPIO_EXTI_IRQHandler(GPIO_PIN_0);
-}
-
-void EXTI2_IRQHandler(void)
-{
-  HAL_GPIO_EXTI_IRQHandler(GPIO_PIN_2);
-}
-
-void EXTI4_IRQHandler(void)
-{
-  HAL_GPIO_EXTI_IRQHandler(GPIO_PIN_4);
-
-}
 void EXTI15_10_IRQHandler(void)
 {
-  HAL_GPIO_EXTI_IRQHandler(GPIO_PIN_15);
+  HAL_GPIO_EXTI_IRQHandler(GPIO_PIN_11);
+  HAL_GPIO_EXTI_IRQHandler(GPIO_PIN_13);
+}
+void EXTI9_5_IRQHandler(void)
+{
+  HAL_GPIO_EXTI_IRQHandler(GPIO_PIN_6);
+  HAL_GPIO_EXTI_IRQHandler(GPIO_PIN_8);
 }
 #endif
 
-
-
 #endif
-
-
 
 
 

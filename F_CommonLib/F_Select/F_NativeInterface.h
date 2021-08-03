@@ -71,10 +71,8 @@
 /*矩阵按键*/
 #ifdef Service_Input_Keypad
 #include "stm32f4xx_hal_gpio.h"
-#include "F_Service/F_Input/F_Keypad/Keypad_Select/Keypad_STM32F1.c"
-#include "F_Service/F_Input/F_Keypad/Keypad_Select/Keypad_STM32F4.c"
-#include "F_Service/F_Input/F_Keypad/F_Keypad.c"
-#include "F_Service/F_Input/F_Keypad/F_Keypad.h"
+#include "F_Service/F_Input/F_Keypad/F_Keypad_F4/F_Keypad_F4.c"
+#include "F_Service/F_Input/F_Keypad/F_Keypad_F4/F_Keypad_F4.h"
 #endif
 
 
@@ -89,12 +87,12 @@
 /*用户函数*/
 #ifdef Service_UserCode
 //#include "stm32f4xx_hal_adc.h"
-#include "stm32f4xx_hal_tim.h"
-#include "stm32f4xx_hal_gpio.h"
-#include "F_User\F_UserCode.c"
-#include "F_User\F_UserCode.h"
-#endif
+//#include "stm32f4xx_hal_gpio.h"
+#include "F_User/F_UserCode.c"
+#include "F_User/F_UserCode.h"
 
+
+#endif
 
 /*AD9959*/
 #ifdef F_AD9959
@@ -129,8 +127,17 @@
 
 /*RDA5820*/
 #ifdef F_RDA5820
+#include "F_Chip/F_RDA5820/F_RDA5820_IIC.c"
+#include "F_Chip/F_RDA5820/F_RDA5820_IIC.h"
 #include "F_Chip/F_RDA5820/F_RDA5820.c"
 #include "F_Chip/F_RDA5820/F_RDA5820.h"
+#endif
+
+#ifdef W_RDA5820
+#include "F_User\RDA5820_W\RDA5820_drv.c"
+#include "F_User\RDA5820_W\RDA5820_drv.h"
+#include "F_User\RDA5820_W\RDA5820.c"
+#include "F_User\RDA5820_W\RDA5820.h"
 #endif
 
 

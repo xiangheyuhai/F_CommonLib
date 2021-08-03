@@ -7,18 +7,24 @@
 
 void F_Init(void)
 {
+	/*矩阵按键*/
 	#ifdef Service_Input_Keypad
-	KEY_PAD_INIT_STM32F4();
+	KEY_PAD_Init_F4();
+	printf("Keypad_Ok\r\n");
 	#endif
 
+	/*独立按键*/
 	#ifdef Service_Input_Key
 	KEY_INPUT_INIT();
+	printf("Key_Ok\r\n");
 	#endif
 
+	/*中断*/
 	#ifdef F_Interrupt
 	#ifdef F_LED_Blink
 	HAL_GPIO_WritePin(GPIOF, GPIO_PIN_9, 0);
 	HAL_GPIO_WritePin(GPIOF, GPIO_PIN_10, 1);
+	printf("Interrupt_Ok\r\n");
 	#endif
 	#endif
 
@@ -41,8 +47,8 @@ void F_Init(void)
 	#ifdef Service_Display_OLED_IIC
 	OLED_IIC_INIT();
 	OLED_Clear();
-	sprintf((char *)OLED_IIC_SHOW_BUF, "FJX_TEST");
-	OLED_ShowString(0,0, OLED_IIC_SHOW_BUF,16);
+//	sprintf((char *)OLED_IIC_SHOW_BUF, "FJX_TEST");
+//	OLED_ShowString(0,1, OLED_IIC_SHOW_BUF,16);
 	printf("OLED_IIC_Ok\r\n");
 	#endif
 
@@ -50,10 +56,10 @@ void F_Init(void)
 	/*800*480LCD*/
 	#ifdef Service_Display_LCD_480
 	LCD_480_INIT();		//初始化
-	POINT_COLOR=RED;    //画笔颜色：红色
+	POINT_COLOR=BLACK;    //画笔颜色：红色
 	LCD_Clear(WHITE);	//清屏
-	sprintf((char *)LCD_480_SHOW_BUF, "FJX_TEST");
-	LCD_ShowString(0, 0, 200, 24, 24, LCD_480_SHOW_BUF);
+	memset(LCD_480_SHOW_BUF,0x00,sizeof(LCD_480_SHOW_BUF)); //清空数组
+
 	#endif
 
 
@@ -71,8 +77,13 @@ void F_Init(void)
 
 	/*AD9959*/
 	#ifdef F_AD9959
-	AD9959_INIT();
-//	Write_frequence(0,15000);//15000Hz
+	AD9959_INIT();	//初始化
+	#ifdef F_AD9959_Sweep_Fre
+	AD9959_Mode = AD9959_Mode_Sweep;//扫频
+	#endif
+	#ifdef F_AD9959_Sweep_Pha
+	AD9959_Mode = AD9959_Mode_Sweep;//扫相
+	#endif
 	#endif
 
 
@@ -92,10 +103,18 @@ void F_Init(void)
 
 	/*RDA5820*/
 	#ifdef F_RDA5820
-	if (RDA5820_INIT())
+	RDA5820_Init();
+	if (RDA5820_Init())
 		printf("RDA5820 Error\r\n");
 	else
 		printf("RDA5820 Ok\r\n");
+	RDA5820_Band_Set(0);		//设置频段为87~108Mhz
+	RDA5820_Space_Set(0);		//设置步进为100Khz
+	RDA5820_TxPGA_Set(3);		//信号增益设置为3
+	RDA5820_TxPAG_Set(63);		//发射功率为最大.
+	RDA5820_RX_Mode();			//发送模式
+	RDA5820_Freq_Set(RDA5820_Fre);	//设置频率
+	RDA5820_Vol_Set(15);		//设置声音最大
 	#endif
 
 
@@ -111,7 +130,10 @@ void F_Init(void)
 
 
 	#ifdef F_ADC
-
+//	HAL_ADC_Start_DMA(&hadc1, (uint32_t *)ADC_1_Value_DMA, 1);//转换后的结果放到ADC_Value_DMA_1
+	HAL_ADC_Start_DMA(&hadc2, (uint32_t *)ADC_2_Value_DMA, 1);//转换后的结果放到ADC_Value_DMA_1
+	HAL_ADC_Start(&hadc1);     //启动ADC转换
+	printf("ADC_Ok\r\n");
 	#endif
 
 	printf("F_Init_Ok\r\n");

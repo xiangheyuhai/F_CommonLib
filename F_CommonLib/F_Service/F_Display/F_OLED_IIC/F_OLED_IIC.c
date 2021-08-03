@@ -1,5 +1,5 @@
 #include "./F_OLED_IIC.h"
-
+#include "all_config.h"
 
 #ifdef Service_Display_OLED_IIC
 #include "./F_OLED_IIC_FONT.h"
@@ -26,13 +26,13 @@ unsigned char OLED_IIC_SHOW_BUF[30] = {0};
 void IIC_Write_Command(unsigned char IIC_Command)
 {
 	IIC_Start();
-	IIC_Write_Byte(0x78);            //Slave address,SA0=0
+	IIC_Send_Byte(0x78);            //Slave address,SA0=0
 	IIC_Wait_Ack();
 
-	IIC_Write_Byte(0x00);			//write command
+	IIC_Send_Byte(0x00);			//write command
 	IIC_Wait_Ack();
 
-	IIC_Write_Byte(IIC_Command);
+	IIC_Send_Byte(IIC_Command);
 	IIC_Wait_Ack();
 
     IIC_Stop();
@@ -45,13 +45,13 @@ void IIC_Write_Command(unsigned char IIC_Command)
 void IIC_Write_Data(unsigned char IIC_Data)
 {
 	IIC_Start();
-	IIC_Write_Byte(0x78);			//D/C#=0; R/W#=0
+	IIC_Send_Byte(0x78);			//D/C#=0; R/W#=0
 	IIC_Wait_Ack();
 
-	IIC_Write_Byte(0x40);			//write data
+	IIC_Send_Byte(0x40);			//write data
 	IIC_Wait_Ack();
 
-	IIC_Write_Byte(IIC_Data);
+	IIC_Send_Byte(IIC_Data);
 	IIC_Wait_Ack();
 
 	IIC_Stop();
@@ -284,7 +284,7 @@ void OLED_DrawBMP(unsigned char x0, unsigned char y0,unsigned char x1, unsigned 
 ********************************************/
 void OLED_IIC_INIT(void)
 {
-	IIC_GPIO_INIT();
+	IIC_Init();
 	HAL_Delay(200);
 
   	OLED_WR_Byte(0xAE,OLED_CMD);//--display off

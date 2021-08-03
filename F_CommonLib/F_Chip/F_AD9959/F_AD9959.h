@@ -3,7 +3,7 @@
 #include "all_config.h"
 #ifdef F_AD9959
 
-
+extern u32 FRE_Send;
 
 
 #define AD9959_Mode_Sweep 1			//模式--扫频
@@ -41,44 +41,72 @@ extern u32 AD9959_NowSinPhr[5];
 
 
 //引脚定义
-#define AD9959_SDIO3_Pin GPIO_PIN_6
-#define AD9959_SDIO3_GPIO_Port GPIOG
 
-#define AD9959_SDIO2_Pin GPIO_PIN_7
-#define AD9959_SDIO2_GPIO_Port GPIOG
+
+
 
 #define AD9959_PS0_Pin GPIO_PIN_7
 #define AD9959_PS0_GPIO_Port GPIOC
 
-#define AD9959_SCLK_Pin GPIO_PIN_8
-#define AD9959_SCLK_GPIO_Port GPIOC
-
-#define AD9959_SDIO1_Pin GPIO_PIN_9
-#define AD9959_SDIO1_GPIO_Port GPIOC
-
-#define AD9959_SDIO0_Pin GPIO_PIN_8
-#define AD9959_SDIO0_GPIO_Port GPIOA
+#define AD9959_PS1_Pin GPIO_PIN_7
+#define AD9959_PS1_GPIO_Port GPIOD
 
 #define AD9959_PS2_Pin GPIO_PIN_10
 #define AD9959_PS2_GPIO_Port GPIOC
 
-#define AD9959_UPDATE_Pin GPIO_PIN_11
-#define AD9959_UPDATE_GPIO_Port GPIOC
-
-#define AD9959_CS_Pin GPIO_PIN_12
-#define AD9959_CS_GPIO_Port GPIOC
-
 #define AD9959_PS3_Pin GPIO_PIN_2
 #define AD9959_PS3_GPIO_Port GPIOD
+
+#define AD9959_SDIO0_Pin GPIO_PIN_8
+#define AD9959_SDIO0_GPIO_Port GPIOA
+
+#define AD9959_SDIO1_Pin GPIO_PIN_9
+#define AD9959_SDIO1_GPIO_Port GPIOC
+
+#define AD9959_SDIO2_Pin GPIO_PIN_7
+#define AD9959_SDIO2_GPIO_Port GPIOG
+
+
+
+
 
 #define AD9959_PWR_Pin GPIO_PIN_6
 #define AD9959_PWR_GPIO_Port GPIOD
 
-#define AD9959_PS1_Pin GPIO_PIN_7
-#define AD9959_PS1_GPIO_Port GPIOD
+#define AD9959_UPDATE_Pin GPIO_PIN_11
+#define AD9959_UPDATE_GPIO_Port GPIOC
 
 #define AD9959_Reset_Pin GPIO_PIN_15
 #define AD9959_Reset_GPIO_Port GPIOG
+
+#define AD9959_CS_Pin GPIO_PIN_12
+#define AD9959_CS_GPIO_Port GPIOC
+
+#define AD9959_SCLK_Pin GPIO_PIN_8
+#define AD9959_SCLK_GPIO_Port GPIOC
+
+#define AD9959_SDIO3_Pin GPIO_PIN_6
+#define AD9959_SDIO3_GPIO_Port GPIOG
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

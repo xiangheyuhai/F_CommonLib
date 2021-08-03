@@ -11,41 +11,34 @@
   * 即修改__HAL_RCC_GPIOE_CLK_ENABLE();
  *
  * */
-#define OLED_IIC_SCL_Pin 		GPIO_PIN_1
-#define OLED_IIC_SCL_GPIO_Port  GPIOE
+#define IIC_CLK_Port  GPIOC
+#define IIC_CLK_Pin   GPIO_PIN_1
 
-#define OLED_IIC_SDA_Pin 		GPIO_PIN_0
-#define OLED_IIC_SDA_GPIO_Port  GPIOE
-
-#define OLED_IIC_SCL_SDA_GPIO_Port GPIOE
+#define IIC_DATA_Port GPIOC
+#define IIC_DATA_Pin  GPIO_PIN_0
 
 
-
-//-----------------OLED IIC端口定义----------------
-/*SET*/
-#define IIC_SCL_SET	HAL_GPIO_WritePin(OLED_IIC_SCL_GPIO_Port, OLED_IIC_SCL_Pin, GPIO_PIN_SET)
-#define IIC_SDA_SET	HAL_GPIO_WritePin(OLED_IIC_SDA_GPIO_Port, OLED_IIC_SDA_Pin, GPIO_PIN_SET)
-
-/*RESET*/
-#define IIC_SCL_RESET	HAL_GPIO_WritePin(OLED_IIC_SCL_GPIO_Port, OLED_IIC_SCL_Pin, GPIO_PIN_RESET)
-#define IIC_SDA_RESET	HAL_GPIO_WritePin(OLED_IIC_SDA_GPIO_Port, OLED_IIC_SDA_Pin, GPIO_PIN_RESET)
-
-/*READ*/
-#define IIC_SDA_READ    HAL_GPIO_ReadPin(OLED_IIC_SDA_GPIO_Port,  OLED_IIC_SDA_Pin)
+//IO操作函数
+#define IIC_SCL    PCout(1) //SCL
+#define IIC_SDA    PCout(0) //SDA
+#define READ_SDA   PCin(0)  //输入SDA
 
 
 
+//IIC所有操作函数
+void IIC_Start(void);				//发送IIC开始信号
+void IIC_Stop(void);	  			//发送IIC停止信号
+u8 IIC_Wait_Ack(void); 				//IIC等待ACK信号
+void IIC_Ack(void);					//IIC发送ACK信号
+void IIC_NAck(void);				//IIC不发送ACK信号
+void IIC_Send_Byte(u8 txd);			//IIC发送一个字节
+u8 IIC_Read_Byte(unsigned char ack);//IIC读取一个字节
+void IIC_Init(void);                //初始化IIC的IO口
+void SDA_Input(void);
+void SDA_Output(void);
+//void IIC_Write_One_Byte(u8 daddr,u8 addr,u8 data);
+//u8 IIC_Read_One_Byte(u8 daddr,u8 addr);
 
-void IIC_Start(void);
-void IIC_Stop(void);
-u8 IIC_Wait_Ack(void);
-void IIC_Ack(void);
-void IIC_NAck(void);
-void IIC_Write_Byte(unsigned char txd);
-u8 IIC_Read_Byte(unsigned char ack);
-void IIC_GPIO_INIT(void);
-void IIC_SDA_INPUT_INIT(void);
-void IIC_SDA_OUTPUT_INIT(void);
 
 #endif
 #endif
