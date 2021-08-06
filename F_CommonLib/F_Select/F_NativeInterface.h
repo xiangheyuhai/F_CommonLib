@@ -53,15 +53,23 @@
 /*LCD_240*/
 #ifdef Service_Display_LCD_240
 #include "stm32f4xx_hal_gpio.h"
-#include "./F_Service\F_Display\F_LCD_240\F_LCD_240.c"
-#include "./F_Service\F_Display\F_LCD_240\F_LCD_240.h"
-#include "./F_Service\F_Display\F_LCD_240\F_LCD_240_FONT.h"
+#ifdef F_STM32_F4
+#include "F_Service/F_Display/F_LCD_240/F_LCD_240_Drv/F_LCD_240_Drv_STM32F4/F_LCD_240_Drv_STM32F4.c"
+#include "F_Service/F_Display/F_LCD_240/F_LCD_240_Drv/F_LCD_240_Drv_STM32F4/F_LCD_240_Drv_STM32F4.h"
+#endif
+#include "./F_Service/F_Display/F_LCD_240/F_LCD_240.c"
+#include "./F_Service/F_Display/F_LCD_240/F_LCD_240.h"
+#include "./F_Service/F_Display/F_LCD_240/F_LCD_240_FONT.h"
 #endif
 
 
 /*OLED_IIC*/
 #ifdef Service_Display_OLED_IIC
 #include "stm32f4xx_hal_gpio.h"
+#ifdef F_STM32_F4
+#include "F_Service/F_Display/F_OLED_IIC/F_OLED_IIC_Drv/F_OLED_IIC_Drv_STM32F4/F_OLED_IIC_Drv_STM32F4.c"
+#include "F_Service/F_Display/F_OLED_IIC/F_OLED_IIC_Drv/F_OLED_IIC_Drv_STM32F4/F_OLED_IIC_Drv_STM32F4.h"
+#endif
 #include "F_Service/F_Display/F_OLED_IIC/F_OLED_IIC.c"
 #include "F_Service/F_Display/F_OLED_IIC/F_OLED_IIC.h"
 #include "F_Service/F_Display/F_OLED_IIC/F_OLED_IIC_FONT.h"

@@ -33,7 +33,7 @@ u8 KEY_SCAN(void)
 			}
 			KEY_Refresh(i);						//刷新电平
 			/***************************判断短按****************************/
-			if (KEY[i].READ == F_Key_Invalid_Status && KEY[i].TIME > 5 && KEY[i].TIME < 80)
+			if (KEY[i].READ == F_Key_Invalid_Status && KEY[i].TIME > 8 && KEY[i].TIME < 40)
 			{
 				KEY[i].TIME = 0;
 				return_num = i*2-1;		return return_num;
@@ -58,6 +58,12 @@ void KEY_Refresh(unsigned char i)
 			KEY[1].READ = KEY1_READ;	break;
   	case 2:
 			KEY[2].READ = KEY2_READ;	break;
+  	case 3:
+			KEY[3].READ = KEY3_READ;	break;
+  	case 4:
+			KEY[4].READ = KEY4_READ;	break;
+  	case 5:
+			KEY[5].READ = KEY5_READ;	break;
 
 	default:
   			break;
@@ -73,23 +79,17 @@ void KEY_INPUT_INIT(void)
 
 	/*如果修改了IO口，需要修改这个*/
 	__HAL_RCC_GPIOE_CLK_ENABLE();
-	__HAL_RCC_GPIOA_CLK_ENABLE();
+	__HAL_RCC_GPIOB_CLK_ENABLE();
 
 	/*Configure GPIO pin Output Level */
-	HAL_GPIO_WritePin(KEY_1_GPIO_Port, KEY_1_Pin, GPIO_PIN_RESET);
-	HAL_GPIO_WritePin(KEY_2_GPIO_Port, KEY_2_Pin, GPIO_PIN_RESET);
+	HAL_GPIO_WritePin(KEY_1_GPIO_Port, KEY_1_Pin | KEY_2_Pin | KEY_3_Pin | KEY_4_Pin | KEY_5_Pin, GPIO_PIN_RESET);
 
-	/*Configure GPIO pin : ADF4351_INPUT_DATA_Pin */
-	GPIO_InitStruct.Pin = KEY_1_Pin;
+	GPIO_InitStruct.Pin = KEY_1_Pin | KEY_2_Pin | KEY_3_Pin | KEY_4_Pin | KEY_5_Pin;
 	GPIO_InitStruct.Mode = GPIO_MODE_INPUT;
 	GPIO_InitStruct.Pull = GPIO_PULLDOWN;
 	HAL_GPIO_Init(KEY_1_GPIO_Port, &GPIO_InitStruct);
 
-	/*Configure GPIO pin : ADF4351_INPUT_DATA_Pin */
-	GPIO_InitStruct.Pin = KEY_2_Pin;
-	GPIO_InitStruct.Mode = GPIO_MODE_INPUT;
-	GPIO_InitStruct.Pull = GPIO_PULLDOWN;
-	HAL_GPIO_Init(KEY_2_GPIO_Port, &GPIO_InitStruct);
+
 
 	for (i = 1; i <= F_Key_Num; i++)
 	{

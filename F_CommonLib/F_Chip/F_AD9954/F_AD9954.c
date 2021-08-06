@@ -87,8 +87,6 @@ u8 AD9954_ReadByte(void)
 ** 入口参数 ：无
 ** 出口参数 ：无
 *********************************************************************************************************/
-
-
 void UPDATE(void)
 {
 	AD9954_IOUPDATE=0;
@@ -436,10 +434,13 @@ void Write_ASF(u16 factor)  //2ASK
 /******************************************************************
 *  名    称：Linear_Sweep
 *  功    能：AD9954扫频模式输出
-*  参    数：MinFreq：扫频下限频率，MaxFreq：扫频上限频率
-*            UpStepFreq：向上扫频步进，UpStepTime：向上扫频的跳频时间
-*            DownStepFreq：向下扫频步进，DownStepTime：向下扫频的跳频时间
-*            Mode：扫频模式
+*  参    数：MinFreq：扫频下限频率
+*  		  MaxFreq：扫频上限频率
+*         UpStepFreq：向上扫频步进
+*         UpStepTime：向上扫频的跳频时间
+*         DownStepFreq：向下扫频步进
+*         DownStepTime：向下扫频的跳频时间
+*         Mode：扫频模式
 *  返 回 值：无 Linear_Sweep(100, 100000000, 100,  250,   100,250, 1);
 *  说    明：与频率相关的参数的单位都是 MHz
 *            Mode=DoubleScan(双边扫频)时，PS0=1，即为向上扫频,但配置了

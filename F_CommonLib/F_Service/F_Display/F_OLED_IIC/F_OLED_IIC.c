@@ -2,6 +2,7 @@
 #include "all_config.h"
 
 #ifdef Service_Display_OLED_IIC
+
 #include "./F_OLED_IIC_FONT.h"
 #include "F_Select\F_MyFunction.h"
 
@@ -25,17 +26,17 @@ unsigned char OLED_IIC_SHOW_BUF[30] = {0};
 **********************************************/
 void IIC_Write_Command(unsigned char IIC_Command)
 {
-	IIC_Start();
-	IIC_Send_Byte(0x78);            //Slave address,SA0=0
-	IIC_Wait_Ack();
+	OLED_IIC_Start();
+	OLED_IIC_Send_Byte(0x78);            //Slave address,SA0=0
+	OLED_IIC_Wait_Ack();
 
-	IIC_Send_Byte(0x00);			//write command
-	IIC_Wait_Ack();
+	OLED_IIC_Send_Byte(0x00);			//write command
+	OLED_IIC_Wait_Ack();
 
-	IIC_Send_Byte(IIC_Command);
-	IIC_Wait_Ack();
+	OLED_IIC_Send_Byte(IIC_Command);
+	OLED_IIC_Wait_Ack();
 
-    IIC_Stop();
+	OLED_IIC_Stop();
 }
 
 
@@ -44,17 +45,17 @@ void IIC_Write_Command(unsigned char IIC_Command)
 **********************************************/
 void IIC_Write_Data(unsigned char IIC_Data)
 {
-	IIC_Start();
-	IIC_Send_Byte(0x78);			//D/C#=0; R/W#=0
-	IIC_Wait_Ack();
+	OLED_IIC_Start();
+	OLED_IIC_Send_Byte(0x78);			//D/C#=0; R/W#=0
+	OLED_IIC_Wait_Ack();
 
-	IIC_Send_Byte(0x40);			//write data
-	IIC_Wait_Ack();
+	OLED_IIC_Send_Byte(0x40);			//write data
+	OLED_IIC_Wait_Ack();
 
-	IIC_Send_Byte(IIC_Data);
-	IIC_Wait_Ack();
+	OLED_IIC_Send_Byte(IIC_Data);
+	OLED_IIC_Wait_Ack();
 
-	IIC_Stop();
+	OLED_IIC_Stop();
 }
 
 
@@ -282,9 +283,9 @@ void OLED_DrawBMP(unsigned char x0, unsigned char y0,unsigned char x1, unsigned 
 /********************************************
 // 初始化SSD1306
 ********************************************/
-void OLED_IIC_INIT(void)
+void OLED_IIC_Init(void)
 {
-	IIC_Init();
+	OLED_IIC_Drv_Init();
 	HAL_Delay(200);
 
   	OLED_WR_Byte(0xAE,OLED_CMD);//--display off
@@ -325,3 +326,4 @@ void OLED_IIC_INIT(void)
 
 
 #endif
+

@@ -1,9 +1,8 @@
 #ifndef __F_IIC_F4_H
 #define __F_IIC_F4_H
 #include "all_config.h"
-#ifdef F_IIC
+#ifdef Service_Display_OLED_IIC
 #ifdef F_STM32_F4
-
 
 /*
   * 若修改的端口不是GPIOE,则需要修改.c中三个初始化中的端口定义
@@ -11,17 +10,17 @@
   * 即修改__HAL_RCC_GPIOE_CLK_ENABLE();
  *
  * */
-#define IIC_CLK_Port  GPIOC
+#define IIC_CLK_Port  GPIOE
 #define IIC_CLK_Pin   GPIO_PIN_1
 
-#define IIC_DATA_Port GPIOC
-#define IIC_DATA_Pin  GPIO_PIN_0
+#define IIC_DATA_Port GPIOE
+#define IIC_DATA_Pin  GPIO_PIN_2
 
 
 //IO操作函数
-#define IIC_SCL    PCout(1) //SCL
-#define IIC_SDA    PCout(0) //SDA
-#define READ_SDA   PCin(0)  //输入SDA
+#define IIC_SCL    PEout(1) //SCL
+#define IIC_SDA    PEout(2) //SDA
+#define READ_SDA   PEin(2)  //输入SDA
 
 
 

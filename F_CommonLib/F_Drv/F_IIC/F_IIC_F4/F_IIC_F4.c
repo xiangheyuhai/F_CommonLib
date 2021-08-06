@@ -115,7 +115,7 @@ void IIC_Init(void)
 {
 	GPIO_InitTypeDef GPIO_InitStructure = {0},GPIO_InitStructure_1 = {0};
 
-	__HAL_RCC_GPIOC_CLK_ENABLE();
+	__HAL_RCC_GPIOE_CLK_ENABLE();
 
     GPIO_InitStructure.Pin = IIC_DATA_Pin;
     GPIO_InitStructure.Mode = GPIO_MODE_OUTPUT_PP;
@@ -137,7 +137,7 @@ void SDA_Input(void)
 {
     GPIO_InitTypeDef GPIO_InitStructure = {0};
 
-    __HAL_RCC_GPIOC_CLK_ENABLE();
+    __HAL_RCC_GPIOE_CLK_ENABLE();
 
     GPIO_InitStructure.Pin = IIC_DATA_Pin;
     GPIO_InitStructure.Mode = GPIO_MODE_INPUT;
@@ -151,7 +151,7 @@ void SDA_Output(void)
 {
     GPIO_InitTypeDef GPIO_InitStructure = {0};
 
-    __HAL_RCC_GPIOC_CLK_ENABLE();
+    __HAL_RCC_GPIOE_CLK_ENABLE();
 
     GPIO_InitStructure.Pin = IIC_DATA_Pin;
     GPIO_InitStructure.Mode = GPIO_MODE_OUTPUT_OD;

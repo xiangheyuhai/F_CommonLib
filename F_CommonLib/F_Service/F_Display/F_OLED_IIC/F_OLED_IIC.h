@@ -5,10 +5,6 @@
 #ifdef Service_Display_OLED_IIC
 
 
-
-
-
-
 extern unsigned char OLED_IIC_SHOW_BUF[30];
 
 
@@ -44,7 +40,7 @@ u32 oled_pow(u8 m,u8 n);
 void OLED_ShowNum(u8 x,u8 y,u32 num,u8 len,u8 size2);
 void OLED_ShowCHinese(u8 x,u8 y,u8 no);
 void OLED_DrawBMP(unsigned char x0, unsigned char y0,unsigned char x1, unsigned char y1,unsigned char BMP[]);
-void OLED_IIC_INIT(void);
+void OLED_IIC_Init(void);
 
 
 

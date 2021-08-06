@@ -45,17 +45,17 @@ void F_Init(void)
 
 	/*OLED_IIC*/
 	#ifdef Service_Display_OLED_IIC
-	OLED_IIC_INIT();
+	OLED_IIC_Init();
 	OLED_Clear();
-//	sprintf((char *)OLED_IIC_SHOW_BUF, "FJX_TEST");
-//	OLED_ShowString(0,1, OLED_IIC_SHOW_BUF,16);
+	sprintf((char *)OLED_IIC_SHOW_BUF, "FJX_TEST");
+	OLED_ShowString(0,1, OLED_IIC_SHOW_BUF,16);
 	printf("OLED_IIC_Ok\r\n");
 	#endif
 
 
 	/*800*480LCD*/
 	#ifdef Service_Display_LCD_480
-	LCD_480_INIT();		//初始化
+	LCD_480_Init();		//初始化
 	POINT_COLOR=BLACK;    //画笔颜色：红色
 	LCD_Clear(WHITE);	//清屏
 	memset(LCD_480_SHOW_BUF,0x00,sizeof(LCD_480_SHOW_BUF)); //清空数组
@@ -65,7 +65,7 @@ void F_Init(void)
 
 	/*240*240LCD*/
 	#ifdef Service_Display_LCD_240
-	LCD_240_INIT();		//初始化
+	LCD_240_Init();		//初始化
 	LCD_Clear(WHITE);	//清屏
 	BACK_COLOR = WHITE;	//设置背景色
 	sprintf((char *)LCD_240_SHOW_BUF, "FJX_TEST");

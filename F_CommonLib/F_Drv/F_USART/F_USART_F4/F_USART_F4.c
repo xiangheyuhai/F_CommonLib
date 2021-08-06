@@ -3,7 +3,7 @@
 #ifdef F_USART
 
 extern UART_HandleTypeDef huart1;
-
+//extern UART_HandleTypeDef huart3;
 /*把这句话放到串口初始化下边即可*/
 //HAL_UART_Receive_IT(&huart1, (uint8_t *)&aRxBuffer, 1);
 /*把这句话放到串口初始化下边即可*/

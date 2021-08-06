@@ -9,19 +9,19 @@
 /*
  * USER修改
  * */
-#define LCD_240_SCL_Pin 	   GPIO_PIN_10
+#define LCD_240_SCL_Pin 	   GPIO_PIN_1
 #define LCD_240_SCL_GPIO_Port  GPIOE
 
-#define LCD_240_SDA_Pin 	   GPIO_PIN_11
+#define LCD_240_SDA_Pin 	   GPIO_PIN_2
 #define LCD_240_SDA_GPIO_Port  GPIOE
 
-#define LCD_240_RES_Pin 	   GPIO_PIN_12
+#define LCD_240_RES_Pin 	   GPIO_PIN_3
 #define LCD_240_RES_GPIO_Port  GPIOE
 
-#define LCD_240_DC_Pin 	   	   GPIO_PIN_13
+#define LCD_240_DC_Pin 	   	   GPIO_PIN_5
 #define LCD_240_DC_GPIO_Port   GPIOE
 
-#define LCD_240_BLK_Pin 	   GPIO_PIN_14
+#define LCD_240_BLK_Pin 	   GPIO_PIN_6
 #define LCD_240_BLK_GPIO_Port  GPIOE
 
 #define LCD_240_ALL_GPIO_Port  GPIOE
@@ -40,20 +40,7 @@
 
 
 //-----------------OLED端口定义----------------
-#define OLED_SCLK_Clr() HAL_GPIO_WritePin(LCD_240_SCL_GPIO_Port, LCD_240_SCL_Pin, GPIO_PIN_RESET)//CLK
-#define OLED_SCLK_Set() HAL_GPIO_WritePin(LCD_240_SCL_GPIO_Port, LCD_240_SCL_Pin, GPIO_PIN_SET)
 
-#define OLED_SDIN_Clr() HAL_GPIO_WritePin(LCD_240_SDA_GPIO_Port, LCD_240_SDA_Pin, GPIO_PIN_RESET)	//DIN
-#define OLED_SDIN_Set() HAL_GPIO_WritePin(LCD_240_SDA_GPIO_Port, LCD_240_SDA_Pin, GPIO_PIN_SET)
-
-#define OLED_RES_Clr()  HAL_GPIO_WritePin(LCD_240_RES_GPIO_Port, LCD_240_RES_Pin, GPIO_PIN_RESET)	//RES
-#define OLED_RES_Set()  HAL_GPIO_WritePin(LCD_240_RES_GPIO_Port, LCD_240_RES_Pin, GPIO_PIN_SET)
-
-#define OLED_DC_Clr()   HAL_GPIO_WritePin(LCD_240_DC_GPIO_Port, LCD_240_DC_Pin, GPIO_PIN_RESET)	//DC
-#define OLED_DC_Set()   HAL_GPIO_WritePin(LCD_240_DC_GPIO_Port, LCD_240_DC_Pin, GPIO_PIN_SET)
-
-#define OLED_BLK_Clr()  HAL_GPIO_WritePin(LCD_240_BLK_GPIO_Port, LCD_240_BLK_Pin, GPIO_PIN_RESET)	//BLK
-#define OLED_BLK_Set()  HAL_GPIO_WritePin(LCD_240_BLK_GPIO_Port, LCD_240_BLK_Pin, GPIO_PIN_SET)
 
 
 
@@ -93,7 +80,7 @@ void LCD_ShowNum1(u16 x,u16 y,float num,u8 len,u16 color);
 void LCD_ShowPicture(u16 x1,u16 y1,u16 x2,u16 y2);
 void LCD_ShowChar_2412(u16 x,u16 y,u8 num,u8 mode,u16 color);
 void LCD_ShowString_2412(u16 x,u16 y,const u8 *p,u16 color);
-void LCD_240_INIT(void);
+void LCD_240_Init(void);
 
 
 

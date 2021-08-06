@@ -131,8 +131,7 @@ void LCD_Clear(u16 Color)
 	   	{
         	LCD_WR_DATA(Color);
 	    }
-
-	  }
+	 }
 }
 
 
@@ -518,25 +517,9 @@ void LCD_ShowPicture(u16 x1,u16 y1,u16 x2,u16 y2)
       入口数据：无
       返回值：  无
 ******************************************************************************/
-void LCD_240_INIT(void)
+void LCD_240_Init(void)
 {
-	  GPIO_InitTypeDef GPIO_InitStruct = {0};
-
-	  __HAL_RCC_GPIOE_CLK_ENABLE();
-
-	  /*Configure GPIO pin Output Level */
-	  HAL_GPIO_WritePin(LCD_240_ALL_GPIO_Port, LCD_240_SCL_Pin | LCD_240_SDA_Pin | LCD_240_RES_Pin | LCD_240_DC_Pin | LCD_240_BLK_Pin, GPIO_PIN_RESET);
-
-	  /*Configure GPIO pins : ADF4351_UTPUT_DATA_Pin ADF4351_CLK_Pin ADF4351_CE_Pin ADF4351_LE_Pin */
-	  GPIO_InitStruct.Pin = LCD_240_SCL_Pin | LCD_240_SDA_Pin | LCD_240_RES_Pin | LCD_240_DC_Pin | LCD_240_BLK_Pin;
-	  GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
-	  GPIO_InitStruct.Pull = GPIO_NOPULL;
-	  GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_VERY_HIGH;
-	  HAL_GPIO_Init(LCD_240_ALL_GPIO_Port, &GPIO_InitStruct);
-
-	  //勿删
-	  HAL_GPIO_WritePin(LCD_240_ALL_GPIO_Port, LCD_240_SCL_Pin | LCD_240_SDA_Pin | LCD_240_RES_Pin | LCD_240_DC_Pin | LCD_240_BLK_Pin, GPIO_PIN_SET);
-
+	LCD_240_Drv_Init();
 
 	OLED_RES_Clr();
 	HAL_Delay(200);
@@ -626,6 +609,7 @@ void LCD_240_INIT(void)
 
 	LCD_WR_REG(0x29);
 }
+
 
 #endif
 #endif

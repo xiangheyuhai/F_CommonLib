@@ -24,7 +24,7 @@ void SysTick_Handler(void)
 
 	#ifdef Service_Input_Key
 	F_KEY_COUNT++;
-	if (F_KEY_COUNT >= 3)
+	if (F_KEY_COUNT >= 10)
 	{
 		F_KEY_COUNT = 0;		F_KEY_FLAG = 1;
 	}
