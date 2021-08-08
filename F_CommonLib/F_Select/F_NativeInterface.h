@@ -13,8 +13,8 @@
 //获取原来平台的一些函数，通过宏定义判断需要包括什么
 #ifdef F_USART
 #include "stm32f4xx_hal_uart.h"
-#include "./F_Drv/F_USART/F_USART_F4/F_USART_F4.c"
-#include "./F_Drv/F_USART/F_USART_F4/F_USART_F4.h"
+#include "./F_Connectivity/F_USART/F_USART_F4/F_USART_F4.c"
+#include "./F_Connectivity/F_USART/F_USART_F4/F_USART_F4.h"
 #endif
 
 
@@ -34,11 +34,16 @@
 #include "./F_Drv\F_FSK\F_FSK.h"
 #endif
 
+
 /*串口屏*/
 #ifdef Service_Display_HMI
+#ifdef F_STM32_F4
 #include "stm32f4xx_hal_uart.h"
-#include "./F_Service/F_Display/F_HMI/F_HMI_STM32F4/F_HMI_STM32F4.c"
-#include "./F_Service/F_Display/F_HMI/F_HMI_STM32F4/F_HMI_STM32F4.h"
+#include "./F_Service/F_Display/F_HMI/F_HMI_Drv/F_HMI_Drv_STM32F4/F_HMI_Drv_STM32F4.c"
+#include "./F_Service/F_Display/F_HMI/F_HMI_Drv/F_HMI_Drv_STM32F4/F_HMI_Drv_STM32F4.h"
+#endif
+#include "./F_Service/F_Display/F_HMI/F_HMI.c"
+#include "./F_Service/F_Display/F_HMI/F_HMI.h"
 #endif
 
 
@@ -70,9 +75,32 @@
 #include "F_Service/F_Display/F_OLED_IIC/F_OLED_IIC_Drv/F_OLED_IIC_Drv_STM32F4/F_OLED_IIC_Drv_STM32F4.c"
 #include "F_Service/F_Display/F_OLED_IIC/F_OLED_IIC_Drv/F_OLED_IIC_Drv_STM32F4/F_OLED_IIC_Drv_STM32F4.h"
 #endif
+#ifdef F_STM32_F1
+#include "F_Service/F_Display/F_OLED_IIC/F_OLED_IIC_Drv/F_OLED_IIC_Drv_STM32F1/F_OLED_IIC_Drv_STM32F1.c"
+#include "F_Service/F_Display/F_OLED_IIC/F_OLED_IIC_Drv/F_OLED_IIC_Drv_STM32F1/F_OLED_IIC_Drv_STM32F1.h"
+#endif
+#include "F_Service/F_Display/F_OLED_IIC/F_OLED_IIC_Drv/F_OLED_IIC_Drv.c"
+#include "F_Service/F_Display/F_OLED_IIC/F_OLED_IIC_Drv/F_OLED_IIC_Drv.h"
 #include "F_Service/F_Display/F_OLED_IIC/F_OLED_IIC.c"
 #include "F_Service/F_Display/F_OLED_IIC/F_OLED_IIC.h"
 #include "F_Service/F_Display/F_OLED_IIC/F_OLED_IIC_FONT.h"
+#endif
+
+
+/*OLED_IIC*/
+#ifdef Service_Display_OLED_SPI
+#include "stm32f4xx_hal_gpio.h"
+#ifdef F_STM32_F4
+#include "F_Service/F_Display/F_OLED_SPI/F_OLED_SPI_Drv/F_OLED_SPI_Drv_STM32F4/F_OLED_SPI_Drv_STM32F4.c"
+#include "F_Service/F_Display/F_OLED_SPI/F_OLED_SPI_Drv/F_OLED_SPI_Drv_STM32F4/F_OLED_SPI_Drv_STM32F4.h"
+#endif
+#ifdef F_STM32_F1
+#include "F_Service/F_Display/F_OLED_SPI/F_OLED_SPI_Drv/F_OLED_SPI_Drv_STM32F4/F_OLED_SPI_Drv_STM32F1.c"
+#include "F_Service/F_Display/F_OLED_SPI/F_OLED_SPI_Drv/F_OLED_SPI_Drv_STM32F4/F_OLED_SPI_Drv_STM32F1.h"
+#endif
+#include "F_Service/F_Display/F_OLED_SPI/F_OLED_SPI.c"
+#include "F_Service/F_Display/F_OLED_SPI/F_OLED_SPI.h"
+#include "F_Service/F_Display/F_OLED_SPI/F_OLED_SPI_FONT.h"
 #endif
 
 
@@ -98,13 +126,16 @@
 //#include "stm32f4xx_hal_gpio.h"
 #include "F_User/F_UserCode.c"
 #include "F_User/F_UserCode.h"
-
-
 #endif
+
 
 /*AD9959*/
 #ifdef F_AD9959
 #include "stm32f4xx_hal_gpio.h"
+#ifdef F_STM32_F4
+#include "F_Chip/F_AD9959/F_AD9959_Drv/F_AD9959_Drv_STM32F4/F_AD9959_Drv_STM32F4.c"
+#include "F_Chip/F_AD9959/F_AD9959_Drv/F_AD9959_Drv_STM32F4/F_AD9959_Drv_STM32F4.h"
+#endif
 #include "F_Chip/F_AD9959/F_AD9959.c"
 #include "F_Chip/F_AD9959/F_AD9959.h"
 #endif
@@ -135,17 +166,21 @@
 
 /*RDA5820*/
 #ifdef F_RDA5820
-#include "F_Chip/F_RDA5820/F_RDA5820_IIC.c"
-#include "F_Chip/F_RDA5820/F_RDA5820_IIC.h"
+#ifdef F_STM32_F4
+#include "F_Chip/F_RDA5820/F_RDA5820_Drv/F_RDA5820_Drv_STM32F4/F_RDA5820_Drv_STM32F4.c"
+#include "F_Chip/F_RDA5820/F_RDA5820_Drv/F_RDA5820_Drv_STM32F4/F_RDA5820_Drv_STM32F4.h"
+#endif
+#include "F_Chip/F_RDA5820/F_RDA5820_Drv/F_RDA5820_Drv.c"
+#include "F_Chip/F_RDA5820/F_RDA5820_Drv/F_RDA5820_Drv.h"
 #include "F_Chip/F_RDA5820/F_RDA5820.c"
 #include "F_Chip/F_RDA5820/F_RDA5820.h"
 #endif
 
 #ifdef W_RDA5820
-#include "F_User\RDA5820_W\RDA5820_drv.c"
-#include "F_User\RDA5820_W\RDA5820_drv.h"
-#include "F_User\RDA5820_W\RDA5820.c"
-#include "F_User\RDA5820_W\RDA5820.h"
+#include "F_Chip/W_RDA5820/RDA5820_drv.c"
+#include "F_Chip/W_RDA5820/RDA5820_drv.h"
+#include "F_Chip/W_RDA5820/RDA5820.c"
+#include "F_Chip/W_RDA5820/RDA5820.h"
 #endif
 
 

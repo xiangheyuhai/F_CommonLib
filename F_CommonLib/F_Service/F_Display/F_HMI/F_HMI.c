@@ -1,125 +1,22 @@
-#include "./F_HMI_STM32F4.h"
+#include "./F_HMI.h"
 #include "all_config.h"
 #ifdef Service_Display_HMI
-
+#include "../../../F_Chip/F_AD9959/F_AD9959.h"
+#include "math.h"
 
 /*
- * STM32F4串口屏使用说明：
- * 1 把这句话放到串口初始化下边
- * 		HAL_UART_Receive_IT(&huart1, (uint8_t *)&aRxBuffer, 1);
- *
- * 2 初始化串口1
- *
- * 3 修改TJC_Pro()中想要的效果
- *
- * 4 调用TJC_Pro()
- *
+  * 发送单个字节
  * */
-
-#define FSK_TEST
-#define High_ARR 224
-#define Low_ARR  336
-
-
-
-#ifdef F_STM32_F4
-extern UART_HandleTypeDef huart1;
-extern UART_HandleTypeDef huart3;
-#define Service_Display_HMI_Send
-
-
-#define AD9959_Mode_Sweep 1			//模式--扫频
-#define AD9959_Mode_FixedFre 2		//模式--点频
-extern u8 AD9959_Mode;				//扫频或者点频
-extern u8 AD9959_Wave_Show_Mode;	//跟随扫频--1  不跟随扫频--0
-
-extern u32 AD9959_SweepMaxFre; 		//最大扫频频率--Hz
-extern u32 AD9959_SweepMinFre;  	//最小扫频频率--Hz
-extern u32 AD9959_SweepStepFre;   	//扫频步进频率--Hz
-extern u32 AD9959_SweepTime;    	//扫频间隔时间--ms
-extern u8  AD9959_SweepWaveFlag;   	//是否显示波形
-extern u32 AD9959_SweepCount;    	//extern到定时器中--ms
-extern u32 AD9959_SweepCountTimes; 	//extern到定时器中
-
-extern u32 AD9959_FixedMaxFre; 		//最大固定输出频率--Hz
-extern u32 AD9959_FixedMinFre;  	//最小固定输出频率--Hz
-extern u32 AD9959_FixedStepFre; 	//步进固定输出频率--Hz
-extern u32 AD9959_FixedAmpli; 	    //最大输出频率幅度--Hz
-extern u32 AD9959_FixedNowFre; 		//此时输出频率--Hz
-
-extern u32 AD9959_NowSinFre[5];
-extern u32 AD9959_NowSinAmp[5];
-extern u32 AD9959_NowSinPhr[5];
-
-
-#define Wave_Size 255
-char Send_Buffer[30];
-
-
-#define RXBUFFERSIZE  255     //最大接收字节数
-char RxBuffer[RXBUFFERSIZE];   //接收数据
-char HMI_Num = 0;
-char HMI_Buffer[RXBUFFERSIZE];
-char HMI_Count = 0;
-u16 HMI_Get_Num = 0;
-uint8_t aRxBuffer;			//接收中断缓冲
-uint8_t Uart1_Rx_Cnt = 0;		//接收缓冲计数
-
-int __io_putchar(int ch)
-{
-  HAL_UART_Transmit(&huart3, (uint8_t*)&ch, 1,HAL_MAX_DELAY);
-  return ch;
-}
-
-void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart)
-{
-  /* Prevent unused argument(s) compilation warning */
-  UNUSED(huart);
-  /* NOTE: This function Should not be modified, when the callback is needed,
-           the HAL_UART_TxCpltCallback could be implemented in the user file
-   */
-
-	if(Uart1_Rx_Cnt >= 255)  //溢出判断
-	{
-		Uart1_Rx_Cnt = 0;
-		memset(RxBuffer,0x00,sizeof(RxBuffer));
-		HAL_UART_Transmit(&huart1, (uint8_t *)"数据溢出", 10,0xFFFF);
-	}
-	//如果没有溢出
-	else
-	{
-		RxBuffer[Uart1_Rx_Cnt++] = aRxBuffer;   //接收数据转存
-
-		if((RxBuffer[Uart1_Rx_Cnt-1] == 0x0A)&&(RxBuffer[Uart1_Rx_Cnt-2] == 0x0D)) //判断结束位
-		{
-//			HAL_UART_Transmit(&huart1, (uint8_t *)&RxBuffer, Uart1_Rx_Cnt,0xFFFF); //将收到的信息发送出去
-//			while(HAL_UART_GetState(&huart1) == HAL_UART_STATE_BUSY_TX);//检测UART发送结束
-			memcpy(HMI_Buffer, RxBuffer, Uart1_Rx_Cnt);					  //将RxBuffer中的数据给FAN
-			HMI_Count = Uart1_Rx_Cnt;
-			HMI_Num = RxBuffer[Uart1_Rx_Cnt-3];
-			Uart1_Rx_Cnt = 0;
-			memset(RxBuffer,0x00,sizeof(RxBuffer)); //清空数组
-		}
-	}
-
-	HAL_UART_Receive_IT(&huart1, (uint8_t *)&aRxBuffer, 1);   //再开启接收中断
-}
-
-
-
-
-
-
-
-
-/*发送单个字节*/
 void HMI_SendByte(uint8_t data)
 {
 	HAL_UART_Transmit(&huart1, (uint8_t*)&data, sizeof(data), HAL_MAX_DELAY);
 	while(HAL_UART_GetState(&huart1) == HAL_UART_STATE_BUSY_TX);
 }
 
-/*发送字符串*/
+
+/*
+  * 发送字符串
+ * */
 void HMI_Send_String(uint8_t *str)
 {
 	while(*str != '\0')
@@ -129,9 +26,9 @@ void HMI_Send_String(uint8_t *str)
 }
 
 
-
-
-/*发送结束标志 0xff 0xff 0xff*/
+/*
+  * 发送结束标志 0xff 0xff 0xff
+ * */
 void HMI_Send_End(void)
 {
 	HMI_SendByte(0xff);
@@ -140,7 +37,9 @@ void HMI_Send_End(void)
 }
 
 
-/*完整发送单个数据--打点*/
+/*
+  * 完整发送单个数据--打点
+ * */
 void HMI_Send_Wave_Data(uint8_t ID,uint8_t channel,uint8_t data)
 {
 	uint8_t temp[50];
@@ -149,7 +48,10 @@ void HMI_Send_Wave_Data(uint8_t ID,uint8_t channel,uint8_t data)
 	HMI_Send_End();
 }
 
-/*完整发送单个数据--文本框文本*/
+
+/*
+  * 完整发送单个数据--文本框文本
+ * */
 void HMI_Send_Textbox_Text(u8 Text_ID, u32 data)
 {
 	uint8_t temp[100] = {0};
@@ -178,7 +80,10 @@ void HMI_Send_Textbox_Text(u8 Text_ID, u32 data)
 	}
 }
 
-/*完整发送单个数据--按钮文本*/
+
+/*
+  * 完整发送单个数据--按钮文本
+ * */
 void HMI_Send_Buttton_Text(u8 Text_ID, u32 data)
 {
 	uint8_t temp[100] = {0};
@@ -231,7 +136,10 @@ void HMI_Send_Buttton_Text(u8 Text_ID, u32 data)
 	}
 }
 
-/*串口发送波形数据*/
+
+/*
+  * 串口发送波形数据
+ * */
 void HMI_Send_Wave(char* Temp_Buf, u16 Length)
 {
 	u8 i= 0;
@@ -246,7 +154,9 @@ void HMI_Send_Wave(char* Temp_Buf, u16 Length)
 }
 
 
-/*更新ADC波形数据*/
+/*
+  * 更新ADC波形数据
+ * */
 void HMI_Send_ADC_Wave(u16 ADC_Value_1, u16 ADC_Value_2)
 {
 	u8 temp_send_1,temp_send_2 = 0;
@@ -261,7 +171,10 @@ void HMI_Send_ADC_Wave(u16 ADC_Value_1, u16 ADC_Value_2)
 //	HMI_Send_Wave_Data(8,0,temp_send_2);
 }
 
-/*清除波形数据*/
+
+/*
+  * 清除波形数据
+ * */
 void HMI_Clear_ADC_Wave(u8 channel)
 {
 	uint8_t temp[50];
@@ -271,93 +184,136 @@ void HMI_Clear_ADC_Wave(u8 channel)
 }
 
 
-/*更新9959的各项数据*/
+/*
+  * 更新9959的各项数据
+ * */
 void Refresh_AD9959_Data(void)
 {
-	/*扫频*/
-	if(AD9959_Mode == AD9959_Mode_Sweep)
+	u8 i = 0;
+	for(i = 0; i <= 1; i++)
 	{
-		HMI_Send_Buttton_Text(22, AD9959_SweepMaxFre);
-		HMI_Send_Buttton_Text(23, AD9959_SweepMinFre);
-		HMI_Send_Buttton_Text(24, AD9959_FixedNowFre);
-		HMI_Send_Buttton_Text(25, AD9959_SweepStepFre);
-		HMI_Send_Buttton_Text(26, AD9959_SweepTime);
-	}
-	/*点频*/
-	else if(AD9959_Mode == AD9959_Mode_FixedFre)
-	{
-		HMI_Send_Buttton_Text(22, AD9959_FixedMaxFre);
-		HMI_Send_Buttton_Text(23, AD9959_FixedMinFre);
-		HMI_Send_Buttton_Text(24, AD9959_FixedNowFre);
-		HMI_Send_Buttton_Text(25, AD9959_FixedStepFre);;
+		/*扫频*/
+		if(AD9959_Mode == AD9959_Mode_Sweep)
+		{
+			HMI_Send_Buttton_Text(22, AD9959_SweepMaxFre);
+			HMI_Send_Buttton_Text(23, AD9959_SweepMinFre);
+			HMI_Send_Buttton_Text(24, AD9959_FixedNowFre);
+			HMI_Send_Buttton_Text(25, AD9959_SweepStepFre);
+			HMI_Send_Buttton_Text(26, AD9959_SweepTime);
+		}
+		/*点频*/
+		else if(AD9959_Mode == AD9959_Mode_FixedFre)
+		{
+			HMI_Send_Buttton_Text(22, AD9959_FixedMaxFre);
+			HMI_Send_Buttton_Text(23, AD9959_FixedMinFre);
+			HMI_Send_Buttton_Text(24, AD9959_FixedNowFre);
+			HMI_Send_Buttton_Text(25, AD9959_FixedStepFre);
+		}
 	}
 }
 
-/**/
+
+/*
+  * 得到输入的数据
+ * */
 u32 HMI_Receive(u8 Count, char* Temp_Buf_Rceive)
 {
-	u8 i = 0;
+	int i, j = 0;
+	u32 temp = 1, sum = 0;
+	u8 count_num = 0;
+	u8 Temp_Buf[Count - 3];
 
-	u32 temp = 0;
+	count_num = Count - 3;//有效数据个数
+//	printf("%d\r\n", count_num);
 
-
-	char Temp_Buf[Count];
-	for (i = 0; i <= Count; i++)
+	//删掉后三位剩下的
+	for (i = 0; i < count_num; i++)
 	{
 		Temp_Buf[i] = Temp_Buf_Rceive[i] - 48;
 	}
 
-	switch(Count)
+	if (count_num >= 1)
 	{
-		case 4:
-			temp = Temp_Buf[0];
-			break;
-		case 5:
-			temp = Temp_Buf[0]*10 + Temp_Buf[1];
-			break;
-		case 6:
-			temp = Temp_Buf[0]*100 + Temp_Buf[1]*10 + Temp_Buf[2];
-			break;
-		case 7:
-			temp = Temp_Buf[0]*1000 + Temp_Buf[1]*100 + Temp_Buf[2]*10 + Temp_Buf[3];
-			break;
-		case 8:
-			temp = Temp_Buf[0]*10000 + Temp_Buf[1]*1000 + Temp_Buf[2]*100 + Temp_Buf[3]*10 + Temp_Buf[4];
-			break;
-		case 9:
-			temp = Temp_Buf[0]*100000 + Temp_Buf[1]*10000 + Temp_Buf[2]*1000 + Temp_Buf[3]*100 + Temp_Buf[4]*10 + Temp_Buf[5];
-			break;
-
-		case 10:
-			temp = Temp_Buf[0]*1000000 + Temp_Buf[1]*100000 + Temp_Buf[2]*10000 + Temp_Buf[3]*1000 + Temp_Buf[4]*100 + Temp_Buf[5]*10 + Temp_Buf[6];
-			break;
-
-		case 11:
-			temp = Temp_Buf[0]*10000000 + Temp_Buf[1]*1000000 + Temp_Buf[2]*100000 + Temp_Buf[3]*10000 + Temp_Buf[4]*1000 + Temp_Buf[5]*100 + Temp_Buf[6]*10 + Temp_Buf[7];
-			break;
-
-		case 12:
-			temp = Temp_Buf[0]*100000000 + Temp_Buf[1]*10000000 + Temp_Buf[2]*1000000 + Temp_Buf[3]*100000 + Temp_Buf[4]*10000 + Temp_Buf[5]*1000 + Temp_Buf[6]*100 + Temp_Buf[7]*10 + Temp_Buf[8];
-			break;
-
-		case 13:
-			temp = Temp_Buf[0]*1000000000 + Temp_Buf[1]*100000000 + Temp_Buf[2]*10000000 + Temp_Buf[3]*1000000 + Temp_Buf[4]*100000 + Temp_Buf[5]*10000 + Temp_Buf[6]*1000 + Temp_Buf[7]*100 + Temp_Buf[8]*10 + Temp_Buf[9];
-			break;
-		default:
-			break;
+		for (i = count_num - 1; i >= 0; i--)
+		{
+			for (j = 1; j <= count_num-1-i; j++)
+			{
+				temp *= 10;
+			}
+//			printf("%ld\r\n", temp);
+			sum += Temp_Buf[i] * temp;
+			temp = 1;
+		}
+//		printf("SUM:%ld\r\n", sum);
 	}
-	return temp;
+	return sum;
 }
 
 
+//u32 HMI_Receive(u8 Count, char* Temp_Buf_Rceive)
+//{
+//	u8 i = 0;
+//
+//	u32 temp = 0;
+//
+//
+//	char Temp_Buf[Count];
+//	for (i = 0; i <= Count; i++)
+//	{
+//		Temp_Buf[i] = Temp_Buf_Rceive[i] - 48;
+//	}
+//
+//	switch(Count)
+//	{
+//		case 4:
+//			temp = Temp_Buf[0];
+//			break;
+//		case 5:
+//			temp = Temp_Buf[0]*10 + Temp_Buf[1];
+//			break;
+//		case 6:
+//			temp = Temp_Buf[0]*100 + Temp_Buf[1]*10 + Temp_Buf[2];
+//			break;
+//		case 7:
+//			temp = Temp_Buf[0]*1000 + Temp_Buf[1]*100 + Temp_Buf[2]*10 + Temp_Buf[3];
+//			break;
+//		case 8:
+//			temp = Temp_Buf[0]*10000 + Temp_Buf[1]*1000 + Temp_Buf[2]*100 + Temp_Buf[3]*10 + Temp_Buf[4];
+//			break;
+//		case 9:
+//			temp = Temp_Buf[0]*100000 + Temp_Buf[1]*10000 + Temp_Buf[2]*1000 + Temp_Buf[3]*100 + Temp_Buf[4]*10 + Temp_Buf[5];
+//			break;
+//
+//		case 10:
+//			temp = Temp_Buf[0]*1000000 + Temp_Buf[1]*100000 + Temp_Buf[2]*10000 + Temp_Buf[3]*1000 + Temp_Buf[4]*100 + Temp_Buf[5]*10 + Temp_Buf[6];
+//			break;
+//
+//		case 11:
+//			temp = Temp_Buf[0]*10000000 + Temp_Buf[1]*1000000 + Temp_Buf[2]*100000 + Temp_Buf[3]*10000 + Temp_Buf[4]*1000 + Temp_Buf[5]*100 + Temp_Buf[6]*10 + Temp_Buf[7];
+//			break;
+//
+//		case 12:
+//			temp = Temp_Buf[0]*100000000 + Temp_Buf[1]*10000000 + Temp_Buf[2]*1000000 + Temp_Buf[3]*100000 + Temp_Buf[4]*10000 + Temp_Buf[5]*1000 + Temp_Buf[6]*100 + Temp_Buf[7]*10 + Temp_Buf[8];
+//			break;
+//
+//		case 13:
+//			temp = Temp_Buf[0]*1000000000 + Temp_Buf[1]*100000000 + Temp_Buf[2]*10000000 + Temp_Buf[3]*1000000 + Temp_Buf[4]*100000 + Temp_Buf[5]*10000 + Temp_Buf[6]*1000 + Temp_Buf[7]*100 + Temp_Buf[8]*10 + Temp_Buf[9];
+//			break;
+//		default:
+//			break;
+//	}
+//	return temp;
+//}
 
 
-/*判断接收服务函数*/
-void TJC_Pro(void)
+/*
+  * 判断接收服务函数
+ * */
+void HMI_Pro(void)
 {
 	u32 temp_receive = 0;
 	char temp_buffer[255];
-	char temp_char = 0;
+//	char temp_char = 0;
 	switch (HMI_Num)
 	{
 		/********************************AD9959********************************/
@@ -367,23 +323,23 @@ void TJC_Pro(void)
 			HMI_Num = 0;
 			break;
 
-
 		/*修改最大频率*/
 		case 0x22:
+			printf("GetNum:%ld\r\n", temp_receive);
 			temp_receive = HMI_Receive(HMI_Count, HMI_Buffer);
+			printf("GetNum:%ld\r\n", temp_receive);
 			if (AD9959_Mode == AD9959_Mode_FixedFre)
 			{
 				if(temp_receive != 0 && temp_receive > AD9959_FixedMinFre)
 					AD9959_FixedMaxFre = temp_receive;
-				HMI_Send_Buttton_Text(22, AD9959_FixedMaxFre);
+				Refresh_AD9959_Data();
 			}
 			else if (AD9959_Mode == AD9959_Mode_Sweep)
 			{
 				if(temp_receive != 0 && temp_receive > AD9959_SweepMaxFre)
 					AD9959_SweepMaxFre = temp_receive;
-				HMI_Send_Buttton_Text(22, AD9959_SweepMaxFre);
+				Refresh_AD9959_Data();
 			}
-
 			HMI_Num = 0;
 			break;
 
@@ -394,13 +350,13 @@ void TJC_Pro(void)
 			{
 				if(temp_receive != 0 && temp_receive < AD9959_FixedMaxFre)
 					AD9959_FixedMinFre = temp_receive;
-				HMI_Send_Buttton_Text(23, AD9959_FixedMinFre);
+				Refresh_AD9959_Data();
 			}
 			else if (AD9959_Mode == AD9959_Mode_Sweep)
 			{
 				if(temp_receive != 0 && temp_receive < AD9959_SweepMaxFre)
 					AD9959_SweepMinFre = temp_receive;
-				HMI_Send_Buttton_Text(23, AD9959_SweepMinFre);
+				Refresh_AD9959_Data();
 			}
 
 			HMI_Num = 0;
@@ -415,7 +371,7 @@ void TJC_Pro(void)
 				if (temp_receive <= AD9959_FixedMaxFre && temp_receive >= AD9959_FixedMinFre)
 					{
 						AD9959_FixedNowFre = temp_receive;
-						HMI_Send_Buttton_Text(24, AD9959_FixedNowFre);
+						Refresh_AD9959_Data();
 					}
 			}
 			HMI_Num = 0;
@@ -429,13 +385,13 @@ void TJC_Pro(void)
 			{
 				if(temp_receive != 0)
 					AD9959_FixedStepFre = temp_receive;
-				HMI_Send_Buttton_Text(25, AD9959_FixedStepFre);
+				Refresh_AD9959_Data();
 			}
 			else if (AD9959_Mode == AD9959_Mode_FixedFre)
 			{
 				if(temp_receive != 0)
 					AD9959_FixedStepFre = temp_receive;
-				HMI_Send_Buttton_Text(25, AD9959_FixedStepFre);
+				Refresh_AD9959_Data();
 			}
 
 			HMI_Num = 0;
@@ -448,7 +404,7 @@ void TJC_Pro(void)
 			{
 				if(temp_receive != 0)
 					AD9959_SweepTime = temp_receive;
-				HMI_Send_Buttton_Text(26, AD9959_SweepTime);
+				Refresh_AD9959_Data();
 			}
 
 			HMI_Num = 0;
@@ -462,7 +418,7 @@ void TJC_Pro(void)
 				if(temp_receive <= AD9959_FixedMaxFre)
 					AD9959_FixedNowFre = temp_receive;
 				Write_frequence(0,AD9959_FixedNowFre);
-				HMI_Send_Buttton_Text(24, AD9959_FixedNowFre);
+				Refresh_AD9959_Data();
 			}
 			HMI_Num = 0;
 			break;
@@ -475,7 +431,7 @@ void TJC_Pro(void)
 				if (temp_receive >= AD9959_FixedMinFre && temp_receive > 0)
 					AD9959_FixedNowFre = temp_receive;
 				Write_frequence(0,AD9959_FixedNowFre);
-				HMI_Send_Buttton_Text(24, AD9959_FixedNowFre);
+				Refresh_AD9959_Data();
 			}
 			HMI_Num = 0;
 
@@ -508,8 +464,7 @@ void TJC_Pro(void)
 //			FSK_Send_Char_2(HMI_Buffer[HMI_Count-4], temp_buffer);
 
 			memcpy(temp_buffer, HMI_Buffer, HMI_Count-3);	//把接收到的字符串放到temp_buffer中
-			FSK_Send_String(temp_buffer, HMI_Count-3);		//把temp_buffer中的字符发出去
-
+//			FSK_Send_String(temp_buffer, HMI_Count-3);		//把temp_buffer中的字符发出去
 
 			HMI_Num = 0;
 			memset(temp_buffer,0x00,sizeof(temp_buffer));   //清空数组
@@ -520,20 +475,7 @@ void TJC_Pro(void)
 	}
 }
 
-void FAN_delay_us(u16 time)
-{
-   u16 i=0;
-   while(time--)
-   {
-      i=10;  //自己定义
-      while(i--) ;
-   }
-}
-
-
 
 
 
 #endif
-#endif
-

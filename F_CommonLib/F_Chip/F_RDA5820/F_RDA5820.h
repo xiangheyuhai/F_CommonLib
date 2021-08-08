@@ -2,7 +2,7 @@
 #define __F_RDA5820_H
 #include "all_config.h"
 #ifdef F_RDA5820
-#include "./F_RDA5820_IIC.h"
+
 
 extern u16 RDA5820_Fre;		//单位是10KHz  默认为93.6Mhz
 
@@ -46,8 +46,8 @@ void RDA5820_Space_Set(u8 spc);
 void RDA5820_Freq_Set(u16 freq);
 u16 RDA5820_Freq_Get(void);
 void RDA5820_Show_Msg(void);
-void RDA5820_Add_Fre(Step_Fre);
-void RDA5820_Reduce_Fre(Step_Fre);
+void RDA5820_Add_Fre(u16 Step_Fre);
+void RDA5820_Reduce_Fre(u16 Step_Fre);
 
 		 				    
 #endif

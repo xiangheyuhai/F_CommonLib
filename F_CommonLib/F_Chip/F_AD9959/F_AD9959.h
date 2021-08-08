@@ -6,8 +6,10 @@
 extern u32 FRE_Send;
 
 
-#define AD9959_Mode_Sweep 1			//模式--扫频
+#define AD9959_Mode_Sweep    1	    //模式--扫频
 #define AD9959_Mode_FixedFre 2		//模式--点频
+#define AD9959_Mode_FHSS     3		//模式--跳频
+
 
 extern u8 AD9959_Mode;				//扫频或者点频
 extern u8 AD9959_Wave_Show_Mode;	//跟随扫频--1  不跟随扫频--0
@@ -38,81 +40,6 @@ extern u32 AD9959_NowSinPhr[5];
 
 
 
-
-
-//引脚定义
-
-
-
-
-#define AD9959_PS0_Pin GPIO_PIN_7
-#define AD9959_PS0_GPIO_Port GPIOC
-
-#define AD9959_PS1_Pin GPIO_PIN_7
-#define AD9959_PS1_GPIO_Port GPIOD
-
-#define AD9959_PS2_Pin GPIO_PIN_10
-#define AD9959_PS2_GPIO_Port GPIOC
-
-#define AD9959_PS3_Pin GPIO_PIN_2
-#define AD9959_PS3_GPIO_Port GPIOD
-
-#define AD9959_SDIO0_Pin GPIO_PIN_8
-#define AD9959_SDIO0_GPIO_Port GPIOA
-
-#define AD9959_SDIO1_Pin GPIO_PIN_9
-#define AD9959_SDIO1_GPIO_Port GPIOC
-
-#define AD9959_SDIO2_Pin GPIO_PIN_7
-#define AD9959_SDIO2_GPIO_Port GPIOG
-
-
-
-
-
-#define AD9959_PWR_Pin GPIO_PIN_6
-#define AD9959_PWR_GPIO_Port GPIOD
-
-#define AD9959_UPDATE_Pin GPIO_PIN_11
-#define AD9959_UPDATE_GPIO_Port GPIOC
-
-#define AD9959_Reset_Pin GPIO_PIN_15
-#define AD9959_Reset_GPIO_Port GPIOG
-
-#define AD9959_CS_Pin GPIO_PIN_12
-#define AD9959_CS_GPIO_Port GPIOC
-
-#define AD9959_SCLK_Pin GPIO_PIN_8
-#define AD9959_SCLK_GPIO_Port GPIOC
-
-#define AD9959_SDIO3_Pin GPIO_PIN_6
-#define AD9959_SDIO3_GPIO_Port GPIOG
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 //AD9959寄存器地址定义
 #define CSR_ADD   0x00   //CSR 通道选择寄存器
 #define FR1_ADD   0x01   //FR1 功能寄存器1
@@ -125,46 +52,6 @@ extern u32 AD9959_NowSinPhr[5];
 #define RDW_ADD   0x08   //RDW 通道线性向上扫描寄存器
 #define FDW_ADD   0x09   //FDW 通道线性向下扫描寄存器
 
-
-
-
-
-
-
-/*SET*/
-#define AD9959_PS0_SET		HAL_GPIO_WritePin(AD9959_PS0_GPIO_Port,     AD9959_PS0_Pin,   GPIO_PIN_SET)
-#define AD9959_PS1_SET		HAL_GPIO_WritePin(AD9959_PS1_GPIO_Port,     AD9959_PS1_Pin,   GPIO_PIN_SET)
-#define AD9959_PS2_SET		HAL_GPIO_WritePin(AD9959_PS2_GPIO_Port,     AD9959_PS2_Pin,   GPIO_PIN_SET)
-#define AD9959_PS3_SET		HAL_GPIO_WritePin(AD9959_PS3_GPIO_Port,     AD9959_PS3_Pin,   GPIO_PIN_SET)
-#define AD9959_SDIO0_SET	HAL_GPIO_WritePin(AD9959_SDIO0_GPIO_Port,   AD9959_SDIO0_Pin, GPIO_PIN_SET)
-#define AD9959_SDIO1_SET	HAL_GPIO_WritePin(AD9959_SDIO1_GPIO_Port,   AD9959_SDIO1_Pin, GPIO_PIN_SET)
-#define AD9959_SDIO2_SET	HAL_GPIO_WritePin(AD9959_SDIO2_GPIO_Port,   AD9959_SDIO2_Pin, GPIO_PIN_SET)
-
-
-#define AD9959_PWR_SET		HAL_GPIO_WritePin(AD9959_PWR_GPIO_Port,     AD9959_PWR_Pin,    GPIO_PIN_SET)
-#define AD9959_Reset_SET	HAL_GPIO_WritePin(AD9959_Reset_GPIO_Port,   AD9959_Reset_Pin,  GPIO_PIN_SET)
-#define AD9959_UPDATE_SET	HAL_GPIO_WritePin(AD9959_UPDATE_GPIO_Port,  AD9959_UPDATE_Pin, GPIO_PIN_SET)
-#define AD9959_CS_SET		HAL_GPIO_WritePin(AD9959_CS_GPIO_Port,      AD9959_CS_Pin,     GPIO_PIN_SET)
-#define AD9959_SCLK_SET		HAL_GPIO_WritePin(AD9959_SCLK_GPIO_Port,    AD9959_SCLK_Pin,   GPIO_PIN_SET)
-#define AD9959_SDIO3_SET	HAL_GPIO_WritePin(AD9959_SDIO3_GPIO_Port,   AD9959_SDIO3_Pin,  GPIO_PIN_SET)
-
-
-/*RESET*/
-#define AD9959_PS0_RESET	HAL_GPIO_WritePin(AD9959_PS0_GPIO_Port,     AD9959_PS0_Pin,    GPIO_PIN_RESET)
-#define AD9959_PS1_RESET	HAL_GPIO_WritePin(AD9959_PS1_GPIO_Port,     AD9959_PS1_Pin,    GPIO_PIN_RESET)
-#define AD9959_PS2_RESET	HAL_GPIO_WritePin(AD9959_PS2_GPIO_Port,     AD9959_PS2_Pin,    GPIO_PIN_RESET)
-#define AD9959_PS3_RESET	HAL_GPIO_WritePin(AD9959_PS3_GPIO_Port,     AD9959_PS3_Pin,    GPIO_PIN_RESET)
-#define AD9959_SDIO0_RESET	HAL_GPIO_WritePin(AD9959_SDIO0_GPIO_Port,   AD9959_SDIO0_Pin,  GPIO_PIN_RESET)
-#define AD9959_SDIO1_RESET	HAL_GPIO_WritePin(AD9959_SDIO1_GPIO_Port,   AD9959_SDIO1_Pin,  GPIO_PIN_RESET)
-#define AD9959_SDIO2_RESET	HAL_GPIO_WritePin(AD9959_SDIO2_GPIO_Port,   AD9959_SDIO2_Pin,  GPIO_PIN_RESET)
-
-
-#define AD9959_PWR_RESET	HAL_GPIO_WritePin(AD9959_PWR_GPIO_Port,     AD9959_PWR_Pin,    GPIO_PIN_RESET)
-#define AD9959_Reset_RESET	HAL_GPIO_WritePin(AD9959_Reset_GPIO_Port,   AD9959_Reset_Pin,  GPIO_PIN_RESET)
-#define AD9959_UPDATE_RESET	HAL_GPIO_WritePin(AD9959_UPDATE_GPIO_Port,  AD9959_UPDATE_Pin, GPIO_PIN_RESET)
-#define AD9959_CS_RESET		HAL_GPIO_WritePin(AD9959_CS_GPIO_Port,      AD9959_CS_Pin,     GPIO_PIN_RESET)
-#define AD9959_SCLK_RESET	HAL_GPIO_WritePin(AD9959_SCLK_GPIO_Port,    AD9959_SCLK_Pin,   GPIO_PIN_RESET)
-#define AD9959_SDIO3_RESET	HAL_GPIO_WritePin(AD9959_SDIO3_GPIO_Port,   AD9959_SDIO3_Pin,  GPIO_PIN_RESET)
 
 
 //延时
@@ -204,11 +91,8 @@ void Write_Phase(u8 Channel,u16 Phase);
 /*---------------------------------------
 函数功能：AD9959初始化
 ---------------------------------------*/
-void AD9959_INIT(void);
-/*---------------------------------------
-函数功能：AD9959_GPIO初始化
----------------------------------------*/
-void AD9959_GPIO_Init(void);
+void AD9959_Init(void);
+
 
 #endif
 #endif

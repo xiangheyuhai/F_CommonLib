@@ -1,57 +1,57 @@
-#include "./F_OLED_IIC_Drv_STM32F4.h"
-#ifdef Service_Display_OLED_IIC
+#include "./F_RDA5820_Drv_STM32F4.h"
+#ifdef F_RDA5820
 #ifdef F_STM32_F4
-#include "all_config.h"
 
 
-void OLED_IIC_Drv_Init(void)
+
+void RDA5820_IIC_Drv_Init(void)
 {
 	GPIO_InitTypeDef GPIO_InitStructure = {0},GPIO_InitStructure_1 = {0};
 
 	__HAL_RCC_GPIOE_CLK_ENABLE();
 
-    GPIO_InitStructure.Pin = OLED_IIC_DATA_Pin;
+    GPIO_InitStructure.Pin = RDA5820_DATA_Pin;
     GPIO_InitStructure.Mode = GPIO_MODE_OUTPUT_PP;
     GPIO_InitStructure.Pull = GPIO_PULLUP;
     GPIO_InitStructure.Speed = GPIO_SPEED_FREQ_HIGH;
-    HAL_GPIO_Init(OLED_IIC_DATA_Port, &GPIO_InitStructure);
+    HAL_GPIO_Init(RDA5820_DATA_Port, &GPIO_InitStructure);
 
 
-    GPIO_InitStructure_1.Pin = OLED_IIC_CLK_Pin;
+    GPIO_InitStructure_1.Pin = RDA5820_CLK_Pin;
     GPIO_InitStructure_1.Mode = GPIO_MODE_OUTPUT_PP;
     GPIO_InitStructure_1.Pull = GPIO_PULLUP;
     GPIO_InitStructure_1.Speed = GPIO_SPEED_FREQ_HIGH;
-    HAL_GPIO_Init(OLED_IIC_CLK_Port, &GPIO_InitStructure_1);
+    HAL_GPIO_Init(RDA5820_CLK_Port, &GPIO_InitStructure_1);
 }
 
 
 
-void OLED_SDA_Input(void)
+void RDA5820_SDA_Input(void)
 {
     GPIO_InitTypeDef GPIO_InitStructure = {0};
 
     __HAL_RCC_GPIOE_CLK_ENABLE();
 
-    GPIO_InitStructure.Pin = OLED_IIC_DATA_Pin;
+    GPIO_InitStructure.Pin = RDA5820_DATA_Pin;
     GPIO_InitStructure.Mode = GPIO_MODE_INPUT;
     GPIO_InitStructure.Pull = GPIO_PULLUP;
     GPIO_InitStructure.Speed = GPIO_SPEED_FREQ_HIGH;
-    HAL_GPIO_Init(OLED_IIC_DATA_Port, &GPIO_InitStructure);
+    HAL_GPIO_Init(RDA5820_DATA_Port, &GPIO_InitStructure);
 }
 
 
-void OLED_SDA_Output(void)
+void RDA5820_SDA_Output(void)
 {
     GPIO_InitTypeDef GPIO_InitStructure = {0};
 
     __HAL_RCC_GPIOE_CLK_ENABLE();
 
-    GPIO_InitStructure.Pin = OLED_IIC_DATA_Pin;
+    GPIO_InitStructure.Pin = RDA5820_DATA_Pin;
     GPIO_InitStructure.Mode = GPIO_MODE_OUTPUT_OD;
     GPIO_InitStructure.Pull = GPIO_NOPULL;
     GPIO_InitStructure.Speed = GPIO_SPEED_FREQ_HIGH;
-    HAL_GPIO_Init(OLED_IIC_DATA_Port, &GPIO_InitStructure);
+    HAL_GPIO_Init(RDA5820_DATA_Port, &GPIO_InitStructure);
 }
-#endif
-#endif
 
+#endif
+#endif

@@ -1,8 +1,8 @@
-#ifndef __F_OLED_IIC_DRV_STM32F4_H
-#define __F_OLED_IIC_DRV_STM32F4_H
+#ifndef __F_OLED_IIC_DRV_STM32F1_H
+#define __F_OLED_IIC_DRV_STM32F1_H
 #include "all_config.h"
 #ifdef Service_Display_OLED_IIC
-#ifdef F_STM32_F4
+#ifdef F_STM32_F1
 
 
 /*

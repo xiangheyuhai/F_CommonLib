@@ -103,11 +103,11 @@ uint8_t SDA_Input(void)
   * @param None
   * @retval None
   */
-static void delay1(unsigned int n)
-{
-    uint32_t i;
-    for ( i = 0; i < n; ++i);
-}
+//static void delay1(unsigned int n)
+//{
+//    uint32_t i;
+//    for ( i = 0; i < n; ++i);
+//}
 
 /**
   * @brief RDA5820_IIC_起始信号

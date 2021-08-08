@@ -2,7 +2,7 @@
 #ifdef F_RDA5820
 
 
-u16 RDA5820_Fre = 120;		//单位是10KHz  默认为93.6Mhz
+u16 RDA5820_Fre = 10000;		//单位是10KHz  默认为93.6Mhz
 
 //初始化
 //0,初始化成功;
@@ -10,7 +10,7 @@ u16 RDA5820_Fre = 120;		//单位是10KHz  默认为93.6Mhz
 u8 RDA5820_Init(void)
 {
 	u16 id;
-	RDA5820_IIC_Init();						//初始化IIC口
+	RDA5820_IIC_Drv_Init();						//初始化IIC口
 	id=RDA5820_RD_Reg(RDA5820_R00);	//读取ID =0X5805
 	printf("RDA5820_ID:%x\r\n", id);
 	if(id==0X5805)					//读取ID正确
@@ -220,19 +220,24 @@ void RDA5820_Show_Msg(void)
 	u8 rssi;
 	u16 freq;
 	freq=RDA5820_Freq_Get();				//读取设置到的频率值
-	sprintf((char *)OLED_IIC_SHOW_BUF, "Fre:%.2fMHz", (float)freq/100);
-	OLED_ShowString(0,1, OLED_IIC_SHOW_BUF,16);
-
 	rssi=RDA5820_Rssi_Get();				//得到信号强度
-	sprintf((char *)OLED_IIC_SHOW_BUF, "Rssi:%3d", RDA5820_Rssi_Get());
-	OLED_ShowString(0,3, OLED_IIC_SHOW_BUF,16);
+
+	#ifdef Service_Display_OLED_IIC
+	sprintf((char *)OLED_IIC_SHOW_BUF, "Fre:%d", freq);
+//	sprintf((char *)OLED_IIC_SHOW_BUF, "Fre:%.2fMHz", (float)freq/100);
+	OLED_IIC_ShowString(0,3, OLED_IIC_SHOW_BUF,16);
+
+	sprintf((char *)OLED_IIC_SHOW_BUF, "Rssi:%3d", rssi);
+	OLED_IIC_ShowString(0,5, OLED_IIC_SHOW_BUF,16);
+	#endif
 }
+
 
 /*
   * 频率加
   * 单位为10Khz
  * */
-void RDA5820_Add_Fre(Step_Fre)
+void RDA5820_Add_Fre(u16 Step_Fre)
 {
 	u16 freq;
 	freq=RDA5820_Freq_Get();				//读取设置到的频率值
@@ -248,7 +253,7 @@ void RDA5820_Add_Fre(Step_Fre)
   * 频率减
   * 单位为10Khz
  * */
-void RDA5820_Reduce_Fre(Step_Fre)
+void RDA5820_Reduce_Fre(u16 Step_Fre)
 {
 	u16 freq;
 	freq=RDA5820_Freq_Get();				//读取设置到的频率值

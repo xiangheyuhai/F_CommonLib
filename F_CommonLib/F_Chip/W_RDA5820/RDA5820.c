@@ -9,6 +9,10 @@
 #include "./RDA5820.h"
 #include "./RDA5820_drv.h"
 #ifdef W_RDA5820
+
+u16 RDA5820_Fre = 10000;		//单位是10KHz  默认为93.6Mhz
+
+
 RDA5820_u8 RDA5820_Init(void)
 {
 	RDA5820_u16 id=0;
@@ -216,7 +220,52 @@ RDA5820_u16 RDA5820_Freq_Get(void)
  	temp=fbtm+chan*spc;
 	return temp;//返回频率值
 }
+//显示频率、信号强度等信息
+void RDA5820_Show_Msg(void)
+{
+	u8 rssi;
+	u16 freq;
+	freq=RDA5820_Freq_Get();				//读取设置到的频率值
+	sprintf((char *)OLED_IIC_SHOW_BUF, "Fre:%d", freq);
+//	sprintf((char *)OLED_IIC_SHOW_BUF, "Fre:%.2fMHz", (float)freq/100);
+	OLED_ShowString(0,3, OLED_IIC_SHOW_BUF,16);
 
+	rssi=RDA5820_Rssi_Get();				//得到信号强度
+	sprintf((char *)OLED_IIC_SHOW_BUF, "Rssi:%3d", rssi);
+	OLED_ShowString(0,5, OLED_IIC_SHOW_BUF,16);
+}
+
+/*
+  * 频率加
+  * 单位为10Khz
+ * */
+void RDA5820_Add_Fre(u16 Step_Fre)
+{
+	u16 freq;
+	freq=RDA5820_Freq_Get();				//读取设置到的频率值
+
+	if(freq<10800)
+		freq+=Step_Fre;   //频率增加100Khz
+ 	else
+ 		freq=8700;				//回到起点
+	RDA5820_Freq_Set(freq);		//设置频率
+}
+
+/*
+  * 频率减
+  * 单位为10Khz
+ * */
+void RDA5820_Reduce_Fre(u16 Step_Fre)
+{
+	u16 freq;
+	freq=RDA5820_Freq_Get();				//读取设置到的频率值
+
+	if(freq>8700)
+		freq-=Step_Fre;   //频率增加100Khz
+ 	else
+ 		freq=10800;				//回到起点
+	RDA5820_Freq_Set(freq);		//设置频率
+}
 #endif
 
 

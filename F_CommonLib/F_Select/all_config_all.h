@@ -12,13 +12,13 @@
 
 
 //*******************************选择芯片*******************************//
-//#define F_AD9959
-//#define F_AD9959_Sweep_Fre
+#define F_AD9959
+#define F_AD9959_Sweep_Fre
 //#define F_AD9959_Sweep_Pha
-#define F_AD9954
+//#define F_AD9954
 //#define F_ADF4351
 //#define F_AD8302
-//#define F_RDA5820
+#define F_RDA5820
 //#define W_RDA5820
 
 
@@ -38,6 +38,8 @@
 //#define F_IIC
 //#define F_SPI
 #define F_USART
+#define F_Printf_USART1
+//#define F_Printf_USART2
 //#define F_FSK
 
 
@@ -46,9 +48,10 @@
 //#define Service_Input_Keypad		//矩阵键盘
 //#define Service_Display_LCD_240	//lcd
 //#define Service_Display_LCD_480	//lcd
-//#define Service_Display_OLED_IIC	//oled
+#define Service_Display_OLED_IIC	//oled
+//#define Service_Display_OLED_SPI	//oled
 //#define Service_Display_HMI		//串口屏
-#define Service_UserCode			//用户函数
+//#define Service_UserCode			//用户函数
 
 
 

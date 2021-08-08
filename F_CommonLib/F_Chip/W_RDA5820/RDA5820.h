@@ -10,6 +10,11 @@
 #include "all_config.h"
 #ifdef W_RDA5820
 
+
+extern u16 RDA5820_Fre;		//单位是10KHz  默认为93.6Mhz
+
+
+
 #define RDA5820_R00		0X00  //读出16个位的ID =0X5820
 #define RDA5820_R02		0X02  //DHIZ[15],DMUTE[14],MONO[13],BASS[12],SEEKUP[9],SEEK[8],SKMODE[7],CLK_MODE[6:4],ANTENNA[2],SOFTRESET[1],ENABLE[0]
 #define RDA5820_R03		0X03  //CHAN[15:6],TUNE[4],BAND[3:2],SPACE[1:0]
@@ -52,7 +57,9 @@ void RDA5820_Band_Set(RDA5820_u8 band);
 void RDA5820_Space_Set(RDA5820_u8 spc);
 void RDA5820_Freq_Set(RDA5820_u16 freq);
 RDA5820_u16 RDA5820_Freq_Get(void);
-
+void RDA5820_Show_Msg(void);
+void RDA5820_Add_Fre(u16 Step_Fre);
+void RDA5820_Reduce_Fre(u16 Step_Fre);
 
 
 

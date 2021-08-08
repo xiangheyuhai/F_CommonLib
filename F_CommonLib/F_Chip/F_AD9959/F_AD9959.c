@@ -36,11 +36,11 @@ u32 AD9959_SweepStepPha =  450;   	//扫相步进相位
 
 
 /********************************点频*********************************/
-u32 AD9959_FixedMaxFre = 20000; 	//最大固定输出频率--Hz
-u32	AD9959_FixedMinFre = 200;  		//最小固定输出频率--Hz
-u32 AD9959_FixedStepFre = 200; 		//步进固定输出频率--Hz
+u32 AD9959_FixedMaxFre = 300000; 	//最大固定输出频率--Hz
+u32	AD9959_FixedMinFre = 10000;  		//最小固定输出频率--Hz
+u32 AD9959_FixedStepFre = 10000; 		//步进固定输出频率--Hz
 u32 AD9959_FixedAmpli = 1023; 	    //最大输出频率幅度--Hz
-u32 AD9959_FixedNowFre = 15000; 		//此时输出频率--Hz
+u32 AD9959_FixedNowFre = 15000; 	//此时输出频率--Hz
 
 
 u32 AD9959_NowSinFre[5] = {0};
@@ -282,11 +282,11 @@ void Write_Phase(u8 Channel,u16 Phase)
 
 
 //AD9959初始化
-void AD9959_INIT(void)
+void AD9959_Init(void)
 {
 	u8 FR1_DATA[3] = {0xD0,0x00,0x00};//20倍频 Charge pump control = 75uA FR1<23> -- VCO gain control =0时 system clock below 160 MHz;
 
-	AD9959_GPIO_Init();
+	AD9959_Drv_Init();
 
 	 Intserve();  //IO口初始化
 	IntReset();  //AD9959复位
@@ -322,75 +322,4 @@ void AD9959_INIT(void)
 	Write_Amplitude(1, SinAmp[1]);
 	Write_Amplitude(2, SinAmp[2]);
 }
-
-
-void AD9959_GPIO_Init(void)
-{
-	  /* GPIO Ports Clock Enable */
-	  GPIO_InitTypeDef GPIO_InitStruct = {0};
-
-	  /* GPIO Ports Clock Enable */
-	  __HAL_RCC_GPIOF_CLK_ENABLE();
-	  __HAL_RCC_GPIOH_CLK_ENABLE();
-	  __HAL_RCC_GPIOG_CLK_ENABLE();
-	  __HAL_RCC_GPIOC_CLK_ENABLE();
-	  __HAL_RCC_GPIOA_CLK_ENABLE();
-	  __HAL_RCC_GPIOD_CLK_ENABLE();
-
-
-	  /*Configure GPIO pin Output Level */
-	  HAL_GPIO_WritePin(GPIOG, AD9959_SDIO3_Pin|AD9959_SDIO2_Pin|AD9959_Reset_Pin, GPIO_PIN_RESET);
-
-	  /*Configure GPIO pin Output Level */
-	  HAL_GPIO_WritePin(GPIOC, AD9959_PS0_Pin|AD9959_SCLK_Pin|AD9959_SDIO1_Pin|AD9959_PS2_Pin
-	                          |AD9959_UPDATE_Pin|AD9959_CS_Pin, GPIO_PIN_RESET);
-
-	  /*Configure GPIO pin Output Level */
-	  HAL_GPIO_WritePin(AD9959_SDIO0_GPIO_Port, AD9959_SDIO0_Pin, GPIO_PIN_RESET);
-
-	  /*Configure GPIO pin Output Level */
-	  HAL_GPIO_WritePin(GPIOD, AD9959_PS3_Pin|AD9959_PWR_Pin|AD9959_PS1_Pin, GPIO_PIN_RESET);
-
-
-	  /*Configure GPIO pins : PGPin PGPin PGPin */
-	  GPIO_InitStruct.Pin = AD9959_SDIO3_Pin|AD9959_SDIO2_Pin|AD9959_Reset_Pin;
-	  GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
-	  GPIO_InitStruct.Pull = GPIO_NOPULL;
-	  GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_VERY_HIGH;
-	  HAL_GPIO_Init(GPIOG, &GPIO_InitStruct);
-
-	  /*Configure GPIO pins : PCPin PCPin PCPin PCPin
-	                           PCPin PCPin */
-	  GPIO_InitStruct.Pin = AD9959_PS0_Pin|AD9959_SCLK_Pin|AD9959_SDIO1_Pin|AD9959_PS2_Pin
-	                          |AD9959_UPDATE_Pin|AD9959_CS_Pin;
-	  GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
-	  GPIO_InitStruct.Pull = GPIO_NOPULL;
-	  GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_VERY_HIGH;
-	  HAL_GPIO_Init(GPIOC, &GPIO_InitStruct);
-
-	  /*Configure GPIO pin : PtPin */
-	  GPIO_InitStruct.Pin = AD9959_SDIO0_Pin;
-	  GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
-	  GPIO_InitStruct.Pull = GPIO_NOPULL;
-	  GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_VERY_HIGH;
-	  HAL_GPIO_Init(AD9959_SDIO0_GPIO_Port, &GPIO_InitStruct);
-
-	  /*Configure GPIO pins : PDPin PDPin PDPin */
-	  GPIO_InitStruct.Pin = AD9959_PS3_Pin|AD9959_PWR_Pin|AD9959_PS1_Pin;
-	  GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
-	  GPIO_InitStruct.Pull = GPIO_NOPULL;
-	  GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_VERY_HIGH;
-	  HAL_GPIO_Init(GPIOD, &GPIO_InitStruct);
-}
-
-
 #endif
-
-
-
-
-
-
-
-
-

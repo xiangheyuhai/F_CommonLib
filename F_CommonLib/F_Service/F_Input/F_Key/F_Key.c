@@ -1,7 +1,12 @@
 #include "./F_Key.h"
 #include "all_config.h"
 #ifdef Service_Input_Key
+/*
+F_key_num = KEY_SCAN();
+if (F_key_num == 1)
+	Refresh_AD9959_Data();
 
+ * */
 
 /*需要extern，在外部调用，10ms刷新一次*/
 u8 F_key_num = 0;
