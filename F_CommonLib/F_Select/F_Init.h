@@ -64,9 +64,9 @@ void F_Init(void)
 	/*OLED_SPI*/
 	#ifdef Service_Display_OLED_SPI
 	OLED_SPI_Init();
-	OLED_SPI_Clear();
 	sprintf((char *)OLED_SPI_SHOW_BUF, "FJX_TEST_123");
-	OLED_SPI_ShowString(0,1, OLED_SPI_SHOW_BUF, 16);
+	OLED_SPI_ShowString(0,1, OLED_SPI_SHOW_BUF, 16, 1);
+	OLED_SPI_Refresh();
 	printf("OLED_SPI_Ok\r\n");
 	#endif
 
@@ -84,11 +84,9 @@ void F_Init(void)
 	/*240*240LCD*/
 	#ifdef Service_Display_LCD_240
 	LCD_240_Init();		//初始化
-	LCD_Clear(WHITE);	//清屏
-	BACK_COLOR = WHITE;	//设置背景色
+	LCD_Clear(BLACK);	//清屏
 	sprintf((char *)LCD_240_SHOW_BUF, "FJX_TEST");
-	LCD_ShowString(0, 0, LCD_240_SHOW_BUF, BLACK);
-//	LCD_ShowString_2412(0, 160, LCD_240_SHOW_BUF, BLACK);	//4412显示暂时有问题
+	LCD_ShowString(0, 0, LCD_240_SHOW_BUF, WHITE, BLACK, 24, 0);
 	printf("240*240LCD_Ok\r\n");
 	#endif
 
@@ -172,9 +170,10 @@ void F_Init(void)
 
 
 	#ifdef F_ADC
+//	HAL_TIM_Base_Start(&htim3);
 //	HAL_ADC_Start_DMA(&hadc1, (uint32_t *)ADC_1_Value_DMA, 1);//转换后的结果放到ADC_Value_DMA_1
-	HAL_ADC_Start_DMA(&hadc2, (uint32_t *)ADC_2_Value_DMA, 1);//转换后的结果放到ADC_Value_DMA_1
-	HAL_ADC_Start(&hadc1);     //启动ADC转换
+//	HAL_ADC_Start_DMA(&hadc2, (uint32_t *)ADC_2_Value_DMA, 1);//转换后的结果放到ADC_Value_DMA_1
+//	HAL_ADC_Start(&hadc1);     //启动ADC转换
 	printf("ADC_Ok\r\n");
 	#endif
 

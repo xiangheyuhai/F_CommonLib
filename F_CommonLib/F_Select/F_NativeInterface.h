@@ -200,6 +200,16 @@
 #endif
 
 
+/*FFT*/
+#ifdef F_FFT
+#ifdef F_STM32_F4
+//#include "arm_math.h"
+#include "F_Analog/F_FFT/F_FFT_STM32F4/F_FFT_STM32F4.c"
+#include "F_Analog/F_FFT/F_FFT_STM32F4/F_FFT_STM32F4.h"
+#endif
+#endif
+
+
 
 #ifdef F_Capture_STM32F4
 #include "stm32f4xx_hal_tim.h"

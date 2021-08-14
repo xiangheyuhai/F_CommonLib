@@ -41,26 +41,6 @@ void OLED_SPI_Drv_Init(void)
     GPIO_InitStructure.Speed = GPIO_SPEED_FREQ_HIGH;
     HAL_GPIO_Init(OLED_SPI_CS_GPIO_Port, &GPIO_InitStructure);
 
-	 #if OLED_SPI_MODE==1
-
-	GPIO_InitStructure.GPIO_Pin =0xFF; //PC0~7 OUT推挽输出
-	GPIO_Init(GPIOC, &GPIO_InitStructure);
-	GPIO_SetBits(GPIOC,0xFF); //PC0~7输出高
-
-	GPIO_InitStructure.GPIO_Pin = GPIO_Pin_13|GPIO_Pin_14|GPIO_Pin_15;				 //PG13,14,15 OUT推挽输出
-	GPIO_Init(GPIOG, &GPIO_InitStructure);
-	GPIO_SetBits(GPIOG,GPIO_Pin_13|GPIO_Pin_14|GPIO_Pin_15);						 //PG13,14,15 OUT  输出高
-
-	 #else
-
-// 	GPIO_InitStructure.GPIO_Pin = GPIO_Pin_0|GPIO_Pin_1;				 //PC0,1 OUT推挽输出
-// 	GPIO_Init(GPIOC, &GPIO_InitStructure);
-// 	GPIO_SetBits(GPIOC,GPIO_Pin_0|GPIO_Pin_1);						 //PC0,1 OUT  输出高
-//
-//	GPIO_InitStructure.GPIO_Pin = GPIO_Pin_15;				 //PG15 OUT推挽输出	  RST
-// 	GPIO_Init(GPIOG, &GPIO_InitStructure);
-// 	GPIO_SetBits(GPIOG,GPIO_Pin_15);						 //PG15 OUT  输出高
-#endif
 
 }
 #endif

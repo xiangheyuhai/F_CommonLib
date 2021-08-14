@@ -29,21 +29,23 @@ extern unsigned char OLED_SPI_SHOW_BUF[30];
 #define OLED_DATA 1	//写数据
 
 
-//OLED_SPI驱动
 void OLED_SPI_WR_Byte(u8 dat,u8 cmd);
-
-//OLED通用
-void OLED_SPI_Fill_Picture(unsigned char fill_Data);
-void OLED_SPI_Set_Pos(unsigned char x, unsigned char y);
-void OLED_SPI_Display_On(void);
-void OLED_SPI_Display_Off(void);
+void OLED_SPI_ColorTurn(u8 i);
+void OLED_SPI_DisplayTurn(u8 i);
+void OLED_SPI_DisPlay_On(void);
+void OLED_DisPlay_Off(void);
+void OLED_SPI_Refresh(void);
 void OLED_SPI_Clear(void);
-void OLED_SPI_ShowChar(u8 x,u8 y,u8 chr,u8 Char_Size);
-void OLED_SPI_ShowString(u8 x,u8 y,u8 *chr,u8 Char_Size);
+void OLED_SPI_DrawPoint(u8 x,u8 y,u8 t);
+void OLED_SPI_DrawLine(u8 x1,u8 y1,u8 x2,u8 y2,u8 mode);
+void OLED_SPI_DrawCircle(u8 x,u8 y,u8 r);
+void OLED_SPI_ShowChar(u8 x,u8 y,u8 chr,u8 size1,u8 mode);
+void OLED_SPI_ShowString(u8 x,u8 y,u8 *chr,u8 size1,u8 mode);
 u32 OLED_SPI_Pow(u8 m,u8 n);
-void OLED_SPI_ShowNum(u8 x,u8 y,u32 num,u8 len,u8 size2);
-void OLED_SPI_ShowCHinese(u8 x,u8 y,u8 no);
-void OLED_SPI_DrawBMP(unsigned char x0, unsigned char y0,unsigned char x1, unsigned char y1,unsigned char BMP[]);
+void OLED_SPI_ShowNum(u8 x,u8 y,u32 num,u8 len,u8 size1,u8 mode);
+void OLED_SPI_ShowChinese(u8 x,u8 y,u8 num,u8 size1,u8 mode);
+void OLED_SPI_ScrollDisplay(u8 num,u8 space,u8 mode);
+void OLED_SPI_ShowPicture(u8 x,u8 y,u8 sizex,u8 sizey,u8 BMP[],u8 mode);
 void OLED_SPI_Init(void);
 
 

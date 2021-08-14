@@ -292,7 +292,7 @@ void OLED_IIC_DrawBMP(unsigned char x0, unsigned char y0,unsigned char x1, unsig
 void OLED_IIC_Init(void)
 {
 	OLED_IIC_Drv_Init();
-	HAL_Delay(200);
+	HAL_Delay(100);
 
   	OLED_IIC_WR_Byte(0xAE,OLED_CMD);//--display off
 	OLED_IIC_WR_Byte(0x00,OLED_CMD);//---set low column address

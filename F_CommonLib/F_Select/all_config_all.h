@@ -3,7 +3,7 @@
 
 //*******************************选择服务*******************************//
 #define F_Interrupt
-#define F_LED_Blink
+//#define F_LED_Blink
 
 
 //*******************************选择MCU*******************************//
@@ -12,13 +12,13 @@
 
 
 //*******************************选择芯片*******************************//
-#define F_AD9959
-#define F_AD9959_Sweep_Fre
+//#define F_AD9959
+//#define F_AD9959_Sweep_Fre
 //#define F_AD9959_Sweep_Pha
 //#define F_AD9954
 //#define F_ADF4351
 //#define F_AD8302
-#define F_RDA5820
+// #define F_RDA5820
 //#define W_RDA5820
 
 
@@ -26,6 +26,7 @@
 //#define F_ADC
 //#define F_DAC
 //#define F_DAC_Sin_Wave
+#define F_FFT
 
 
 //*******************************TIMER***********************//
@@ -47,9 +48,11 @@
 #define Service_Input_Key			//按键
 //#define Service_Input_Keypad		//矩阵键盘
 //#define Service_Display_LCD_240	//lcd
+//#define Service_Display_LCD_240_Hardware
 //#define Service_Display_LCD_480	//lcd
-#define Service_Display_OLED_IIC	//oled
-//#define Service_Display_OLED_SPI	//oled
+//#define Service_Display_OLED_IIC	//oled
+#define Service_Display_OLED_SPI	//oled
+#define Service_Display_OLED_SPI_Hardware
 //#define Service_Display_HMI		//串口屏
 //#define Service_UserCode			//用户函数
 
