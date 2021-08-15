@@ -77,7 +77,16 @@ void F_Init(void)
 	POINT_COLOR=BLACK;    //画笔颜色：红色
 	LCD_Clear(WHITE);	//清屏
 	memset(LCD_480_SHOW_BUF,0x00,sizeof(LCD_480_SHOW_BUF)); //清空数组
+	sprintf((char *)LCD_480_SHOW_BUF, "FJX_TEST_123");
+	LCD_ShowString(30,40,210,24,24,LCD_480_SHOW_BUF);
 	printf("800*480LCD_Ok\r\n");
+	#endif
+
+	#ifdef Service_Display_LCD_480
+	#ifdef F_STM32_F4
+	tp_dev.init();//触摸屏初始化
+	printf("TOUCH_Ok\r\n");
+	#endif
 	#endif
 
 

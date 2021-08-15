@@ -30,8 +30,8 @@
 
 /*FSK*/
 #ifdef F_FSK
-#include "./F_Drv\F_FSK\F_FSK.c"
-#include "./F_Drv\F_FSK\F_FSK.h"
+#include "./F_Drv/F_FSK/F_FSK.c"
+#include "./F_Drv/F_FSK/F_FSK.h"
 #endif
 
 
@@ -51,7 +51,32 @@
 #ifdef Service_Display_LCD_480
 #include "./F_Service/F_Display/F_LCD_480/F_LCD_480.c"
 #include "./F_Service/F_Display/F_LCD_480/F_LCD_480.h"
-#include "./F_Service/F_Display/F_LCD_480/F_LCD_FONT.h"
+#endif
+
+
+/*TOUCH*/
+#ifdef Service_TOUCH
+#include "./F_Service/F_Display/F_TOUCH/F_TOUCH.c"
+#include "./F_Service/F_Display/F_TOUCH/F_TOUCH.h"
+#include "./F_Service/F_Display/F_TOUCH/F_TOUCH_Test.h"
+#include "./F_Service/F_Display/F_TOUCH/F_TOUCH_Drv_IIC/F_TOUCH_Drv_IIC.c"
+#include "./F_Service/F_Display/F_TOUCH/F_TOUCH_Drv_IIC/F_TOUCH_Drv_IIC.h"
+#include "./F_Service/F_Display/F_TOUCH/F_TOUCH_Drv_24CXX/F_TOUCH_Drv_24CXX.c"
+#include "./F_Service/F_Display/F_TOUCH/F_TOUCH_Drv_24CXX/F_TOUCH_Drv_24CXX.h"
+#include "./F_Service/F_Display/F_TOUCH/F_TOUCH_Drv_24CXX/F_TOUCH_Drv_24CXX_IIC.c"
+#include "./F_Service/F_Display/F_TOUCH/F_TOUCH_Drv_24CXX/F_TOUCH_Drv_24CXX_IIC.h"
+#ifdef Service_TOUCH_FT5206
+#include "./F_Service/F_Display/F_TOUCH/F_TOUCH_Drv_FT5206/F_TOUCH_Drv_FT5206.c"
+#include "./F_Service/F_Display/F_TOUCH/F_TOUCH_Drv_FT5206/F_TOUCH_Drv_FT5206.h"
+#endif
+#ifdef Service_TOUCH_GT9147
+#include "./F_Service/F_Display/F_TOUCH/F_TOUCH_Drv_GT9147/F_TOUCH_Drv_GT9147.c"
+#include "./F_Service/F_Display/F_TOUCH/F_TOUCH_Drv_GT9147/F_TOUCH_Drv_GT9147.h"
+#endif
+#ifdef Service_TOUCH_OTT2001A
+#include "./F_Service/F_Display/F_TOUCH/F_TOUCH_Drv_OTT2001A/F_TOUCH_Drv_OTT2001A.c"
+#include "./F_Service/F_Display/F_TOUCH/F_TOUCH_Drv_OTT2001A/F_TOUCH_Drv_OTT2001A.h"
+#endif
 #endif
 
 

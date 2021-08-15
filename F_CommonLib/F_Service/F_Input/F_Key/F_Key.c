@@ -29,7 +29,7 @@ u8 KEY_SCAN(void)
 			if (KEY[i].READ == F_Key_Valid_Status)
 			{
 				KEY[i].TIME++;
-				// printf("%d,%d\r\n", i, KEY[i].TIME);
+//				 printf("%d,%d\r\n", i, KEY[i].TIME);
 				/***********************判断长按***************************/
 				if (KEY[i].TIME > 80)			//长按超过0.5秒，一直返回LONG
 				{
