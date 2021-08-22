@@ -78,11 +78,12 @@ void OLED_Show_FFT(float *str)
 	  for (j = 0; j < 4; j++)
 		  temp_str[j] = str[4*i+j];
 	  arm_mean_f32(temp_str,4,&Result);//计算得到相邻四个点的平均值
-	  high = (u16)(0.000125 * Result);
-	  high = (u16)(0.000125 * Result);
+	  high = (u16)(0.000125 * Result * 8);
 	  if(high >= 30)
 		  high = 30;
 //	  printf("%d, %f\r\n",i, Result);
+	  if (i == 0)
+		  high = 0;
 	  OLED_SPI_DrawLine(i, 32-high, i, 32+high, 1);
   }
 }

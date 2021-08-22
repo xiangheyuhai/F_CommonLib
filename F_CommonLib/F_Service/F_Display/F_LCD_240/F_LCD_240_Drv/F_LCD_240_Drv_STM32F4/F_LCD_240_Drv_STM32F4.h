@@ -4,12 +4,17 @@
 #ifdef Service_Display_LCD_240
 #ifdef F_STM32_F4
 
+/*引脚功能
+ *SCL	SPI时钟线
+ *SDA	SPI数据线
+ *RES	LCD复位
+ *DC	LCD数据/命令选择脚
+ *BLK	背光控制开关，默认打开背光，低电平关闭背光
+ * */
 
 /*
-  * 若修改的端口不是GPIOE,则需要修改.c中三个初始化中的端口定义
- *
-  * 即修改__HAL_RCC_GPIOE_CLK_ENABLE();
- *
+ * 若修改的端口不是GPIOE,则需要修改.c中三个初始化中的端口定义
+ * 即修改__HAL_RCC_GPIOE_CLK_ENABLE();
  * */
 #define LCD_240_SCL_Pin 	   GPIO_PIN_1
 #define LCD_240_SCL_GPIO_Port  GPIOE

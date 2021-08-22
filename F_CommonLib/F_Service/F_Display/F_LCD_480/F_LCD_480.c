@@ -3,8 +3,9 @@
 #ifdef F_STM32_F4
 #include "./F_LCD_FONT.h"
 
-u8 LCD_480_SHOW_BUF[100] = {0};
 
+
+u8 LCD_480_SHOW_BUF[100] = {0};
 
 SRAM_HandleTypeDef TFTSRAM_Handler;    //SRAM句柄(用于控制LCD)
 
@@ -423,7 +424,7 @@ void LCD_Set_Window(u16 sx,u16 sy,u16 width,u16 height)
 
 //初始化lcd
 //该初始化函数可以初始化各种型号的LCD(详见本.c文件最前面的描述)
-void LCD_480_Init(void)
+void LCD_480_INIT(void)
 {
 	GPIO_InitTypeDef GPIO_Initure;
 	FSMC_NORSRAM_TimingTypeDef FSMC_ReadWriteTim;
@@ -1772,7 +1773,7 @@ void LCD_480_Init(void)
 		FSMC_Bank1E->BWTR[6]|=3<<0;		//地址建立时间(ADDSET)为3个HCLK =18ns
 		FSMC_Bank1E->BWTR[6]|=2<<8; 	//数据保存时间(DATAST)为6ns*3个HCLK=18ns
 	}
-	LCD_Display_Dir(0);		//默认为竖屏
+	LCD_Display_Dir(1);		//默认为竖屏
 	LCD_LED=1;				//点亮背光
 	LCD_Clear(WHITE);
 }
