@@ -37,8 +37,8 @@
 #define LCD_240_BLK_Pin 	     GPIO_PIN_3
 #define LCD_240_BLK_GPIO_Port    GPIOE
 
-#define LCD_240_ZK_Pin 	   		 GPIO_PIN_5
-#define LCD_240_ZK_GPIO_Port 	 GPIOE
+#define LCD_240_ZK_Pin 	   		 GPIO_PIN_6
+#define LCD_240_ZK_GPIO_Port 	 GPIOA
 
 #define LCD_240_ZK_CS_Pin 	  	 GPIO_PIN_6
 #define LCD_240_ZK_CS_GPIO_Port  GPIOE

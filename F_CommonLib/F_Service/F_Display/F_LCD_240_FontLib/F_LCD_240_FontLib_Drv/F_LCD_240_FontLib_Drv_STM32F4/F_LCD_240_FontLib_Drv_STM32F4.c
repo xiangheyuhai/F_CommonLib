@@ -54,10 +54,12 @@ void LCD_240_FontLib_Drv_Init(void)
 	  HAL_GPIO_Init(LCD_240_BLK_GPIO_Port, &GPIO_InitStruct);
 
 	  //9  FSO	字库数据输出(输入模式)
+	  #ifndef Service_Display_LCD_240_FontLib_Hardware
 	  GPIO_InitStruct.Pin = LCD_240_ZK_Pin;
 	  GPIO_InitStruct.Mode = GPIO_MODE_INPUT;
 	  GPIO_InitStruct.Pull = GPIO_PULLUP;
 	  HAL_GPIO_Init(LCD_240_ZK_GPIO_Port, &GPIO_InitStruct);
+	  #endif
 
 	  //10 CS2	字库芯片片选
 	  GPIO_InitStruct.Pin = LCD_240_ZK_CS_Pin;
@@ -72,12 +74,12 @@ void LCD_240_FontLib_Drv_Init(void)
 	  #else
 	  HAL_GPIO_WritePin(LCD_240_SCL_GPIO_Port,   LCD_240_SCL_Pin,   GPIO_PIN_SET);
 	  HAL_GPIO_WritePin(LCD_240_SDA_GPIO_Port,   LCD_240_SCL_Pin,   GPIO_PIN_SET);
+	  HAL_GPIO_WritePin(LCD_240_ZK_GPIO_Port,  	 LCD_240_ZK_Pin,    GPIO_PIN_SET);
 	  #endif
 	  HAL_GPIO_WritePin(LCD_240_RES_GPIO_Port,   LCD_240_RES_Pin,   GPIO_PIN_SET);
 	  HAL_GPIO_WritePin(LCD_240_DC_GPIO_Port,    LCD_240_DC_Pin,    GPIO_PIN_SET);
 	  HAL_GPIO_WritePin(LCD_240_CS_GPIO_Port, 	 LCD_240_CS_Pin,    GPIO_PIN_SET);
 	  HAL_GPIO_WritePin(LCD_240_BLK_GPIO_Port, 	 LCD_240_BLK_Pin,   GPIO_PIN_SET);
-	  HAL_GPIO_WritePin(LCD_240_ZK_GPIO_Port,  	 LCD_240_ZK_Pin,    GPIO_PIN_SET);
 	  HAL_GPIO_WritePin(LCD_240_ZK_CS_GPIO_Port, LCD_240_ZK_CS_Pin, GPIO_PIN_SET);
 }
 
