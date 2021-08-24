@@ -9,9 +9,10 @@ void LCD_240_FontLib_Drv_Init(void)
 
 	  __HAL_RCC_GPIOA_CLK_ENABLE();
 	  __HAL_RCC_GPIOE_CLK_ENABLE();
+
+	  //3  SCL	SPI时钟线
 	  #ifdef Service_Display_LCD_240_FontLib_Hardware
 	  #else
-	  //3  SCL	SPI时钟线
 	  GPIO_InitStruct.Pin = LCD_240_SCL_Pin;
 	  GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
 	  GPIO_InitStruct.Pull = GPIO_PULLUP;

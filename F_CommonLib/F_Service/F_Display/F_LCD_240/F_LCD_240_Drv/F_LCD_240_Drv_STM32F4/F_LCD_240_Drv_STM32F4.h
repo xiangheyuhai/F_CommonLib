@@ -16,20 +16,20 @@
  * 若修改的端口不是GPIOE,则需要修改.c中三个初始化中的端口定义
  * 即修改__HAL_RCC_GPIOE_CLK_ENABLE();
  * */
-#define LCD_240_SCL_Pin 	   GPIO_PIN_1
-#define LCD_240_SCL_GPIO_Port  GPIOE
+#define LCD_240_SCL_Pin 	   GPIO_PIN_5
+#define LCD_240_SCL_GPIO_Port  GPIOA
 
-#define LCD_240_SDA_Pin 	   GPIO_PIN_2
-#define LCD_240_SDA_GPIO_Port  GPIOE
+#define LCD_240_SDA_Pin 	   GPIO_PIN_7
+#define LCD_240_SDA_GPIO_Port  GPIOA
 
-#define LCD_240_RES_Pin 	   GPIO_PIN_3
-#define LCD_240_RES_GPIO_Port  GPIOE
+#define LCD_240_RES_Pin 	   GPIO_PIN_12
+#define LCD_240_RES_GPIO_Port  GPIOB
 
-#define LCD_240_DC_Pin 	   	   GPIO_PIN_5
-#define LCD_240_DC_GPIO_Port   GPIOE
+#define LCD_240_DC_Pin 	   	   GPIO_PIN_13
+#define LCD_240_DC_GPIO_Port   GPIOB
 
-#define LCD_240_BLK_Pin 	   GPIO_PIN_6
-#define LCD_240_BLK_GPIO_Port  GPIOE
+#define LCD_240_BLK_Pin 	   GPIO_PIN_14
+#define LCD_240_BLK_GPIO_Port  GPIOB
 
 
 /*set reset*/

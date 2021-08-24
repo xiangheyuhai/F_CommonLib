@@ -20,8 +20,7 @@ void F_Init(void)
 
 	#ifdef F_Interrupt
 	#ifdef F_LED_Blink
-	HAL_GPIO_WritePin(GPIOF, GPIO_PIN_9, 0);
-	HAL_GPIO_WritePin(GPIOF, GPIO_PIN_10, 1);
+	HAL_GPIO_WritePin(LED_GPIO_Port, LED_Pin, 0);
 	printf("Interrupt_Ok\r\n");
 	#endif
 	#endif
@@ -87,12 +86,23 @@ void F_Init(void)
 	#endif
 
 
+	/*240*240LCD 带字库*/
 	#ifdef Service_Display_LCD_240_FontLib
 	LCD_240_FontLib_Init();
 	LCD_Clear(WHITE);
 	sprintf((char *)LCD_240_FontLib_SHOW_BUF, "FJX_TEST");
 	LCD_ShowString(0, 0, LCD_240_FontLib_SHOW_BUF, RED, WHITE,16,0);
 	printf("240*240LCD_FontLib_Ok\r\n");
+	#endif
+
+
+	/*240*240LCD 带字库*/
+	#ifdef Service_Display_LCD_240_ParallelPort
+	LCD_240_ParallelPort_Init();
+	LCD_Clear(WHITE);
+	sprintf((char *)LCD_240_ParallelPort_SHOW_BUF, "FJX_TEST");
+	LCD_ShowString(0, 0, LCD_240_ParallelPort_SHOW_BUF, RED, WHITE,16,0);
+	printf("240*240LCD_ParallelPort_Ok\r\n");
 	#endif
 
 

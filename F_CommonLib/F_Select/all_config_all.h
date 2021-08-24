@@ -45,19 +45,19 @@
 
 
 //*******************************选择外设*******************************//
-#define Service_Input_Key			//按键
-//#define Service_Input_Keypad		//矩阵键盘
+//#define Service_Input_Key					//按键
+//#define Service_Input_Keypad				//矩阵键盘
 //#define Service_Display_LCD_240			//LCD240*240
 //#define Service_Display_LCD_240_Hardware
-#define Service_Display_LCD_240_FontLib	//LCD240*240 带字库
+//#define Service_Display_LCD_240_FontLib	//LCD240*240 带字库
 //#define Service_Display_LCD_240_FontLib_Hardware
-
-//#define Service_Display_LCD_480	//lcd
-//#define Service_Display_OLED_IIC	//oled
-//#define Service_Display_OLED_SPI	//oled
+#define Service_Display_LCD_240_ParallelPort
+//#define Service_Display_LCD_480			//lcd
+//#define Service_Display_OLED_IIC			//OLED_IIC
+//#define Service_Display_OLED_SPI			//OLED_SPI
 //#define Service_Display_OLED_SPI_Hardware
-//#define Service_Display_HMI		//串口屏
-//#define Service_UserCode			//用户函数
+//#define Service_Display_HMI				//串口屏
+//#define Service_UserCode					//用户函数
 
 
 
