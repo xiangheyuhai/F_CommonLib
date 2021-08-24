@@ -1,11 +1,10 @@
 #include "./F_LCD_240_ParallelPort.h"
 #ifdef Service_Display_LCD_240_ParallelPort
 #ifdef F_STM32_F4
-
 #include "./F_LCD_240_ParallelPort_FONT.h"
 #include "./F_LCD_240_ParallelPort_Drv/F_LCD_240_ParallelPort_Drv_STM32F4/F_LCD_240_ParallelPort_Drv_STM32F4.h"
 
-u16 BACK_COLOR;   //背景色
+
 u8 LCD_240_ParallelPort_SHOW_BUF[100];
 
 
@@ -21,6 +20,8 @@ void LCD_Clear(u16 Color)
 	    }
 	 }
 }
+
+
 /******************************************************************************
       函数说明：在指定区域填充颜色
       入口数据：xsta,ysta   起始坐标

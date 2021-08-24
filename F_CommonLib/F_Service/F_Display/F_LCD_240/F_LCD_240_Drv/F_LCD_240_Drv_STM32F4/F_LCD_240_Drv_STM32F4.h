@@ -33,20 +33,20 @@
 
 
 /*set reset*/
-#define LCD_SCLK_Clr() HAL_GPIO_WritePin(LCD_240_SCL_GPIO_Port, LCD_240_SCL_Pin, GPIO_PIN_RESET)//CLK
-#define LCD_SCLK_Set() HAL_GPIO_WritePin(LCD_240_SCL_GPIO_Port, LCD_240_SCL_Pin, GPIO_PIN_SET)
+#define LCD_SCLK_Clr() PAout(5) = 0		//CLK
+#define LCD_SCLK_Set() PAout(5) = 1
 
-#define LCD_MOSI_Clr() HAL_GPIO_WritePin(LCD_240_SDA_GPIO_Port, LCD_240_SDA_Pin, GPIO_PIN_RESET)	//DIN
-#define LCD_MOSI_Set() HAL_GPIO_WritePin(LCD_240_SDA_GPIO_Port, LCD_240_SDA_Pin, GPIO_PIN_SET)
+#define LCD_MOSI_Clr() PAout(7) = 0		//DIN
+#define LCD_MOSI_Set() PAout(7) = 1
 
-#define LCD_RES_Clr()  HAL_GPIO_WritePin(LCD_240_RES_GPIO_Port, LCD_240_RES_Pin, GPIO_PIN_RESET)	//RES
-#define LCD_RES_Set()  HAL_GPIO_WritePin(LCD_240_RES_GPIO_Port, LCD_240_RES_Pin, GPIO_PIN_SET)
+#define LCD_RES_Clr()  PBout(12) = 0	//RES
+#define LCD_RES_Set()  PBout(12) = 1
 
-#define LCD_DC_Clr()   HAL_GPIO_WritePin(LCD_240_DC_GPIO_Port, LCD_240_DC_Pin, GPIO_PIN_RESET)	//DC
-#define LCD_DC_Set()   HAL_GPIO_WritePin(LCD_240_DC_GPIO_Port, LCD_240_DC_Pin, GPIO_PIN_SET)
+#define LCD_DC_Clr()   PBout(13) = 0	//DC
+#define LCD_DC_Set()   PBout(13) = 1
 
-#define LCD_BLK_Clr()  HAL_GPIO_WritePin(LCD_240_BLK_GPIO_Port, LCD_240_BLK_Pin, GPIO_PIN_RESET)	//BLK
-#define LCD_BLK_Set()  HAL_GPIO_WritePin(LCD_240_BLK_GPIO_Port, LCD_240_BLK_Pin, GPIO_PIN_SET)
+#define LCD_BLK_Clr()  PBout(14) = 0	//BLK
+#define LCD_BLK_Set()  PBout(14) = 1
 
 
 void LCD_240_Drv_Init(void);

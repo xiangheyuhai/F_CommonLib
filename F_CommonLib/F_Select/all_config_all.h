@@ -51,7 +51,7 @@
 //#define Service_Display_LCD_240_Hardware
 //#define Service_Display_LCD_240_FontLib	//LCD240*240 带字库
 //#define Service_Display_LCD_240_FontLib_Hardware
-#define Service_Display_LCD_240_ParallelPort
+#define Service_Display_LCD_240_ParallelPort	//LCD240*240 并口
 //#define Service_Display_LCD_480			//lcd
 //#define Service_Display_OLED_IIC			//OLED_IIC
 //#define Service_Display_OLED_SPI			//OLED_SPI

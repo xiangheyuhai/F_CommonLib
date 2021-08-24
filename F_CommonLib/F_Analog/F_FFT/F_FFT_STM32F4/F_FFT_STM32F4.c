@@ -9,62 +9,62 @@ u16 ADC_1_Value_DMA[FFT_LENGTH] = {0};
 u16 LCD_Show_Clear[240] = {0};
 
 
+/*240*240LCD显示512个点
+ *
+ * */
+void LCD_Show_FFT(float *str, u16 *str_clear)
+{
+  u16 i, j = 0;
+  u16 high = 0;
+  float32_t temp_str[3] = {0};
+  float32_t Result = 0;
 
-//void LCD_Show_FFT(float *str, u16 *str_clear)
-//{
-//  u16 i = 0;
-//  u16 high = 0;
-//  for (i = 0; i < 210; i++)
-//  {
-//    if (str[2*i] > str[2*i+1])//前一个点大于后一个点的幅�????
-//    {
-//      high = (u16)(str[2*i] * 0.00125);
-//      if(high >= 240)
-//        high = 240;
-//      str_clear[i] = high;
-//      LCD_DrawLine(i, 240-high, i, 240, WHITE);
-//    }
-//    else
-//    {
-//      high = (u16)(str[2*i+1] * 0.00125);
-//      if(high >= 240)
-//        high = 240;
-//      str_clear[i] = high;
-//      LCD_DrawLine(i, 240-high, i, 240, WHITE);
-//    }
-//  }
-//
-//  for (i = 0; i < 30; i++)
-//  {
-//    if (str[420+3*i] > str[420+3*i+1] && str[420+3*i] > str[420+3*i+2])
-//    {
-//      high = (u16)(str[420+3*i] * 0.00125);
-//      if(high >= 240)
-//        high = 240;
-//      str_clear[i] = high;
-//      LCD_DrawLine(i, 240-high, i, 240, WHITE);
-//    }
-//
-//    else if (str[420+3*i+1] > str[420+3*i] && str[420+3*i+1] > str[420+3*i+2])
-//    {
-//      high = (u16)(str[420+3*i+1] * 0.00125);
-//      if(high >= 240)
-//        high = 240;
-//      str_clear[i] = high;
-//      LCD_DrawLine(i, 240-high, i, 240, WHITE);
-//    }
-//    else
-//    {
-//      high = (u16)(str[3*i+2] * 0.00125);
-//      if(high >= 240)
-//        high = 240;
-//      str_clear[i] = high;
-//      LCD_DrawLine(i, 240-high, i, 240, WHITE);
-//    }
-//  }
-//}
+  //LCD前210个点显示FFT前420个点
+  /*LCD:0-209
+   *FFT:0-419
+   * */
+  for (i = 0; i < 210; i++)
+  {
+	  for (j = 0; j < 2; j++)
+		  temp_str[j] = str[2*i+j];
+	  arm_mean_f32(temp_str,2,&Result);//计算得到相邻2个点的平均值
+	  high = (u16)(0.000125 * Result);
+	  if(high >= 110)
+		  high = 110;
+	  if (i == 0) high = 0;	//不显示直流分量
+	  str_clear[i] = high;
+	  LCD_DrawLine(i, 120-high, i, 120+high, WHITE);
+  }
+
+  //LCD后30个点显示FFT后90个点
+  /*LCD:210-240
+   *FFT:420-510
+   * */
+  for (i = 210; i < 240; i++)
+  {
+	  for (j = 0; j < 3; j++)
+		  temp_str[j] = str[3*i+j];
+	  arm_mean_f32(temp_str,3,&Result);//计算得到相邻2个点的平均值
+	  high = (u16)(0.000125 * Result);
+	  if(high >= 110)
+		  high = 110;
+	  if (i == 0) high = 0;	//不显示直流分量
+	  str_clear[i] = high;
+	  LCD_DrawLine(i, 120-high, i, 120+high, WHITE);
+  }
+}
 
 
+void LCD_Show_FFT_Clear(u16 *str_clear)
+{
+  u16 i = 0;
+  u16 high = 0;
+  for (i = 0; i < 240; i++)
+  {
+	  high = str_clear[i];
+	  LCD_DrawLine(i, 120-high, i, 120+high, BLACK);
+  }
+}
 
 void OLED_Show_FFT(float *str)
 {

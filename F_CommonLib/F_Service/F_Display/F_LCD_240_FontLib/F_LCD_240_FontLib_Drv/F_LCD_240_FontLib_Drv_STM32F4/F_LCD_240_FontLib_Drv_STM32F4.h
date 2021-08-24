@@ -45,28 +45,28 @@
 
 
 /*Set Reset*/
-#define LCD_SCLK_Clr() HAL_GPIO_WritePin(LCD_240_SCL_GPIO_Port, LCD_240_SCL_Pin, GPIO_PIN_RESET)	//CLK
-#define LCD_SCLK_Set() HAL_GPIO_WritePin(LCD_240_SCL_GPIO_Port, LCD_240_SCL_Pin, GPIO_PIN_SET)
+#define LCD_SCLK_Clr() PAout(5) = 0		//CLK
+#define LCD_SCLK_Set() PAout(5) = 1
 
-#define LCD_MOSI_Clr() HAL_GPIO_WritePin(LCD_240_SDA_GPIO_Port, LCD_240_SDA_Pin, GPIO_PIN_RESET)	//DIN
-#define LCD_MOSI_Set() HAL_GPIO_WritePin(LCD_240_SDA_GPIO_Port, LCD_240_SDA_Pin, GPIO_PIN_SET)
+#define LCD_MOSI_Clr() PAout(7) = 0		//DIN
+#define LCD_MOSI_Set() PAout(7) = 1
 
-#define LCD_RES_Clr()  HAL_GPIO_WritePin(LCD_240_RES_GPIO_Port, LCD_240_RES_Pin, GPIO_PIN_RESET)	//RES
-#define LCD_RES_Set()  HAL_GPIO_WritePin(LCD_240_RES_GPIO_Port, LCD_240_RES_Pin, GPIO_PIN_SET)
+#define LCD_RES_Clr()  PEout(0) = 0		//RES
+#define LCD_RES_Set()  PEout(0) = 1
 
-#define LCD_DC_Clr()   HAL_GPIO_WritePin(LCD_240_DC_GPIO_Port, LCD_240_DC_Pin, GPIO_PIN_RESET)		//DC
-#define LCD_DC_Set()   HAL_GPIO_WritePin(LCD_240_DC_GPIO_Port, LCD_240_DC_Pin, GPIO_PIN_SET)
+#define LCD_DC_Clr()   PEout(1) = 0		//DC
+#define LCD_DC_Set()   PEout(1) = 1
 
-#define LCD_CS_Clr()   HAL_GPIO_WritePin(LCD_240_CS_GPIO_Port, LCD_240_CS_Pin, GPIO_PIN_RESET)		//CS1
-#define LCD_CS_Set()   HAL_GPIO_WritePin(LCD_240_CS_GPIO_Port, LCD_240_CS_Pin, GPIO_PIN_SET)
+#define LCD_CS_Clr()   PEout(2) = 0		//CS1
+#define LCD_CS_Set()   PEout(2) = 1
 
-#define LCD_BLK_Clr()  HAL_GPIO_WritePin(LCD_240_BLK_GPIO_Port, LCD_240_BLK_Pin, GPIO_PIN_RESET)	//BLK
-#define LCD_BLK_Set()  HAL_GPIO_WritePin(LCD_240_BLK_GPIO_Port, LCD_240_BLK_Pin, GPIO_PIN_SET)
+#define LCD_BLK_Clr()  PEout(3) = 0		//BLK
+#define LCD_BLK_Set()  PEout(3) = 1
 
-#define ZK_MISO        HAL_GPIO_ReadPin(LCD_240_ZK_GPIO_Port,  LCD_240_ZK_Pin)						//MISO  读取字库数据引脚
+#define ZK_MISO        PAin(6)			//MISO  读取字库数据引脚
 
-#define ZK_CS_Clr()    HAL_GPIO_WritePin(LCD_240_ZK_CS_GPIO_Port, LCD_240_ZK_CS_Pin, GPIO_PIN_RESET)//CS2 字库片选
-#define ZK_CS_Set()    HAL_GPIO_WritePin(LCD_240_ZK_CS_GPIO_Port, LCD_240_ZK_CS_Pin, GPIO_PIN_SET)
+#define ZK_CS_Clr()    PEout(6) = 0		//CS2 字库片选
+#define ZK_CS_Set()    PEout(6) = 1
 
 
 //函数声明

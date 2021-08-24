@@ -5,15 +5,14 @@
 #ifdef F_STM32_F4
 
 extern u8 LCD_240_ParallelPort_SHOW_BUF[100];
-extern  u16 BACK_COLOR;   //背景色
 
 
-
+//用户定义
 #define USE_HORIZONTAL 0  //设置横屏或者竖屏显示 0或1为竖屏 2或3为横屏
 #define LCD_W 240
 #define LCD_H 240
 
-
+//写命令/数据
 #define OLED_CMD  0	//写命令
 #define OLED_DATA 1	//写数据
 
@@ -32,18 +31,16 @@ extern  u16 BACK_COLOR;   //背景色
 #define BROWN 			     0XBC40 //棕色
 #define BRRED 			     0XFC07 //棕红色
 #define GRAY  			     0X8430 //灰色
-//GUI颜色
 #define DARKBLUE      	 0X01CF	//深蓝色
 #define LIGHTBLUE      	 0X7D7C	//浅蓝色
 #define GRAYBLUE       	 0X5458 //灰蓝色
-//以上三色为PANEL的颜色
 #define LIGHTGREEN     	 0X841F //浅绿色
 #define LGRAY 			     0XC618 //浅灰色(PANNEL),窗体背景色
 #define LGRAYBLUE        0XA651 //浅灰蓝色(中间层颜色)
 #define LBBLUE           0X2B12 //浅棕蓝色(选择条目的反色)
 
 
-
+//函数声明
 void LCD_Clear(u16 Color);
 void LCD_Fill(u16 xsta,u16 ysta,u16 xend,u16 yend,u16 color);
 void LCD_DrawPoint(u16 x,u16 y,u16 color);
