@@ -15,7 +15,7 @@ extern u16 LCD_Show_Clear[240];
 
 void LCD_Show_FFT(float *str, u16 *str_clear);
 void OLED_Show_FFT(float *str);
-void LCD_Show_FFT_Clear(u16 *str_clear);
+
 
 #endif
 #endif

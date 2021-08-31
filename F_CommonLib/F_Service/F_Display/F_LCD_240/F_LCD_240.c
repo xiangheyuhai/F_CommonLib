@@ -581,11 +581,9 @@ void LCD_ShowPicture(u16 x,u16 y,u16 length,u16 width,const u8 pic[])
 ******************************************************************************/
 void LCD_Writ_Bus(u8 dat)
 {
-	#ifndef Service_Display_LCD_240_Hardware
 	u8 i;
-	#endif
 	#ifdef Service_Display_LCD_240_Hardware
-//	HAL_SPI_Transmit_DMA(&hspi1,&dat,1);
+	HAL_SPI_Transmit_DMA(&hspi1,&dat,1);
 	#else
 	for(i=0;i<8;i++)
 	{

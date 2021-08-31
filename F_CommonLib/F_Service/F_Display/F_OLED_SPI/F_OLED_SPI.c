@@ -4,9 +4,6 @@
 #include "./F_OLED_SPI_FONT.h"
 #include "F_Select/F_MyFunction.h"
 
-#ifdef Service_Display_OLED_SPI_Hardware
-extern SPI_HandleTypeDef hspi1;
-#endif
 
 
 unsigned char OLED_SPI_SHOW_BUF[30] = {0};
@@ -16,9 +13,7 @@ u8 OLED_SPI_GRAM[144][8];
 
 void OLED_SPI_WR_Byte(u8 dat,u8 cmd)
 {
-	#ifndef Service_Display_OLED_SPI_Hardware
 	u8 i;
-	#endif
 	if(cmd)
 		OLED_SPI_DC = 1;
 	else

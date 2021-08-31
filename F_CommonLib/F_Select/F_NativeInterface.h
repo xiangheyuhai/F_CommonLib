@@ -1,13 +1,12 @@
 #ifndef __F_NATIVEINTERFACE_H
 #define __F_NATIVEINTERFACE_H
-
 #include "main.h"
 #include "stdio.h"
 #include "string.h"
 #include "stdlib.h"
 #include "main.h"
-
-#include "./F_Select/F_MyFunction.h"
+#include "./F_MyFunction.h"
+#include "./all_config.h"
 
 
 //获取原来平台的一些函数，通过宏定义判断需要包括什么
@@ -15,6 +14,16 @@
 #include "stm32f4xx_hal_uart.h"
 #include "./F_Connectivity/F_USART/F_USART_F4/F_USART_F4.c"
 #include "./F_Connectivity/F_USART/F_USART_F4/F_USART_F4.h"
+#endif
+
+
+/*LED*/
+#ifdef F_LED_Blink
+#ifdef F_STM32_F4
+#include "stm32f4xx_hal_gpio.h"
+#include "./F_Service/F_Display/F_LED/F_LED.c"
+#include "./F_Service/F_Display/F_LED/F_LED.h"
+#endif
 #endif
 
 
@@ -30,8 +39,8 @@
 
 /*FSK*/
 #ifdef F_FSK
-#include "./F_Drv\F_FSK\F_FSK.c"
-#include "./F_Drv\F_FSK\F_FSK.h"
+#include "./F_Drv/F_FSK/F_FSK.c"
+#include "./F_Drv/F_FSK/F_FSK.h"
 #endif
 
 
@@ -51,7 +60,32 @@
 #ifdef Service_Display_LCD_480
 #include "./F_Service/F_Display/F_LCD_480/F_LCD_480.c"
 #include "./F_Service/F_Display/F_LCD_480/F_LCD_480.h"
-#include "./F_Service/F_Display/F_LCD_480/F_LCD_FONT.h"
+#endif
+
+
+/*TOUCH*/
+#ifdef Service_TOUCH
+#include "./F_Service/F_Display/F_TOUCH/F_TOUCH.c"
+#include "./F_Service/F_Display/F_TOUCH/F_TOUCH.h"
+#include "./F_Service/F_Display/F_TOUCH/F_TOUCH_Test.h"
+#include "./F_Service/F_Display/F_TOUCH/F_TOUCH_Drv_IIC/F_TOUCH_Drv_IIC.c"
+#include "./F_Service/F_Display/F_TOUCH/F_TOUCH_Drv_IIC/F_TOUCH_Drv_IIC.h"
+#include "./F_Service/F_Display/F_TOUCH/F_TOUCH_Drv_24CXX/F_TOUCH_Drv_24CXX.c"
+#include "./F_Service/F_Display/F_TOUCH/F_TOUCH_Drv_24CXX/F_TOUCH_Drv_24CXX.h"
+#include "./F_Service/F_Display/F_TOUCH/F_TOUCH_Drv_24CXX/F_TOUCH_Drv_24CXX_IIC.c"
+#include "./F_Service/F_Display/F_TOUCH/F_TOUCH_Drv_24CXX/F_TOUCH_Drv_24CXX_IIC.h"
+#ifdef Service_TOUCH_FT5206
+#include "./F_Service/F_Display/F_TOUCH/F_TOUCH_Drv_FT5206/F_TOUCH_Drv_FT5206.c"
+#include "./F_Service/F_Display/F_TOUCH/F_TOUCH_Drv_FT5206/F_TOUCH_Drv_FT5206.h"
+#endif
+#ifdef Service_TOUCH_GT9147
+#include "./F_Service/F_Display/F_TOUCH/F_TOUCH_Drv_GT9147/F_TOUCH_Drv_GT9147.c"
+#include "./F_Service/F_Display/F_TOUCH/F_TOUCH_Drv_GT9147/F_TOUCH_Drv_GT9147.h"
+#endif
+#ifdef Service_TOUCH_OTT2001A
+#include "./F_Service/F_Display/F_TOUCH/F_TOUCH_Drv_OTT2001A/F_TOUCH_Drv_OTT2001A.c"
+#include "./F_Service/F_Display/F_TOUCH/F_TOUCH_Drv_OTT2001A/F_TOUCH_Drv_OTT2001A.h"
+#endif
 #endif
 
 
@@ -65,33 +99,6 @@
 #include "./F_Service/F_Display/F_LCD_240/F_LCD_240.c"
 #include "./F_Service/F_Display/F_LCD_240/F_LCD_240.h"
 #include "./F_Service/F_Display/F_LCD_240/F_LCD_240_FONT.h"
-#endif
-
-
-/*LCD_240 带字库*/
-#ifdef Service_Display_LCD_240_FontLib
-#include "stm32f4xx_hal_gpio.h"
-#include "./F_Service/F_Display/F_LCD_240_FontLib/F_LCD_240_FontLib.c"
-#include "./F_Service/F_Display/F_LCD_240_FontLib/F_LCD_240_FontLib_Lib.c"
-#include "./F_Service/F_Display/F_LCD_240_FontLib/F_LCD_240_FontLib.h"
-#include "./F_Service/F_Display/F_LCD_240_FontLib/F_LCD_240_FontLib_FONT.h"
-#ifdef F_STM32_F4
-#include "F_Service/F_Display/F_LCD_240_FontLib/F_LCD_240_FontLib_Drv/F_LCD_240_FontLib_Drv_STM32F4/F_LCD_240_FontLib_Drv_STM32F4.c"
-#include "F_Service/F_Display/F_LCD_240_FontLib/F_LCD_240_FontLib_Drv/F_LCD_240_FontLib_Drv_STM32F4/F_LCD_240_FontLib_Drv_STM32F4.h"
-#endif
-#endif
-
-
-/*LCD_240 并口*/
-#ifdef Service_Display_LCD_240_ParallelPort
-#include "stm32f4xx_hal_gpio.h"
-#include "./F_Service/F_Display/F_LCD_240_ParallelPort/F_LCD_240_ParallelPort.c"
-#include "./F_Service/F_Display/F_LCD_240_ParallelPort/F_LCD_240_ParallelPort.h"
-#include "./F_Service/F_Display/F_LCD_240_ParallelPort/F_LCD_240_ParallelPort_FONT.h"
-#ifdef F_STM32_F4
-#include "F_Service/F_Display/F_LCD_240_ParallelPort/F_LCD_240_ParallelPort_Drv/F_LCD_240_ParallelPort_Drv_STM32F4/F_LCD_240_ParallelPort_Drv_STM32F4.c"
-#include "F_Service/F_Display/F_LCD_240_ParallelPort/F_LCD_240_ParallelPort_Drv/F_LCD_240_ParallelPort_Drv_STM32F4/F_LCD_240_ParallelPort_Drv_STM32F4.h"
-#endif
 #endif
 
 
@@ -144,6 +151,10 @@
 #include "stm32f4xx_hal_gpio.h"
 #include "F_Service/F_Input/F_Key/F_Key.c"
 #include "F_Service/F_Input/F_Key/F_Key.h"
+#ifdef F_STM32_F4
+#include "F_Service/F_Input/F_Key/F_Key_Drv/F_Key_Drv_STM32F4/F_Key_Drv_STM32F4.C"
+#include "F_Service/F_Input/F_Key/F_Key_Drv/F_Key_Drv_STM32F4/F_Key_Drv_STM32F4.h"
+#endif
 #endif
 
 
@@ -202,6 +213,7 @@
 #include "F_Chip/F_RDA5820/F_RDA5820.c"
 #include "F_Chip/F_RDA5820/F_RDA5820.h"
 #endif
+
 
 #ifdef W_RDA5820
 #include "F_Chip/W_RDA5820/RDA5820_drv.c"

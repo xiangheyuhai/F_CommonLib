@@ -1,6 +1,6 @@
 #ifndef  __FAN_INTERRUPT_H
 #define  __FAN_INTERRUPT_H
-#include "all_config.h"
+#include "./all_config_all.h"
 
 #ifdef F_LED_Blink
 u16 F_LED_COUNT = 0;
@@ -23,10 +23,10 @@ void SysTick_Handler(void)
 
 
 	#ifdef Service_Input_Key
-	F_KEY_COUNT++;
-	if (F_KEY_COUNT >= 10)
+	F_Key_Count++;
+	if (F_Key_Count >= 10)
 	{
-		F_KEY_COUNT = 0;		F_KEY_FLAG = 1;
+		F_Key_Count = 0;		F_Key_Flag = 1;
 	}
 	#endif
 
@@ -36,7 +36,8 @@ void SysTick_Handler(void)
 	if (F_LED_COUNT >= 500)
 	{
 		F_LED_COUNT = 0;
-		HAL_GPIO_TogglePin(LED_GPIO_Port, LED_Pin);
+		HAL_GPIO_TogglePin(LED0_GPIO_Port, LED0_Pin);
+		HAL_GPIO_TogglePin(LED1_GPIO_Port, LED1_Pin);
 	}
 	#endif
 
