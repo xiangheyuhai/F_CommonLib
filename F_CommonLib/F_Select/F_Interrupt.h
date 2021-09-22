@@ -33,7 +33,7 @@ void SysTick_Handler(void)
 
 	#ifdef F_LED_Blink
 	F_LED_COUNT++;
-	if (F_LED_COUNT >= 500)
+	if (F_LED_COUNT >= 1000)
 	{
 		F_LED_COUNT = 0;
 		HAL_GPIO_TogglePin(LED0_GPIO_Port, LED0_Pin);

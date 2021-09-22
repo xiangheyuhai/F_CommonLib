@@ -1,18 +1,19 @@
-#include "./F_LCD_240.h"
+#include "./F_LCD_240_ParallelPort.h"
 #include "all_config.h"
-#ifdef Service_Display_LCD_240
+#ifdef Service_Display_LCD_240_ParallelPort
 #ifdef F_STM32_F4
-#include "./F_LCD_240_Drv/F_LCD_240_Drv_STM32F4/F_LCD_240_Drv_STM32F4.c"
-#include "./F_LCD_240_Drv/F_LCD_240_Drv_STM32F4/F_LCD_240_Drv_STM32F4.h"
-#endif
-#include "./F_LCD_240_FONT.h"
+#include "./F_LCD_240_ParallelPort_FONT.h"
+#include "./F_LCD_240_ParallelPort_Drv/F_LCD_240_ParallelPort_Drv_STM32F4/F_LCD_240_ParallelPort_Drv_STM32F4.h"
 
 
-u16 BACK_COLOR;   //背景色
-u8 LCD_240_SHOW_BUF[100];
-#ifdef Service_Display_LCD_240_Hardware
-extern SPI_HandleTypeDef hspi1;
-#endif
+u8 LCD_240_ParallelPort_SHOW_BUF[100];
+
+void DATAOUT(u8 x)
+{
+	GPIOB->ODR &= 0xFF00;
+	GPIOB->ODR |= x;
+//	GPIOB->ODR=x; //数据输出
+}
 
 void LCD_Clear(u16 Color)
 {
@@ -26,6 +27,8 @@ void LCD_Clear(u16 Color)
 	    }
 	 }
 }
+
+
 /******************************************************************************
       函数说明：在指定区域填充颜色
       入口数据：xsta,ysta   起始坐标
@@ -578,32 +581,29 @@ void LCD_ShowPicture(u16 x,u16 y,u16 length,u16 width,const u8 pic[])
 }
 
 
+
 /******************************************************************************
-      函数说明：LCD串行数据写入函数
-      入口数据：dat  要写入的串行数据
+      函数说明：LCD并行数据写入函数
+      入口数据：dat  要写入的并行数据
       返回值：  无
 ******************************************************************************/
 void LCD_Writ_Bus(u8 dat)
 {
-	u8 i;
-	#ifdef Service_Display_LCD_240_Hardware
-	HAL_SPI_Transmit_DMA(&hspi1,&dat,1);
-	#else
-	for(i=0;i<8;i++)
-	{
-		LCD_SCLK_Clr();
-		if(dat&0x80)
-		{
-		   LCD_MOSI_Set();
-		}
-		else
-		{
-		   LCD_MOSI_Clr();
-		}
-		LCD_SCLK_Set();
-		dat<<=1;
-	}
-	#endif
+//	u8 i = 0;
+	LCD_CS_Clr();
+	LCD_WR_Clr();
+	DATAOUT(dat);
+//	GPIOB->ODR=dat;
+//	for(i=0;i<8;i++)
+//	{
+//		if(dat&0x80)
+//			PBout(i) = 1;
+//		else
+//			PBout(i) = 0;
+//		dat<<=1;
+//	}
+	LCD_WR_Set();
+	LCD_CS_Set();
 }
 
 
@@ -614,6 +614,7 @@ void LCD_Writ_Bus(u8 dat)
 ******************************************************************************/
 void LCD_WR_DATA8(u8 dat)
 {
+	LCD_DC_Set();//写数据
 	LCD_Writ_Bus(dat);
 }
 
@@ -625,6 +626,7 @@ void LCD_WR_DATA8(u8 dat)
 ******************************************************************************/
 void LCD_WR_DATA(u16 dat)
 {
+	LCD_DC_Set();//写数据
 	LCD_Writ_Bus(dat>>8);
 	LCD_Writ_Bus(dat);
 }
@@ -639,7 +641,6 @@ void LCD_WR_REG(u8 dat)
 {
 	LCD_DC_Clr();//写命令
 	LCD_Writ_Bus(dat);
-	LCD_DC_Set();//写数据
 }
 
 
@@ -693,22 +694,24 @@ void LCD_Address_Set(u16 x1,u16 y1,u16 x2,u16 y2)
 	}
 }
 
-void LCD_240_Init(void)
+
+/******************************************************************************
+      函数说明：LCD初始化函数
+      入口数据：无
+      返回值：  无
+******************************************************************************/
+void LCD_240_ParallelPort_Init(void)
 {
-	LCD_240_Drv_Init();//初始化GPIO
+ 	LCD_240_ParallelPort_Drv_Init();
 
-	LCD_RES_Clr();//复位
-	HAL_Delay(100);
+ 	LCD_RES_Clr();;
+ 	HAL_Delay(200);
 	LCD_RES_Set();
-	HAL_Delay(100);
+	HAL_Delay(20);
+//	OLED_BLK_Set();
+	HAL_Delay(200);
 
-	LCD_BLK_Set();//打开背光
-	HAL_Delay(100);
-
-	//************* Start Initial Sequence **********//
-	LCD_WR_REG(0x11); //Sleep out
-	HAL_Delay(120);              //Delay 120ms
-	//************* Start Initial Sequence **********//
+//************* Start Initial Sequence **********//
 	LCD_WR_REG(0x36);
 	if(USE_HORIZONTAL==0)LCD_WR_DATA8(0x00);
 	else if(USE_HORIZONTAL==1)LCD_WR_DATA8(0xC0);
@@ -781,12 +784,19 @@ void LCD_240_Init(void)
 	LCD_WR_DATA8(0x1F);
 	LCD_WR_DATA8(0x20);
 	LCD_WR_DATA8(0x23);
+
 	LCD_WR_REG(0x21);
+
+	LCD_WR_REG(0x11);
+	//Delay (120);
 
 	LCD_WR_REG(0x29);
 }
 
 
+
+
+#endif
 #endif
 
 

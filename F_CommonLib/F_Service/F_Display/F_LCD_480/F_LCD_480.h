@@ -1,6 +1,6 @@
 #ifndef __F_LCD_480__H
 #define __F_LCD_480__H
-//#include "all_config.h"
+#include "all_config.h"
 #ifdef Service_Display_LCD_480
 #ifdef F_STM32_F4
 //#include "./F_Service/F_Display/F_LCD_480/F_LCD_FONT.h"

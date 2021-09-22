@@ -8,8 +8,9 @@ void F_Init(void)
 {
 	printf("F_Init_Began\r\n");
 
+
 	/*LED*/
-	#ifdef F_LED_Blink
+	#ifdef F_LED
 	LED_Init();
 	printf("LED_Ok\r\n");
 	#endif
@@ -32,11 +33,12 @@ void F_Init(void)
 	/*中断*/
 	#ifdef F_Interrupt
 	#ifdef F_LED_Blink
-	HAL_GPIO_WritePin(GPIOF, GPIO_PIN_9, 0);
-	HAL_GPIO_WritePin(GPIOF, GPIO_PIN_10, 1);
+	HAL_GPIO_TogglePin(LED0_GPIO_Port, LED0_Pin);
+	HAL_GPIO_TogglePin(LED1_GPIO_Port, LED1_Pin);
 	printf("Interrupt_Ok\r\n");
 	#endif
 	#endif
+
 
 	/*串口*/
 	#ifdef F_STM32_F4
@@ -57,10 +59,12 @@ void F_Init(void)
 	HAL_UART_Receive_IT(&huart1, (uint8_t *)&aRxBuffer, 1);
 	#endif
 
+
 	Refresh_AD9959_Data();
 	printf("HMI_Ok\r\n");
 	#endif
 	#endif
+
 
 	/*OLED_IIC*/
 	#ifdef Service_Display_OLED_IIC
@@ -75,10 +79,40 @@ void F_Init(void)
 	/*OLED_SPI*/
 	#ifdef Service_Display_OLED_SPI
 	OLED_SPI_Init();
-	sprintf((char *)OLED_SPI_SHOW_BUF, "FJX_TEST_123");
+	sprintf((char *)OLED_SPI_SHOW_BUF, "FJX_TEST");
 	OLED_SPI_ShowString(0,1, OLED_SPI_SHOW_BUF, 16, 1);
 	OLED_SPI_Refresh();
 	printf("OLED_SPI_Ok\r\n");
+	#endif
+
+
+	/*240*240LCD*/
+	#ifdef Service_Display_LCD_240
+	LCD_240_Init();		//初始化
+	LCD_Clear(BLACK);	//清屏
+	sprintf((char *)LCD_240_SHOW_BUF, "FJX_TEST");
+	LCD_ShowString(0, 0, LCD_240_SHOW_BUF, WHITE, BLACK, 24, 0);
+	printf("240*240LCD_Ok\r\n");
+	#endif
+
+
+	/*240*240LCD 带字库*/
+	#ifdef Service_Display_LCD_240_FontLib
+	LCD_240_FontLib_Init();
+	LCD_Clear(WHITE);
+	sprintf((char *)LCD_240_FontLib_SHOW_BUF, "FJX_TEST");
+	LCD_ShowString(0, 0, LCD_240_FontLib_SHOW_BUF, RED, WHITE,16,0);
+	printf("240*240LCD_FontLib_Ok\r\n");
+	#endif
+
+
+	/*240*240LCD 并口*/
+	#ifdef Service_Display_LCD_240_ParallelPort
+	LCD_240_ParallelPort_Init();
+	LCD_Clear(WHITE);
+	sprintf((char *)LCD_240_ParallelPort_SHOW_BUF, "FJX_TEST");
+	LCD_ShowString(0, 0, LCD_240_ParallelPort_SHOW_BUF, RED, WHITE,16,0);
+	printf("240*240LCD_ParallelPort_Ok\r\n");
 	#endif
 
 
@@ -102,16 +136,6 @@ void F_Init(void)
 //		TOUCH_Test();//电容屏测试，这里便是个死循环！！！
 	printf("TOUCH_Ok\r\n");
 	#endif
-	#endif
-
-
-	/*240*240LCD*/
-	#ifdef Service_Display_LCD_240
-	LCD_240_Init();		//初始化
-	LCD_Clear(BLACK);	//清屏
-	sprintf((char *)LCD_240_SHOW_BUF, "FJX_TEST");
-	LCD_ShowString(0, 0, LCD_240_SHOW_BUF, WHITE, BLACK, 24, 0);
-	printf("240*240LCD_Ok\r\n");
 	#endif
 
 

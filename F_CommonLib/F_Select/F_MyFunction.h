@@ -1,7 +1,9 @@
 #ifndef  __F_MY_FUNCTION_H__
 #define  __F_MY_FUNCTION_H__
 
-
+/*
+ * 延时1um
+ * */
 void F_HAL_Delay_us(uint32_t us)
 {
     uint32_t Delay = us * 168/4;
@@ -11,6 +13,18 @@ void F_HAL_Delay_us(uint32_t us)
     }
     while (Delay --);
 }
+
+
+/*
+ * 得到时间
+ * */
+uint32_t F_Get_Times(void)
+{
+	uint32_t times_now = 0;
+	times_now = HAL_GetTick();
+	return times_now;
+}
+
 
 /*得到两个数的绝对值
  * */

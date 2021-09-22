@@ -45,26 +45,33 @@
 
 
 //*******************************选择外设*******************************//
-#define Service_Input_Key			//按键
+//#define Service_Display_HMI					//串口屏
 
-//#define Service_Input_Keypad		//矩阵键盘
-
-//#define Service_Display_LCD_240	//LCD_240
+//#define Service_Display_LCD_240	            //LCD_240
 //#define Service_Display_LCD_240_Hardware
 
-#define Service_Display_LCD_480	//LCD_480
+//#define Service_Display_LCD_240_FontLib	    //LCD240*240 带字库
+//#define Service_Display_LCD_240_FontLib_Hardware
 
-#define Service_TOUCH
-#define Service_TOUCH_FT5206
-#define Service_TOUCH_GT9147
-#define Service_TOUCH_OTT2001A
+// #define Service_Display_LCD_240_ParallelPort	//LCD240*240 并口
+
+//#define Service_Display_LCD_480             	//LCD_480
+
+#define F_LED									//LED
 
 //#define Service_Display_OLED_IIC	//OLED_IIC
 
 //#define Service_Display_OLED_SPI	//OLED_SPI
 //#define Service_Display_OLED_SPI_Hardware
 
-//#define Service_Display_HMI		//串口屏
+//#define Service_TOUCH
+//#define Service_TOUCH_FT5206
+//#define Service_TOUCH_GT9147
+//#define Service_TOUCH_OTT2001A
+
+//#define Service_Input_Key			            //按键
+
+//#define Service_Input_Keypad		            //矩阵键盘
 
 //#define Service_UserCode			//用户函数
 

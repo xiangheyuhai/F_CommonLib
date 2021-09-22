@@ -1,71 +1,21 @@
 #include "./F_FFT_STM32F4.h"
-#include "arm_math.h"
+#include "all_config.h"
 #ifdef F_FFT
 #ifdef F_STM32_F4
+#include "arm_math.h"
+
 
 float FFT_InputBuf[FFT_LENGTH*2];	//FFT输入数组
 float FFT_OutputBuf[FFT_LENGTH];	//FFT输出数组
+float FFT_Result[FFT_LENGTH/2-1];	//FFT输出数组,31
 u16 ADC_1_Value_DMA[FFT_LENGTH] = {0};
 u16 LCD_Show_Clear[240] = {0};
 
 
 
-//void LCD_Show_FFT(float *str, u16 *str_clear)
-//{
-//  u16 i = 0;
-//  u16 high = 0;
-//  for (i = 0; i < 210; i++)
-//  {
-//    if (str[2*i] > str[2*i+1])//前一个点大于后一个点的幅�????
-//    {
-//      high = (u16)(str[2*i] * 0.00125);
-//      if(high >= 240)
-//        high = 240;
-//      str_clear[i] = high;
-//      LCD_DrawLine(i, 240-high, i, 240, WHITE);
-//    }
-//    else
-//    {
-//      high = (u16)(str[2*i+1] * 0.00125);
-//      if(high >= 240)
-//        high = 240;
-//      str_clear[i] = high;
-//      LCD_DrawLine(i, 240-high, i, 240, WHITE);
-//    }
-//  }
-//
-//  for (i = 0; i < 30; i++)
-//  {
-//    if (str[420+3*i] > str[420+3*i+1] && str[420+3*i] > str[420+3*i+2])
-//    {
-//      high = (u16)(str[420+3*i] * 0.00125);
-//      if(high >= 240)
-//        high = 240;
-//      str_clear[i] = high;
-//      LCD_DrawLine(i, 240-high, i, 240, WHITE);
-//    }
-//
-//    else if (str[420+3*i+1] > str[420+3*i] && str[420+3*i+1] > str[420+3*i+2])
-//    {
-//      high = (u16)(str[420+3*i+1] * 0.00125);
-//      if(high >= 240)
-//        high = 240;
-//      str_clear[i] = high;
-//      LCD_DrawLine(i, 240-high, i, 240, WHITE);
-//    }
-//    else
-//    {
-//      high = (u16)(str[3*i+2] * 0.00125);
-//      if(high >= 240)
-//        high = 240;
-//      str_clear[i] = high;
-//      LCD_DrawLine(i, 240-high, i, 240, WHITE);
-//    }
-//  }
-//}
 
 
-
+#ifdef Service_Display_OLED_SPI
 void OLED_Show_FFT(float *str)
 {
   u16 i, j = 0;
@@ -78,14 +28,16 @@ void OLED_Show_FFT(float *str)
 	  for (j = 0; j < 4; j++)
 		  temp_str[j] = str[4*i+j];
 	  arm_mean_f32(temp_str,4,&Result);//计算得到相邻四个点的平均值
-	  high = (u16)(0.000125 * Result);
-	  high = (u16)(0.000125 * Result);
+	  high = (u16)(0.000125 * Result * 8);
 	  if(high >= 30)
 		  high = 30;
 //	  printf("%d, %f\r\n",i, Result);
+	  if (i == 0)
+		  high = 0;
 	  OLED_SPI_DrawLine(i, 32-high, i, 32+high, 1);
   }
 }
+#endif
 
 
 void FFT_TEST(arm_cfft_radix4_instance_f32 scfft)

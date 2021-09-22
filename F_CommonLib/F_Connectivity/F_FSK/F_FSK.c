@@ -4,9 +4,9 @@
 
 
 /*
-  * 发帧头
-  * 高电平时间是16100-16600us
-  * 包络检波之后的结果是高点平持续30ms，低电平持续5ms
+ * 发帧头
+ * 高电平时间是16100-16600us
+ * 包络检波之后的结果是高点平持续30ms，低电平持续5ms
  *
  * */
 void FSK_SEND_HEAD(void)
@@ -16,10 +16,12 @@ void FSK_SEND_HEAD(void)
 	FSK_Set_Fre(0);
 	HAL_Delay(5);
 }
+
+
 /*
-  * 发帧尾
-  * 高电平时间是16100-16600us
-  * 包络检波之后的结果是高点平持续50ms，低电平持续20ms
+ * 发帧尾
+ * 高电平时间是16100-16600us
+ * 包络检波之后的结果是高点平持续50ms，低电平持续20ms
  * */
 void FSK_SEND_END(void)
 {
@@ -28,10 +30,12 @@ void FSK_SEND_END(void)
 	FSK_Set_Fre(0);
 	HAL_Delay(20);
 }
+
+
 /*
-  * 发1
-  * 高电平时间是11100-11500us
-  * 包络检波之后的结果是高点平持续20ms，低电平持续5ms
+ * 发1
+ * 高电平时间是11100-11500us
+ * 包络检波之后的结果是高点平持续20ms，低电平持续5ms
  * */
 void FSK_SEND_1(void)
 {
@@ -40,6 +44,7 @@ void FSK_SEND_1(void)
 	FSK_Set_Fre(0);
 	HAL_Delay(5);
 }
+
 
 /*
   * 发0
@@ -71,8 +76,8 @@ void FSK_Set_Fre(u8 i)		//入口为1--10K, 入口为0--15K
 
 
 /*
-  * 发送一个字节--加校验
-  * 入口参数为的八位数组是把char型的变量拆分为01后的结果
+ * 发送一个字节--加校验
+ * 入口参数为的八位数组是把char型的变量拆分为01后的结果
  *
  * */
 void FSK_Send_Char(unsigned char  data_hex, u8* array)
@@ -95,6 +100,7 @@ void FSK_Send_Char(unsigned char  data_hex, u8* array)
 		data_hex <<= 1;    //左移1位
 	}
 }
+
 
 /*
  * FSK接收八位数据，转化为相应的ASCII码

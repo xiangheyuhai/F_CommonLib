@@ -1,18 +1,14 @@
-#include "./F_LCD_240.h"
+#include "./F_LCD_240_FontLib.h"
 #include "all_config.h"
-#ifdef Service_Display_LCD_240
+#ifdef Service_Display_LCD_240_FontLib
 #ifdef F_STM32_F4
-#include "./F_LCD_240_Drv/F_LCD_240_Drv_STM32F4/F_LCD_240_Drv_STM32F4.c"
-#include "./F_LCD_240_Drv/F_LCD_240_Drv_STM32F4/F_LCD_240_Drv_STM32F4.h"
-#endif
-#include "./F_LCD_240_FONT.h"
-
+#include "./F_LCD_240_FontLib_FONT.h"
+#include "./F_LCD_240_FontLib_Drv/F_LCD_240_FontLib_Drv_STM32F4/F_LCD_240_FontLib_Drv_STM32F4.h"
 
 u16 BACK_COLOR;   //背景色
-u8 LCD_240_SHOW_BUF[100];
-#ifdef Service_Display_LCD_240_Hardware
+u8 LCD_240_FontLib_SHOW_BUF[100];
 extern SPI_HandleTypeDef hspi1;
-#endif
+
 
 void LCD_Clear(u16 Color)
 {
@@ -585,8 +581,12 @@ void LCD_ShowPicture(u16 x,u16 y,u16 length,u16 width,const u8 pic[])
 ******************************************************************************/
 void LCD_Writ_Bus(u8 dat)
 {
+	#ifndef Service_Display_LCD_240_FontLib_Hardware
 	u8 i;
-	#ifdef Service_Display_LCD_240_Hardware
+	#endif
+
+	LCD_CS_Clr();
+	#ifdef Service_Display_LCD_240_FontLib_Hardware
 	HAL_SPI_Transmit_DMA(&hspi1,&dat,1);
 	#else
 	for(i=0;i<8;i++)
@@ -604,6 +604,7 @@ void LCD_Writ_Bus(u8 dat)
 		dat<<=1;
 	}
 	#endif
+	LCD_CS_Set();
 }
 
 
@@ -693,9 +694,10 @@ void LCD_Address_Set(u16 x1,u16 y1,u16 x2,u16 y2)
 	}
 }
 
-void LCD_240_Init(void)
+
+void LCD_240_FontLib_Init(void)
 {
-	LCD_240_Drv_Init();//初始化GPIO
+	LCD_240_FontLib_Drv_Init();//初始化GPIO
 
 	LCD_RES_Clr();//复位
 	HAL_Delay(100);
@@ -785,8 +787,7 @@ void LCD_240_Init(void)
 
 	LCD_WR_REG(0x29);
 }
-
-
+#endif
 #endif
 
 

@@ -1,4 +1,6 @@
 #include "F_LED.h"
+#ifdef F_LED
+#ifdef F_STM32_F4
 
 
 void LED_Init(void)
@@ -22,4 +24,5 @@ void LED_Init(void)
 	HAL_GPIO_WritePin(LED0_GPIO_Port,  LED0_Pin,  GPIO_PIN_SET);
 	HAL_GPIO_WritePin(LED1_GPIO_Port,  LED1_Pin,  GPIO_PIN_SET);
 }
-
+#endif
+#endif

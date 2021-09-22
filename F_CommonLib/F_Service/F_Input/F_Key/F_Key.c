@@ -1,5 +1,5 @@
 #include "./F_Key.h"
-//#include "all_config.h"
+#include "all_config.h"
 #ifdef Service_Input_Key
 #include "./F_Key_Drv/F_Key_Drv_STM32F4/F_Key_Drv_STM32F4.h"
 /*
