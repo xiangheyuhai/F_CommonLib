@@ -18,7 +18,8 @@
 //#define F_AD9954
 //#define F_ADF4351
 //#define F_AD8302
-// #define F_RDA5820
+#define F_RDA5820
+#define F_RDA5820_IIC_Hardware
 //#define W_RDA5820
 
 

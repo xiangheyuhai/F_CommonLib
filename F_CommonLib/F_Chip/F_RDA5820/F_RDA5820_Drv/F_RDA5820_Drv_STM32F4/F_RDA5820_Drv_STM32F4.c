@@ -1,4 +1,5 @@
 #include "./F_RDA5820_Drv_STM32F4.h"
+#include "all_config.h"
 #ifdef F_RDA5820
 #ifdef F_STM32_F4
 
@@ -8,6 +9,7 @@ void RDA5820_IIC_Drv_Init(void)
 {
 	GPIO_InitTypeDef GPIO_InitStructure = {0},GPIO_InitStructure_1 = {0};
 
+	__HAL_RCC_GPIOB_CLK_ENABLE();
 	__HAL_RCC_GPIOE_CLK_ENABLE();
 
     GPIO_InitStructure.Pin = RDA5820_DATA_Pin;
@@ -31,6 +33,7 @@ void RDA5820_SDA_Input(void)
     GPIO_InitTypeDef GPIO_InitStructure = {0};
 
     __HAL_RCC_GPIOE_CLK_ENABLE();
+    __HAL_RCC_GPIOE_CLK_ENABLE();
 
     GPIO_InitStructure.Pin = RDA5820_DATA_Pin;
     GPIO_InitStructure.Mode = GPIO_MODE_INPUT;
@@ -44,6 +47,7 @@ void RDA5820_SDA_Output(void)
 {
     GPIO_InitTypeDef GPIO_InitStructure = {0};
 
+    __HAL_RCC_GPIOB_CLK_ENABLE();
     __HAL_RCC_GPIOE_CLK_ENABLE();
 
     GPIO_InitStructure.Pin = RDA5820_DATA_Pin;

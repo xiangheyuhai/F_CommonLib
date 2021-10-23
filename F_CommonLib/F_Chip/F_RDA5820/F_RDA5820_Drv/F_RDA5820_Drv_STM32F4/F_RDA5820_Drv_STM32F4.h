@@ -6,16 +6,17 @@
 
 
 /*IO口宏定义*/
-#define RDA5820_CLK_Port GPIOE
-#define RDA5820_DATA_Port GPIOE
-
-#define RDA5820_CLK_Pin GPIO_PIN_1
-#define RDA5820_DATA_Pin GPIO_PIN_0
+#define RDA5820_CLK_Port GPIOB
+#define RDA5820_CLK_Pin GPIO_PIN_6
 
 
-#define RDA5820_IIC_SCL    PEout(1) //SCL
-#define RDA5820_IIC_SDA    PEout(0) //SDA
-#define RDA5820_READ_SDA   PEin(0)  //输入SDA
+#define RDA5820_DATA_Port GPIOB
+#define RDA5820_DATA_Pin GPIO_PIN_7
+
+
+#define RDA5820_IIC_SCL    PBout(6) //SCL
+#define RDA5820_IIC_SDA    PBout(7) //SDA
+#define RDA5820_READ_SDA   PBin(7)  //输入SDA
 
 
 void RDA5820_IIC_Drv_Init(void);

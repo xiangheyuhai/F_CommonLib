@@ -1,8 +1,13 @@
 #include "./F_RDA5820.h"
+#include "all_config.h"
 #ifdef F_RDA5820
 
+#ifdef F_RDA5820_IIC_Hardware
+extern I2C_HandleTypeDef hi2c1;
+#endif
 
-u16 RDA5820_Fre = 10000;		//单位是10KHz  默认为93.6Mhz
+
+u16 RDA5820_Fre = 9800;		//单位是10KHz  默认为93.6Mhz
 
 //初始化
 //0,初始化成功;
@@ -10,7 +15,9 @@ u16 RDA5820_Fre = 10000;		//单位是10KHz  默认为93.6Mhz
 u8 RDA5820_Init(void)
 {
 	u16 id;
+	#ifndef F_RDA5820_IIC_Hardware
 	RDA5820_IIC_Drv_Init();						//初始化IIC口
+	#endif
 	id=RDA5820_RD_Reg(RDA5820_R00);	//读取ID =0X5805
 	printf("RDA5820_ID:%x\r\n", id);
 	if(id==0X5805)					//读取ID正确
@@ -30,9 +37,11 @@ u8 RDA5820_Init(void)
  	}else return 1;//初始化失败
 	return 0;
 }
+
 //写RDA5820寄存器
 void RDA5820_WR_Reg(u8 addr,u16 val)
 {
+	#ifndef F_RDA5820_IIC_Hardware
 	RDA5820_IIC_Start();
 	RDA5820_IIC_Send_Byte(RDA5820_WRITE);	//发送写命令
 	RDA5820_IIC_Wait_Ack();
@@ -43,10 +52,31 @@ void RDA5820_WR_Reg(u8 addr,u16 val)
 	RDA5820_IIC_Send_Byte(val&0XFF);     	//发送低字节
 	RDA5820_IIC_Wait_Ack();
  	RDA5820_IIC_Stop();						//产生一个停止条件
+	#else
+
+	HAL_I2C_Master_Transmit(&hi2c1, addr, val>>8, 1, 1000);
+	HAL_I2C_Master_Transmit(&hi2c1, addr, val&0XFF, 1, 1000);
+// 	HAL_I2C_Mem_Write(&hi2c3,RDA5820_WRITE,addr,I2C_MEMADD_SIZE_8BIT,val>>8,2,10);
+	#endif
 }
+
+//	RDA5820_u8 data[3];
+//	RDA5820_u16 Temp=val;
+//	data[0]=addr;
+//	data[1]=Temp>>8;
+//	data[2]=val&0xFF;
+//	HAL_I2C_Master_Transmit(&hi2c3,RDA5820_WRITE,data,3,10);
+	//HAL_I2C_Mem_Write(&hi2c3,RDA5820_WRITE,addr,I2C_MEMADD_SIZE_8BIT,data,2,10);
+
+
+
+
+
+
 //读RDA5820寄存器
 u16 RDA5820_RD_Reg(u8 addr)
 {
+	#ifndef F_RDA5820_IIC_Hardware
 	u16 res;
 	RDA5820_IIC_Start();
 	RDA5820_IIC_Send_Byte(RDA5820_WRITE);	//发送写命令
@@ -60,8 +90,32 @@ u16 RDA5820_RD_Reg(u8 addr)
   	res<<=8;
   	res|=RDA5820_IIC_Read_Byte(0);     		//读低字节,发送NACK
   	RDA5820_IIC_Stop();						//产生一个停止条件
-	return res;						//返回读到的数据
+  	return res;								//返回读到的数据
+	#else
+
+  	u16 res;
+  	u8 data[10],Temp=0x88;
+  	HAL_I2C_Master_Transmit(&hi2c1,RDA5820_WRITE,addr,1,10);
+  	HAL_I2C_Master_Receive(&hi2c1,RDA5820_READ,data,2,10);
+  	res = data[0]<<8;
+  	res |= data[1];
+	return res;								//返回读到的数据
+	#endif
 }
+//	RDA5820_u8 data[10],Temp=0x88;
+//	RDA5820_u16 temp;
+//
+//	HAL_I2C_Mem_Read(&hi2c3,RDA5820_WRITE,addr,I2C_MEMADD_SIZE_8BIT,data,2,10);
+////	HAL_I2C_Master_Transmit(&hi2c1,RDA5820_WRITE,addr,1,10);
+////	HAL_I2C_Master_Receive(&hi2c1,RDA5820_WRITE,data,2,10);
+//	temp=data[0]<<8;
+//	temp|=data[1];
+//	//printf("data: %2x,%2x\n\r",data[0],data[1]);
+//	return temp;						//返回读到的数据
+
+
+
+
 //设置RDA5820为RX模式
 void RDA5820_RX_Mode(void)
 {

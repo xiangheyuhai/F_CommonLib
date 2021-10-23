@@ -1,6 +1,7 @@
 #include "./F_RDA5820_Drv.h"
+#include "all_config.h"
 #ifdef F_RDA5820
-#include "./F_RDA5820_Drv_STM32F4/F_RDA5820_Drv_STM32F4.h"
+
 
 
 
@@ -76,7 +77,7 @@ void RDA5820_IIC_NAck(void)
 //1，有应答
 //0，无应答
 void RDA5820_IIC_Send_Byte(u8 txd)
-{                        
+{
     u8 t;   
     RDA5820_SDA_Output();
     RDA5820_IIC_SCL = 0;//拉低时钟开始数据传输
@@ -89,8 +90,10 @@ void RDA5820_IIC_Send_Byte(u8 txd)
 		F_HAL_Delay_us(2);
 		RDA5820_IIC_SCL = 0;
 		F_HAL_Delay_us(2);
-    }	 
-} 	    
+    }
+}
+
+
 //读1个字节，ack=1时，发送ACK，ack=0，发送nACK
 u8 RDA5820_IIC_Read_Byte(unsigned char ack)
 {
