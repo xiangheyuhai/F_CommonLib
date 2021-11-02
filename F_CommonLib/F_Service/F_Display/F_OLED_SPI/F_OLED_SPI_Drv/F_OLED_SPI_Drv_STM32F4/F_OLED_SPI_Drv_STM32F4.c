@@ -1,7 +1,8 @@
 #include "./F_OLED_SPI_Drv_STM32F4.h"
+#include "all_config.h"
 #ifdef Service_Display_OLED_SPI
 #ifdef F_STM32_F4
-#include "all_config.h"
+
 
 
 
@@ -10,6 +11,7 @@ void OLED_SPI_Drv_Init(void)
 	GPIO_InitTypeDef GPIO_InitStructure = {0};
 
 	__HAL_RCC_GPIOE_CLK_ENABLE();
+	__HAL_RCC_GPIOA_CLK_ENABLE();
 
     GPIO_InitStructure.Pin = OLED_SPI_SCL_Pin;
     GPIO_InitStructure.Mode = GPIO_MODE_OUTPUT_PP;

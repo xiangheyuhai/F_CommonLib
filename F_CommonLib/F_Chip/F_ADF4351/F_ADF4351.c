@@ -27,17 +27,18 @@ void ADF4351_GPIO_Output_Init(void)
 {
   GPIO_InitTypeDef GPIO_InitStruct = {0};
 
+  __HAL_RCC_GPIOB_CLK_ENABLE();
   __HAL_RCC_GPIOD_CLK_ENABLE();
 
   /*Configure GPIO pin Output Level */
-  HAL_GPIO_WritePin(GPIOD, ADF4351_OUTPUT_DATA_Pin|ADF4351_CLK_Pin|ADF4351_CE_Pin|ADF4351_LE_Pin, GPIO_PIN_RESET);
+  HAL_GPIO_WritePin(ADF4351_ALL_GPIO_Port, ADF4351_OUTPUT_DATA_Pin|ADF4351_CLK_Pin|ADF4351_CE_Pin|ADF4351_LE_Pin, GPIO_PIN_RESET);
 
   /*Configure GPIO pins : ADF4351_UTPUT_DATA_Pin ADF4351_CLK_Pin ADF4351_CE_Pin ADF4351_LE_Pin */
   GPIO_InitStruct.Pin = ADF4351_OUTPUT_DATA_Pin|ADF4351_CLK_Pin|ADF4351_CE_Pin|ADF4351_LE_Pin;
   GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
   GPIO_InitStruct.Pull = GPIO_NOPULL;
   GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_VERY_HIGH;
-  HAL_GPIO_Init(GPIOD, &GPIO_InitStruct);
+  HAL_GPIO_Init(ADF4351_ALL_GPIO_Port, &GPIO_InitStruct);
 
 }
 
@@ -45,10 +46,11 @@ void ADF4351_GPIO_Iutput_Init(void)
 {
   GPIO_InitTypeDef GPIO_InitStruct = {0};
 
+  __HAL_RCC_GPIOB_CLK_ENABLE();
   __HAL_RCC_GPIOD_CLK_ENABLE();
 
   /*Configure GPIO pin Output Level */
-  HAL_GPIO_WritePin(GPIOD, ADF4351_CLK_Pin|ADF4351_CE_Pin|ADF4351_LE_Pin, GPIO_PIN_RESET);
+  HAL_GPIO_WritePin(ADF4351_ALL_GPIO_Port, ADF4351_CLK_Pin|ADF4351_CE_Pin|ADF4351_LE_Pin, GPIO_PIN_RESET);
 
   /*Configure GPIO pin : ADF4351_INPUT_DATA_Pin */
   GPIO_InitStruct.Pin = ADF4351_INPUT_DATA_Pin;
@@ -61,7 +63,7 @@ void ADF4351_GPIO_Iutput_Init(void)
   GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
   GPIO_InitStruct.Pull = GPIO_NOPULL;
   GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_VERY_HIGH;
-  HAL_GPIO_Init(GPIOD, &GPIO_InitStruct);
+  HAL_GPIO_Init(ADF4351_ALL_GPIO_Port, &GPIO_InitStruct);
 
 }
 

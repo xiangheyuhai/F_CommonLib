@@ -13,6 +13,17 @@ void SysTick_Handler(void)
 {
 	HAL_IncTick();
 
+	#ifdef Service_UserCode
+	ADF4351_Show_1_Count++;
+	if (ADF4351_Show_1_Count >= 400)
+	{
+		ADF4351_Show_1_Count = 0;
+		ADF4351_Show_1_Flag++;
+		if (ADF4351_Show_1_Flag > 2)
+			ADF4351_Show_1_Flag = 0;
+	}
+	#endif
+
 	#ifdef Service_Input_Keypad
 	F_KEYPAD_COUNT++;
 	if (F_KEYPAD_COUNT >= 200)
@@ -33,11 +44,15 @@ void SysTick_Handler(void)
 
 	#ifdef F_LED_Blink
 	F_LED_COUNT++;
-	if (F_LED_COUNT >= 2000)
+	if (F_LED_COUNT >= 1000)
 	{
 		F_LED_COUNT = 0;
+		#ifdef F_LED_Blink_LED0
 		HAL_GPIO_TogglePin(LED0_GPIO_Port, LED0_Pin);
+		#endif
+		#ifdef F_LED_Blink_LED1
 		HAL_GPIO_TogglePin(LED1_GPIO_Port, LED1_Pin);
+		#endif
 	}
 	#endif
 

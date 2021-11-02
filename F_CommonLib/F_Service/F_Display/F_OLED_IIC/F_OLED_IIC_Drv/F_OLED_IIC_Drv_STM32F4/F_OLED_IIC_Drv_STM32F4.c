@@ -1,7 +1,8 @@
 #include "./F_OLED_IIC_Drv_STM32F4.h"
+#include "all_config.h"
 #ifdef Service_Display_OLED_IIC
 #ifdef F_STM32_F4
-#include "all_config.h"
+
 
 
 void OLED_IIC_Drv_Init(void)

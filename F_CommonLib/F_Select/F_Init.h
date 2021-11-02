@@ -10,7 +10,7 @@ void F_Init(void)
 
 
 	/*LED*/
-	#ifdef F_LED
+	#ifdef F_LED_Blink
 	LED_Init();
 	printf("LED_Ok\r\n");
 	#endif
@@ -33,8 +33,12 @@ void F_Init(void)
 	/*中断*/
 	#ifdef F_Interrupt
 	#ifdef F_LED_Blink
+	#ifdef F_LED_Blink_LED0
 	HAL_GPIO_TogglePin(LED0_GPIO_Port, LED0_Pin);
+	#endif
+	#ifdef F_LED_Blink_LED1
 	HAL_GPIO_TogglePin(LED1_GPIO_Port, LED1_Pin);
+	#endif
 	printf("Interrupt_Ok\r\n");
 	#endif
 	#endif
@@ -79,9 +83,12 @@ void F_Init(void)
 	/*OLED_SPI*/
 	#ifdef Service_Display_OLED_SPI
 	OLED_SPI_Init();
-	sprintf((char *)OLED_SPI_SHOW_BUF, "FJX_TEST");
-	OLED_SPI_ShowString(0,1, OLED_SPI_SHOW_BUF, 16, 1);
-	OLED_SPI_Refresh();
+//	sprintf((char *)OLED_SPI_SHOW_BUF, "FJX_TEST");
+//	OLED_SPI_ShowString(0,1, OLED_SPI_SHOW_BUF, 16, 1);
+//
+//	sprintf((char *)OLED_SPI_SHOW_BUF, "FJX_TEST2");
+//	OLED_SPI_ShowString(0,16, OLED_SPI_SHOW_BUF, 16, 1);
+//	OLED_SPI_Refresh();
 	printf("OLED_SPI_Ok\r\n");
 	#endif
 
@@ -163,7 +170,7 @@ void F_Init(void)
 	/*ADF4351*/
 	#ifdef F_ADF4351
 	F_ADF4351_Init();
-	ADF4351WriteFreq(300);//300KHz
+	ADF4351WriteFreq(ADF4351_Set_Fre);//单位是MHz
 	printf("ADF4351_Ok\r\n");
 	#endif
 

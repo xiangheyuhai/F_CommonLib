@@ -4,25 +4,27 @@
 #ifdef Service_Input_Key
 #ifdef F_STM32_F4
 
-/*
- * 若修改的端口不是GPIOE,则需要修改.c中三个初始化中的端口定义
- * 即修改__HAL_RCC_GPIOE_CLK_ENABLE();
- * */
-#define KEY_1_Pin 		 GPIO_PIN_3
+
+/***********************************USER修改***********************************/
+#define F_Key_Num 5					//按键个数
+#define F_Key_Valid_Status   0		//有效状态，即按下之后的电平状态
+#define F_Key_Invalid_Status 1		//无效状态，即按下之前的电平状态
+
+#define KEY_1_Pin 		 GPIO_PIN_6
 #define KEY_1_GPIO_Port  GPIOB
 
-#define KEY_2_Pin 		 GPIO_PIN_4
+#define KEY_2_Pin 		 GPIO_PIN_5
 #define KEY_2_GPIO_Port  GPIOB
 
-#define KEY_3_Pin 		 GPIO_PIN_5
+#define KEY_3_Pin 		 GPIO_PIN_4
 #define KEY_3_GPIO_Port  GPIOB
 
-#define KEY_4_Pin 		 GPIO_PIN_6
+#define KEY_4_Pin 		 GPIO_PIN_3
 #define KEY_4_GPIO_Port  GPIOB
 
-#define KEY_5_Pin 		 GPIO_PIN_7
-#define KEY_5_GPIO_Port  GPIOB
-
+#define KEY_5_Pin 		 GPIO_PIN_15
+#define KEY_5_GPIO_Port  GPIOA
+/***********************************USER修改***********************************/
 
 #define KEY1_READ HAL_GPIO_ReadPin(KEY_1_GPIO_Port,  KEY_1_Pin)
 #define KEY2_READ HAL_GPIO_ReadPin(KEY_2_GPIO_Port,  KEY_2_Pin)

@@ -176,11 +176,15 @@
 
 
 /*LED*/
-#ifdef F_LED
+#ifdef F_LED_Blink
 #ifdef F_STM32_F4
 #include "stm32f4xx_hal_gpio.h"
 #include "./F_Service/F_Display/F_LED/F_LED.c"
 #include "./F_Service/F_Display/F_LED/F_LED.h"
+#ifdef F_STM32_F4
+#include "./F_Service/F_Display/F_LED/F_LED_Drv/F_LED_Drv_STM32F4/F_LED_Drv_STM32F4.c"
+#include "./F_Service/F_Display/F_LED/F_LED_Drv/F_LED_Drv_STM32F4/F_LED_Drv_STM32F4.h"
+#endif
 #endif
 #endif
 
@@ -278,8 +282,6 @@
 
 /*用户函数*/
 #ifdef Service_UserCode
-//#include "stm32f4xx_hal_adc.h"
-//#include "stm32f4xx_hal_gpio.h"
 #include "F_User/F_UserCode.c"
 #include "F_User/F_UserCode.h"
 #endif

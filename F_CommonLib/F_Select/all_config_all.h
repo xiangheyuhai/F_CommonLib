@@ -4,6 +4,8 @@
 //*******************************选择服务*******************************//
 #define F_Interrupt
 #define F_LED_Blink
+#define F_LED_Blink_LED0
+//#define F_LED_Blink_LED1
 
 
 //*******************************选择MCU*******************************//
@@ -16,10 +18,10 @@
 //#define F_AD9959_Sweep_Fre
 //#define F_AD9959_Sweep_Pha
 //#define F_AD9954
-//#define F_ADF4351
+#define F_ADF4351
 //#define F_AD8302
-#define F_RDA5820
-#define F_RDA5820_IIC_Hardware
+//#define F_RDA5820
+//#define F_RDA5820_IIC_Hardware
 //#define W_RDA5820
 
 
@@ -39,8 +41,8 @@
 //*******************************选择协议*******************************//
 //#define F_IIC
 //#define F_SPI
-#define F_USART
-#define F_Printf_USART1
+//#define F_USART
+//#define F_Printf_USART1
 //#define F_Printf_USART2
 //#define F_FSK
 
@@ -58,11 +60,11 @@
 
 //#define Service_Display_LCD_480             	//LCD_480
 
-#define F_LED									//LED
+//#define F_LED									//LED
 
 //#define Service_Display_OLED_IIC	//OLED_IIC
 
-//#define Service_Display_OLED_SPI	//OLED_SPI
+#define Service_Display_OLED_SPI	//OLED_SPI
 //#define Service_Display_OLED_SPI_Hardware
 
 //#define Service_TOUCH
@@ -70,11 +72,11 @@
 //#define Service_TOUCH_GT9147
 //#define Service_TOUCH_OTT2001A
 
-//#define Service_Input_Key			            //按键
+#define Service_Input_Key			            //按键
 
 //#define Service_Input_Keypad		            //矩阵键盘
 
-//#define Service_UserCode			//用户函数
+#define Service_UserCode			//用户函数
 
 
 
