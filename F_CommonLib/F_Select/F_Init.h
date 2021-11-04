@@ -30,6 +30,13 @@ void F_Init(void)
 	#endif
 
 
+	/*矩阵按键*/
+	#ifdef SERVICE_KEYPAD
+	Keypad_Init();
+	printf("W_Keypad_Ok\r\n");
+	#endif
+
+
 	/*中断*/
 	#ifdef F_Interrupt
 	#ifdef F_LED_Blink
@@ -54,8 +61,8 @@ void F_Init(void)
 
 
 	/*串口屏*/
-	#ifdef F_STM32_F4
 	#ifdef Service_Display_HMI
+	#ifdef F_STM32_F4
 	#ifdef F_Printf_USART1
 	HAL_UART_Receive_IT(&huart1, (uint8_t *)&aRxBuffer, 1);
 	#endif
@@ -70,6 +77,15 @@ void F_Init(void)
 	#endif
 
 
+	#ifdef Service_Display_NOKIA_5110
+	#ifdef F_STM32_F4
+	NOKIA_5110_Init();
+	NOKIA_5110_Clear();
+	NOKIA_5110_Write_english_string(0,0,"2021.11.04_test");
+	printf("NOKIA_5110_Ok\r\n");
+	#endif
+	#endif
+
 	/*OLED_IIC*/
 	#ifdef Service_Display_OLED_IIC
 	OLED_IIC_Init();
@@ -83,13 +99,20 @@ void F_Init(void)
 	/*OLED_SPI*/
 	#ifdef Service_Display_OLED_SPI
 	OLED_SPI_Init();
-//	sprintf((char *)OLED_SPI_SHOW_BUF, "FJX_TEST");
-//	OLED_SPI_ShowString(0,1, OLED_SPI_SHOW_BUF, 16, 1);
-//
-//	sprintf((char *)OLED_SPI_SHOW_BUF, "FJX_TEST2");
-//	OLED_SPI_ShowString(0,16, OLED_SPI_SHOW_BUF, 16, 1);
-//	OLED_SPI_Refresh();
+	sprintf((char *)OLED_SPI_SHOW_BUF, "FJX_TEST");
+	OLED_SPI_ShowString(0,1, OLED_SPI_SHOW_BUF, 16, 1);
+
+	sprintf((char *)OLED_SPI_SHOW_BUF, "FJX_TEST2");
+	OLED_SPI_ShowString(0,16, OLED_SPI_SHOW_BUF, 16, 1);
+	OLED_SPI_Refresh();
 	printf("OLED_SPI_Ok\r\n");
+	#endif
+
+
+	/*SEG_595*/
+	#ifdef Service_Display_SEG595
+	SEG595_Init();
+	printf("SEG_595_Ok\r\n");
 	#endif
 
 
@@ -172,6 +195,13 @@ void F_Init(void)
 	F_ADF4351_Init();
 	ADF4351WriteFreq(ADF4351_Set_Fre);//单位是MHz
 	printf("ADF4351_Ok\r\n");
+	#endif
+
+
+	#ifdef F_MB1504
+	MB1504_Init();
+	MB1504_SetF(32,MB1504_Fre);
+	printf("MB1504_Ok\r\n");
 	#endif
 
 

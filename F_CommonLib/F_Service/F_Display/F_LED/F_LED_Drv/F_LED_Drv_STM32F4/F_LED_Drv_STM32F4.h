@@ -5,8 +5,8 @@
 #ifdef F_STM32_F4
 
 
-#define LED0_Pin 	    GPIO_PIN_12
-#define LED0_GPIO_Port  GPIOA
+#define LED0_Pin 	    GPIO_PIN_9
+#define LED0_GPIO_Port  GPIOF
 #define LED1_Pin 	    GPIO_PIN_10
 #define LED1_GPIO_Port  GPIOF
 

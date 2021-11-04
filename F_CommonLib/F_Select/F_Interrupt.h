@@ -5,7 +5,7 @@
 #ifdef F_LED_Blink
 u16 F_LED_COUNT = 0;
 #endif
-
+u8 SEG_Count = 0;
 
 
 #ifdef F_Interrupt
@@ -23,6 +23,7 @@ void SysTick_Handler(void)
 			ADF4351_Show_1_Flag = 0;
 	}
 	#endif
+
 
 	#ifdef Service_Input_Keypad
 	F_KEYPAD_COUNT++;
@@ -53,6 +54,13 @@ void SysTick_Handler(void)
 		#ifdef F_LED_Blink_LED1
 		HAL_GPIO_TogglePin(LED1_GPIO_Port, LED1_Pin);
 		#endif
+//		SEG_Count++;
+//		SEG_DATA[0] = SEG_Count;
+//		SEG_DATA[1] = SEG_Count;
+//		SEG_DATA[2] = SEG_Count;
+//		SEG_DATA[3] = SEG_Count;
+//		if (SEG_Count > 9)
+//			SEG_Count = 0;
 	}
 	#endif
 

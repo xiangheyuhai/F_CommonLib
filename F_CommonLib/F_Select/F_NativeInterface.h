@@ -71,6 +71,16 @@
 #endif
 
 
+/*MB1504*/
+#ifdef F_MB1504
+#include "stm32f4xx_hal_gpio.h"
+#include "F_Chip/F_MB1504/F_MB1504.c"
+#include "F_Chip/F_MB1504/F_MB1504.h"
+#include "F_Chip/F_MB1504/F_MB1504_Drv/F_MB1504_Drv_STM32F4/F_MB1504_Drv_STM32F4.c"
+#include "F_Chip/F_MB1504/F_MB1504_Drv/F_MB1504_Drv_STM32F4/F_MB1504_Drv_STM32F4.h"
+#endif
+
+
 /*F_RDA5820*/
 #ifdef F_RDA5820
 #ifdef F_STM32_F4
@@ -189,6 +199,20 @@
 #endif
 
 
+/*NOKIA_5110*/
+#ifdef Service_Display_NOKIA_5110
+#include "stm32f4xx_hal_gpio.h"
+#include "./F_Service/F_Display/F_NOKIA_5110/F_NOKIA_5110.c"
+#include "./F_Service/F_Display/F_NOKIA_5110/F_NOKIA_5110.h"
+#include "./F_Service/F_Display/F_NOKIA_5110/F_NOKIA_5110_Font.h"
+#ifdef F_STM32_F4
+#include "./F_Service/F_Display/F_NOKIA_5110/F_NOKIA_5110_Drv/F_NOKIA_5110_Drv_STM32F4/F_NOKIA_5110_Drv_STM32F4.c"
+#include "./F_Service/F_Display/F_NOKIA_5110/F_NOKIA_5110_Drv/F_NOKIA_5110_Drv_STM32F4/F_NOKIA_5110_Drv_STM32F4.h"
+#endif
+#endif
+
+
+
 /*OLED_IIC*/
 #ifdef Service_Display_OLED_IIC
 #include "stm32f4xx_hal_gpio.h"
@@ -222,6 +246,18 @@
 #include "F_Service/F_Display/F_OLED_SPI/F_OLED_SPI.c"
 #include "F_Service/F_Display/F_OLED_SPI/F_OLED_SPI.h"
 #include "F_Service/F_Display/F_OLED_SPI/F_OLED_SPI_FONT.h"
+#endif
+
+
+/*OLED_SPI*/
+#ifdef Service_Display_SEG595
+#include "stm32f4xx_hal_gpio.h"
+#include "F_Service/F_Display/F_SEG595/F_SEG595.c"
+#include "F_Service/F_Display/F_SEG595/F_SEG595.h"
+#ifdef F_STM32_F4
+#include "F_Service/F_Display/F_SEG595/F_SEG595_Drv/F_SEG595_Drv_STM32F4/F_SEG595_Drv_STM32F4.c"
+#include "F_Service/F_Display/F_SEG595/F_SEG595_Drv/F_SEG595_Drv_STM32F4/F_SEG595_Drv_STM32F4.h"
+#endif
 #endif
 
 
@@ -270,6 +306,19 @@
 #include "F_Service/F_Input/F_Keypad/F_Keypad_F4/F_Keypad_F4.c"
 #include "F_Service/F_Input/F_Keypad/F_Keypad_F4/F_Keypad_F4.h"
 #endif
+
+
+/*矩阵按键*/
+#ifdef SERVICE_KEYPAD
+#include "stm32f4xx_hal_gpio.h"
+#include "./F_Service/F_Input/Keypad/Keypad.c"
+#include "./F_Service/F_Input/Keypad/Keypad.h"
+#ifdef F_STM32_F4
+#include "./F_Service/F_Input/Keypad/Keypad_Drv/Keypad_Drv_STM32F4/Keypad_Drv_STM32F4.c"
+#include "./F_Service/F_Input/Keypad/Keypad_Drv/Keypad_Drv_STM32F4/Keypad_Drv_STM32F4.h"
+#endif
+#endif
+
 
 
 /***********************************************F_Timer***********************************************/

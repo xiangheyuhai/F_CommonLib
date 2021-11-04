@@ -9,6 +9,7 @@ void LED_Drv_Init(void)
 	GPIO_InitTypeDef GPIO_InitStructure = {0};
 
 	__HAL_RCC_GPIOA_CLK_ENABLE();
+	__HAL_RCC_GPIOF_CLK_ENABLE();
 
 	#ifdef F_LED_Blink_LED0
     GPIO_InitStructure.Pin = LED0_Pin;
