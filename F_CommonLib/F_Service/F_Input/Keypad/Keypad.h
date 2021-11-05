@@ -11,13 +11,13 @@ typedef enum
   KEY_Press
 }KEY_STATE;
 
-#define DELAY_MAX_TIME 120
+#define DELAY_MAX_TIME 100
 #define PULL_UP 1 //up set 1
 #define ROW_NUM '4'
 #define COL_NUM '4'
 
 
-extern u8 Keypad_Num;
+extern int Keypad_Num;
 extern char Keypad_Mean;
 
 void initKeypad(void (*callback)(unsigned char x, unsigned char y));

@@ -13,17 +13,6 @@ void SysTick_Handler(void)
 {
 	HAL_IncTick();
 
-	#ifdef Service_UserCode
-	ADF4351_Show_1_Count++;
-	if (ADF4351_Show_1_Count >= 400)
-	{
-		ADF4351_Show_1_Count = 0;
-		ADF4351_Show_1_Flag++;
-		if (ADF4351_Show_1_Flag > 2)
-			ADF4351_Show_1_Flag = 0;
-	}
-	#endif
-
 
 	#ifdef Service_Input_Keypad
 	F_KEYPAD_COUNT++;

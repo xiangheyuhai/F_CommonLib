@@ -5,6 +5,7 @@
 
 
 /*使用方法
+ * 放到while(1)中
 scanKeypad();
 initKeypad(keypad_callback);
 if (Keypad_Num != 0)
@@ -13,7 +14,7 @@ if (Keypad_Num != 0)
   Keypad_Num = 0;Keypad_Mean = 0;
 }
 * * * * */
-u8 Keypad_Num = 0;
+int Keypad_Num = 0;
 char Keypad_Mean = 0;
 
 unsigned char CONTROL  = PULL_UP;
@@ -171,7 +172,7 @@ void keypad_callback(unsigned char x, unsigned char y)
 			break;
 		}
 	}
-		break;
+	break;
 	}
 }
 

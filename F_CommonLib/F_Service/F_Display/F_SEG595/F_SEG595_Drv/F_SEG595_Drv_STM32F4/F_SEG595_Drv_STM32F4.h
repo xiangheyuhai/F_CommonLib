@@ -5,6 +5,8 @@
 #ifdef F_STM32_F4
 
 
+
+
 #define SEG595_SCLK_Pin 		GPIO_PIN_11
 #define SEG595_SCLK_GPIO_Port  	GPIOE
 
@@ -13,6 +15,12 @@
 
 #define SEG595_RCLK_Pin 		GPIO_PIN_13
 #define SEG595_RCLK_GPIO_Port  	GPIOE
+
+
+#define SEG595_SCLK PEout(11)
+#define SEG595_DIO  PEout(15)
+#define SEG595_RCLK PEout(13)
+
 
 void SEG595_Drv_Init(void);
 

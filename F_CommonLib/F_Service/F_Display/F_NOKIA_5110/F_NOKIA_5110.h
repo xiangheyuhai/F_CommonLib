@@ -3,7 +3,7 @@
 #include "all_config.h"
 #ifdef Service_Display_NOKIA_5110
 
-
+extern char NOKIA_5110_SHOW_BUF[30];
 
 
 

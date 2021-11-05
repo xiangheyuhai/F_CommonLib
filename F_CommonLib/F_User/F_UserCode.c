@@ -1,221 +1,104 @@
 #include "./F_UserCode.h"
 #include "all_config.h"
 #ifdef Service_UserCode
-
-u8 ADF4351_Page_Flag = 1;		//第一页，第二页
-u8 ADF4351_Show_1_Flag = 0;		//标志频率的位数  1--修改千位，2--修改百位，3--修改十位，4--修改个位
-u16 ADF4351_Show_1_Count = 0;
-u16 ADF4351_Set_Fre = 100;
-u8 ADF4351_Set_Fre_Flag = 1;
+#include "./F_Service/F_Display/F_NOKIA_5110/F_NOKIA_5110.h"
+#include "./F_Connectivity/F_FSK/F_FSK.h"
 
 
-/*初始化后显示*/
-void ADF4351_Show_0(void)
+u8 Send_Num[5] = {0};
+char Send_Num_Char[5] = {' ', ' ', ' ', ' ', ' '};
+u8 Send_Flag = 0;
+u8 Send_Flag_Control = 0;//0--不发送, 1--发送
+
+
+void Show_Message_Begin(void)
 {
-	  sprintf((char *)OLED_SPI_SHOW_BUF, "    ADF4351     ");
-	  OLED_SPI_ShowString(0,0, OLED_SPI_SHOW_BUF, 16, 1);
+	NOKIA_5110_Clear();
 
-	  sprintf((char *)OLED_SPI_SHOW_BUF, "Key:+,-,<-,->,Re");
-	  OLED_SPI_ShowString(0,16, OLED_SPI_SHOW_BUF, 16, 1);
+	sprintf((char *)NOKIA_5110_SHOW_BUF, "  Input Num  ");
+	NOKIA_5110_Write_english_string(0, 0, NOKIA_5110_SHOW_BUF);
 
-	  sprintf((char *)OLED_SPI_SHOW_BUF, "  Fre:%1d,%3dMHz  ", ADF4351_Set_Fre/1000, ADF4351_Set_Fre-ADF4351_Set_Fre/1000*1000);
-	  OLED_SPI_ShowString(0,32, OLED_SPI_SHOW_BUF, 16, 1);
-
-	  sprintf((char *)OLED_SPI_SHOW_BUF, "Press any to set");
-	  OLED_SPI_ShowString(0,48, OLED_SPI_SHOW_BUF, 16, 1);
-	  OLED_SPI_Refresh();
+	sprintf((char *)NOKIA_5110_SHOW_BUF, "  %c  %c  %c  %c  ", Send_Num_Char[1], Send_Num_Char[2], Send_Num_Char[3], Send_Num_Char[4]);
+	NOKIA_5110_Write_english_string(0, 2, NOKIA_5110_SHOW_BUF);
 }
 
 
-/*显示第一页的闪烁内容*/
-void ADF4351_Show_1(void)
+void Send_Num_Pro(void)
 {
-	if (ADF4351_Show_1_Flag == 1)
+	u8 i = 0;
+	if ((Keypad_Num==1 || Keypad_Num==2 || Keypad_Num==3 || Keypad_Num==5 || Keypad_Num==6 || Keypad_Num==7 || Keypad_Num==9 || Keypad_Num==10 || Keypad_Num==11 || Keypad_Num==14) && Send_Flag>=0 && Send_Flag<4)
 	{
-		  sprintf((char *)OLED_SPI_SHOW_BUF, "Press any to set");
-		  OLED_SPI_ShowString(0,48, OLED_SPI_SHOW_BUF, 16, 1);
-		  OLED_SPI_Refresh();
-	}
-	else if(ADF4351_Show_1_Flag == 2)
-	{
-		  sprintf((char *)OLED_SPI_SHOW_BUF, "                ");
-		  OLED_SPI_ShowString(0,48, OLED_SPI_SHOW_BUF, 16, 1);
-		  OLED_SPI_Refresh();
-	}
-	else
-	{}
-}
+		Send_Flag++;
+		sprintf((char *)NOKIA_5110_SHOW_BUF, "              ");
+		NOKIA_5110_Write_english_string(0, 4, NOKIA_5110_SHOW_BUF);
 
-
-/*第二页--设置频率*/
-void ADF4351_Show_2(void)
-{
-	if (F_key_Value)
-	{
-		if (F_key_Value == 5)				//光标左移
+		switch(Keypad_Num)
 		{
-			F_key_Value = 0;
-			ADF4351_Set_Fre_Flag--;
-			if(ADF4351_Set_Fre_Flag <= 0)
-				ADF4351_Set_Fre_Flag = 4;
-			ADF4351_Set_Show_Cursor();
+		case 1:		Send_Num_Char[Send_Flag] = '1';		Send_Num[Send_Flag-1] = 1;	break;
+		case 2:		Send_Num_Char[Send_Flag] = '2';		Send_Num[Send_Flag-1] = 2;	break;
+		case 3:		Send_Num_Char[Send_Flag] = '3';		Send_Num[Send_Flag-1] = 3;	break;
+		case 5:		Send_Num_Char[Send_Flag] = '4';		Send_Num[Send_Flag-1] = 4;	break;
+		case 6:		Send_Num_Char[Send_Flag] = '5';		Send_Num[Send_Flag-1] = 5;	break;
+		case 7:		Send_Num_Char[Send_Flag] = '6';		Send_Num[Send_Flag-1] = 6;	break;
+		case 9:		Send_Num_Char[Send_Flag] = '7';		Send_Num[Send_Flag-1] = 7;	break;
+		case 10:	Send_Num_Char[Send_Flag] = '8';		Send_Num[Send_Flag-1] = 8;	break;
+		case 11:	Send_Num_Char[Send_Flag] = '9';		Send_Num[Send_Flag-1] = 9;	break;
+		case 14:	Send_Num_Char[Send_Flag] = '0';		Send_Num[Send_Flag-1] = 0;	break;
+		default:break;
 		}
-
-		if (F_key_Value == 7)				//光标右移
-		{
-			F_key_Value = 0;
-			ADF4351_Set_Fre_Flag++;
-			if(ADF4351_Set_Fre_Flag >= 5)
-				ADF4351_Set_Fre_Flag = 1;
-			ADF4351_Set_Show_Cursor();
-		}
-
-		if (F_key_Value == 1 || F_key_Value == 3)	//数字加减
-		{
-			ADF4351_Set_Show_Fre();
-			ADF4351WriteFreq(ADF4351_Set_Fre);//设置最终的频率，单位是MHz
-		}
+		sprintf((char *)NOKIA_5110_SHOW_BUF, "  %c  %c  %c  %c  ", Send_Num_Char[1], Send_Num_Char[2], Send_Num_Char[3], Send_Num_Char[4]);
+		NOKIA_5110_Write_english_string(0, 2, NOKIA_5110_SHOW_BUF);//一行可以显示14个字符
+		Keypad_Num = 0;//必须清0
 	}
 
-}
-
-/*显示设置时的光标*/
-void ADF4351_Set_Show_Cursor(void)
-{
-	switch(ADF4351_Set_Fre_Flag)
+	//确认发送
+	if (Keypad_Num == 16 && Send_Flag == 4)
 	{
-	case 1:
-		  sprintf((char *)OLED_SPI_SHOW_BUF, "      -         ");
-		  OLED_SPI_ShowString(0,52, OLED_SPI_SHOW_BUF, 16, 1);
-		  OLED_SPI_Refresh();
-		  break;
+		Send_Flag++;
+		Send_Flag_Control = 1;//开始循环发送
+		for (i = 0; i < 4; i++)
+			printf("%d", Send_Num[i]);
+		printf("\r\n");
+		sprintf((char *)NOKIA_5110_SHOW_BUF, "   Sending    ");
+		NOKIA_5110_Write_english_string(0, 4, NOKIA_5110_SHOW_BUF);
+		Keypad_Num = 0;//必须清0
+	}
 
-	case 2:
-		  sprintf((char *)OLED_SPI_SHOW_BUF, "        -       ");
-		  OLED_SPI_ShowString(0,52, OLED_SPI_SHOW_BUF, 16, 1);
-		  OLED_SPI_Refresh();
-		  break;
-		break;
+	//停止发送
+	if (Keypad_Num == 4 && Send_Flag == 5)
+	{
+		Send_Flag = 0;
+		Send_Flag_Control = 0;//停止发送
+		for (i = 1; i <= 4; i++)
+			Send_Num_Char[i] = ' ';
 
-	case 3:
-		  sprintf((char *)OLED_SPI_SHOW_BUF, "         -      ");
-		  OLED_SPI_ShowString(0,52, OLED_SPI_SHOW_BUF, 16, 1);
-		  OLED_SPI_Refresh();
-		  break;
-		break;
+		sprintf((char *)NOKIA_5110_SHOW_BUF, "              ");
+		NOKIA_5110_Write_english_string(0, 2, NOKIA_5110_SHOW_BUF);
 
-	case 4:
-		  sprintf((char *)OLED_SPI_SHOW_BUF, "          -     ");
-		  OLED_SPI_ShowString(0,52, OLED_SPI_SHOW_BUF, 16, 1);
-		  OLED_SPI_Refresh();
-		  break;
-		break;
-
-	default:
-		break;
+		sprintf((char *)NOKIA_5110_SHOW_BUF, "   Send End   ");
+		NOKIA_5110_Write_english_string(0, 4, NOKIA_5110_SHOW_BUF);
+		Keypad_Num = 0;//必须清0
 	}
 }
 
 
-/*显示设置时的频率*/
-void ADF4351_Set_Show_Fre(void)
+void Send_Control(void)
 {
-	ADF4351_Get_Fre();	//得到设置后的频率
-	if (ADF4351_Set_Fre < 35)
-		ADF4351_Set_Fre = 35;
-	if (ADF4351_Set_Fre > 4400)
-		ADF4351_Set_Fre = 4400;
-
-	/*频率没有问题之后再显示出来*/
-	sprintf((char *)OLED_SPI_SHOW_BUF, "  Fre:%1d,%03dMHz  ", ADF4351_Set_Fre/1000, ADF4351_Set_Fre - ADF4351_Set_Fre/1000*1000);
-	OLED_SPI_ShowString(0,36, OLED_SPI_SHOW_BUF, 16, 1);
-	OLED_SPI_Refresh();
-}
-
-
-/*刷新得到每次改变后的频率*/
-void ADF4351_Get_Fre(void)
-{
-	int ge, shi, bai, qian = 0;
-
-	/*分别得到现在的实际频率*/
-	qian = ADF4351_Set_Fre / 1000;
-	bai  = ADF4351_Set_Fre /100 % 10;
-	shi  = ADF4351_Set_Fre /10 % 10;
-	ge   = ADF4351_Set_Fre % 10;
-
-	switch(ADF4351_Set_Fre_Flag)
+	if (Send_Flag_Control)//1--发送
 	{
-	/*修改千位*/
-	case 1:
-		if (F_key_Value == 1)				//数字加
-		{
-			F_key_Value = 0;
-			qian++;
-			if(qian > 4)	qian = 0;
-		}
-		else if (F_key_Value == 3)			//数字减
-		{
-			F_key_Value = 0;
-			qian--;
-			if(qian < 0)	qian = 4;
-		}
-		ADF4351_Set_Fre = qian*1000 + bai*100 + shi*10 + ge;
-		break;
-
-	/*修改百位*/
-	case 2:
-		if (F_key_Value == 1)				//数字加
-		{
-			F_key_Value = 0;
-			bai++;
-			if(bai > 9)	bai = 0;
-		}
-		else if (F_key_Value == 3)			//数字减
-		{
-			F_key_Value = 0;
-			bai--;
-			if(bai < 0)	bai = 9;
-		}
-		ADF4351_Set_Fre = qian*1000 + bai*100 + shi*10 + ge;
-		break;
-
-	/*修改十位*/
-	case 3:
-		if (F_key_Value == 1)				//数字加
-		{
-			F_key_Value = 0;
-			shi++;
-			if(shi > 9)	shi = 0;
-		}
-		else if (F_key_Value == 3)			//数字减
-		{
-			F_key_Value = 0;
-			shi--;
-			if(shi < 0)	shi = 9;
-		}
-		ADF4351_Set_Fre = qian*1000 + bai*100 + shi*10 + ge;
-		break;
-
-	/*修改个位*/
-	case 4:
-		if (F_key_Value == 1)				//数字加
-		{
-			F_key_Value = 0;
-			ge++;
-			if(ge > 9)	ge = 0;
-		}
-		else if (F_key_Value == 3)			//数字减
-		{
-			F_key_Value = 0;
-			ge--;
-			if(ge < 0)	ge = 9;
-		}
-		ADF4351_Set_Fre = qian*1000 + bai*100 + shi*10 + ge;
-		break;
-
-	default:
-		break;
+		Send_Flag_Control = 0;
+		FSK_Send_8421BCD_4(Send_Num);
 	}
 }
+
+
+
+
+
+
+
+
+
+
+
 #endif

@@ -1,8 +1,8 @@
 #ifndef __F_NOKIA_5110_FONT_H
 #define __F_NOKIA_5110_FONT_H
 #include "all_config.h"
-
 #ifdef Service_Display_NOKIA_5110
+
 
 // 6 x 8 font
 // 1 pixel space at left and bottom

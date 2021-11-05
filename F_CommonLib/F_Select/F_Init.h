@@ -8,6 +8,11 @@ void F_Init(void)
 {
 	printf("F_Init_Began\r\n");
 
+	/*DAC*/
+	#ifdef F_DAC
+	DAC_Init();
+	printf("DAC_Ok\r\n");
+	#endif
 
 	/*LED*/
 	#ifdef F_LED_Blink
@@ -106,6 +111,13 @@ void F_Init(void)
 	OLED_SPI_ShowString(0,16, OLED_SPI_SHOW_BUF, 16, 1);
 	OLED_SPI_Refresh();
 	printf("OLED_SPI_Ok\r\n");
+	#endif
+
+
+	/*SEG_TM1637*/
+	#ifdef Service_Display_SEG_TM1637
+	SEG_TM1637_DATA_Config(1,1,22,1,0);
+	SEG_TM1637_DATA_Display(8);
 	#endif
 
 
@@ -239,18 +251,6 @@ void F_Init(void)
 	RDA5820_Freq_Set(RDA5820_Fre);	//设置频率
 	RDA5820_Vol_Set(15);		//设置声音最大
 	RDA5820_Show_Msg();
-	#endif
-
-
-	#ifdef F_DAC
-	#ifdef F_DAC_Sin_Wave
-	for(DAC_SIN_Count = 0; DAC_SIN_Count < DAC_SIN_Length; DAC_SIN_Count++)
-	{
-		DAC_SIN_TAB[DAC_SIN_Count] = 2047.0*(sin(2*3.1415926*DAC_SIN_Count/DAC_SIN_Length)+1)*8/10+500;	//防止出现底部失真;
-	}
-	HAL_DAC_Start_DMA(&hdac,DAC_CHANNEL_1,(uint32_t *)&DAC_SIN_TAB[0],DAC_SIN_Length,DAC_ALIGN_12B_R);
-	#endif
-	printf("DAC_Ok\r\n");
 	#endif
 
 

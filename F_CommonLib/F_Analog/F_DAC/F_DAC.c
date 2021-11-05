@@ -1,13 +1,12 @@
 #include "./F_DAC.h"
-
-
+#include "all_config.h"
 #ifdef F_DAC
 
-u16 DAC_SIN_Count = 0;
-u16 DAC_SIN_TAB[DAC_SIN_Length] = {0};
 
-
-
+void DAC_Init(void)
+{
+	DAC_Drv_Init();
+}
 
 
 

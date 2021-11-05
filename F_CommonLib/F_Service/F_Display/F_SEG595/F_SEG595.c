@@ -2,8 +2,12 @@
 #include "all_config.h"
 #ifdef Service_Display_SEG595
 #include "math.h"
+#include "./F_SEG595_Drv/F_SEG595_Drv_STM32F4/F_SEG595_Drv_STM32F4.h"
 
 
+/*使用方法，放到循环中
+SEG595_Display(SEG_DATA);
+ * */
 
 uint8_t SEG_DATA[4] = {8,9,6,7};
 

@@ -20,8 +20,12 @@
 /*DAC*/
 #ifdef F_DAC
 #include "stm32f4xx_hal_dac.h"
-#include "F_Analog/F_DAC/F_DAC.c"
-#include "F_Analog/F_DAC/F_DAC.h"
+#include "./F_Analog/F_DAC/F_DAC.c"
+#include "./F_Analog/F_DAC/F_DAC.h"
+#ifdef F_STM32_F4
+#include "./F_Analog/F_DAC/F_DAC_Drv/F_DAC_Drv_STM32F4/F_DAC_Drv_STM32F4.c"
+#include "./F_Analog/F_DAC/F_DAC_Drv/F_DAC_Drv_STM32F4/F_DAC_Drv_STM32F4.h"
+#endif
 #endif
 
 
@@ -60,6 +64,18 @@
 #endif
 #include "F_Chip/F_AD9959/F_AD9959.c"
 #include "F_Chip/F_AD9959/F_AD9959.h"
+#endif
+
+
+/*ADF4002*/
+#ifdef F_ADF4002
+#include "stm32f4xx_hal_gpio.h"
+#include "F_Chip/F_ADF4002/F_ADF4002.c"
+#include "F_Chip/F_ADF4002/F_ADF4002.h"
+#ifdef F_STM32_F4
+#include "F_Chip/F_ADF4002/F_ADF4002_Drv/F_ADF4002_Drv_STM32F4/F_ADF4002_Drv_STM32F4.c"
+#include "F_Chip/F_ADF4002/F_ADF4002_Drv/F_ADF4002_Drv_STM32F4/F_ADF4002_Drv_STM32F4.h"
+#endif
 #endif
 
 
@@ -249,7 +265,19 @@
 #endif
 
 
-/*OLED_SPI*/
+/*SEG595*/
+#ifdef Service_Display_SEG_TM1637
+#include "stm32f4xx_hal_gpio.h"
+#include "F_Service/F_Display/F_SEG_TM1637/F_SEG_TM1637.c"
+#include "F_Service/F_Display/F_SEG_TM1637/F_SEG_TM1637.h"
+#ifdef F_STM32_F4
+#include "F_Service/F_Display/F_SEG_TM1637/F_SEG_TM1637_Drv/F_SEG_TM1637_Drv_STM32F4/F_SEG_TM1637_Drv_STM32F4.c"
+#include "F_Service/F_Display/F_SEG_TM1637/F_SEG_TM1637_Drv/F_SEG_TM1637_Drv_STM32F4/F_SEG_TM1637_Drv_STM32F4.h"
+#endif
+#endif
+
+
+/*SEG595*/
 #ifdef Service_Display_SEG595
 #include "stm32f4xx_hal_gpio.h"
 #include "F_Service/F_Display/F_SEG595/F_SEG595.c"

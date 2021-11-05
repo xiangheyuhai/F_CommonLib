@@ -18,6 +18,7 @@
 //#define F_AD9959_Sweep_Fre
 //#define F_AD9959_Sweep_Pha
 //#define F_AD9954
+//#define F_ADF4002
 //#define F_ADF4351
 //#define F_AD8302
 //#define F_MB1504
@@ -30,7 +31,7 @@
 //*******************************选择模拟输入输出***********************//
 //#define F_ADC
 //#define F_DAC
-//#define F_DAC_Sin_Wave
+//#define F_DAC_SinWave
 //#define F_FFT
 
 
@@ -58,17 +59,18 @@
 //#define Service_Display_LCD_240_ParallelPort	//LCD240*240 并口
 //#define Service_Display_LCD_480             	//LCD_480
 //#define F_LED									//LED
-//#define Service_Display_NOKIA_5110
+//#define Service_Display_NOKIA_5110			//NOKIA_5110
 //#define Service_Display_OLED_IIC				//OLED_IIC
 //#define Service_Display_OLED_SPI				//OLED_SPI
 //#define Service_Display_OLED_SPI_Hardware
+#define Service_Display_SEG_TM1637				//SEG_TM1637数码管
 //#define Service_Display_SEG595				//SEG595数码管
 //#define Service_TOUCH							//正点原子触摸屏
 //#define Service_TOUCH_FT5206
 //#define Service_TOUCH_GT9147
 //#define Service_TOUCH_OTT2001A
 //#define Service_Input_Key			            //按键
-#define SERVICE_KEYPAD							//吴的矩阵按键
+//#define SERVICE_KEYPAD							//吴的矩阵按键
 //#define Service_UserCode						//用户函数
 
 

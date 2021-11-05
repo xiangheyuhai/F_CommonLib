@@ -8,9 +8,7 @@
 uint8_t SEG_DATA[4];
 
 
-#define SEG595_SCLK PEout(11)
-#define SEG595_DIO  PEout(15)
-#define SEG595_RCLK PEout(13)
+
 
 void SEG595_Display(uint8_t *data);
 void SEG595_SendData(uint8_t data);
