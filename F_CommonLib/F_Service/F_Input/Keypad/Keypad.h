@@ -11,7 +11,7 @@ typedef enum
   KEY_Press
 }KEY_STATE;
 
-#define DELAY_MAX_TIME 100
+#define DELAY_MAX_TIME 20
 #define PULL_UP 1 //up set 1
 #define ROW_NUM '4'
 #define COL_NUM '4'

@@ -44,8 +44,8 @@
 //*******************************选择协议*******************************//
 //#define F_IIC
 //#define F_SPI
-#define F_USART
-#define F_Printf_USART1
+//#define F_USART
+//#define F_Printf_USART1
 //#define F_Printf_USART2
 //#define F_FSK
 
@@ -63,7 +63,7 @@
 //#define Service_Display_OLED_IIC				//OLED_IIC
 //#define Service_Display_OLED_SPI				//OLED_SPI
 //#define Service_Display_OLED_SPI_Hardware
-#define Service_Display_SEG_TM1637				//SEG_TM1637数码管
+//#define Service_Display_SEG_TM1637			//SEG_TM1637数码管
 //#define Service_Display_SEG595				//SEG595数码管
 //#define Service_TOUCH							//正点原子触摸屏
 //#define Service_TOUCH_FT5206

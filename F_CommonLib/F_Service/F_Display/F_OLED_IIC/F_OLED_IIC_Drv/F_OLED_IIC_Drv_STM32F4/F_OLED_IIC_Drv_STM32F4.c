@@ -9,6 +9,7 @@ void OLED_IIC_Drv_Init(void)
 {
 	GPIO_InitTypeDef GPIO_InitStructure = {0},GPIO_InitStructure_1 = {0};
 
+	__HAL_RCC_GPIOA_CLK_ENABLE();
 	__HAL_RCC_GPIOE_CLK_ENABLE();
 
     GPIO_InitStructure.Pin = OLED_IIC_DATA_Pin;
@@ -31,6 +32,7 @@ void OLED_SDA_Input(void)
 {
     GPIO_InitTypeDef GPIO_InitStructure = {0};
 
+    __HAL_RCC_GPIOA_CLK_ENABLE();
     __HAL_RCC_GPIOE_CLK_ENABLE();
 
     GPIO_InitStructure.Pin = OLED_IIC_DATA_Pin;
@@ -45,6 +47,7 @@ void OLED_SDA_Output(void)
 {
     GPIO_InitTypeDef GPIO_InitStructure = {0};
 
+    __HAL_RCC_GPIOA_CLK_ENABLE();
     __HAL_RCC_GPIOE_CLK_ENABLE();
 
     GPIO_InitStructure.Pin = OLED_IIC_DATA_Pin;

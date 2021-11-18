@@ -6,6 +6,7 @@
 u16 F_LED_COUNT = 0;
 #endif
 u8 SEG_Count = 0;
+u16 Keypad_Count = 0;
 
 
 #ifdef F_Interrupt
@@ -31,6 +32,16 @@ void SysTick_Handler(void)
 	}
 	#endif
 
+
+	#ifdef SERVICE_KEYPAD
+	Keypad_Count++;
+	if (Keypad_Count >= 80)
+	{
+		Keypad_Count = 0;
+		  scanKeypad();
+		  initKeypad(keypad_callback);
+	}
+	#endif
 
 	#ifdef F_LED_Blink
 	F_LED_COUNT++;

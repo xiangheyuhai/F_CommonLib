@@ -5,6 +5,8 @@
 #include "../../F_Chip/F_AD9959/F_AD9959.h"
 #endif
 
+uint32_t DAC_MAX = 1240;
+
 /*
  * 模拟IO输出
  * */
@@ -33,23 +35,9 @@ void FSK_Drv_Init(void)
 void FSK_Send_Head(void)
 {
 	FSK_Set_Fre(1);
-	HAL_Delay(30);
+	HAL_Delay(FSK_Head_HTime);
 	FSK_Set_Fre(0);
-	HAL_Delay(5);
-}
-
-
-/*
- * 发帧尾
- * 高电平时间是16100-16600us
- * 包络检波之后的结果是高点平持续50ms，低电平持续20ms
- * */
-void FSK_Send_End(void)
-{
-	FSK_Set_Fre(1);
-	HAL_Delay(50);
-	FSK_Set_Fre(0);
-	HAL_Delay(20);
+	HAL_Delay(FSK_D_HTime);
 }
 
 
@@ -61,9 +49,9 @@ void FSK_Send_End(void)
 void FSK_Send_1(void)
 {
 	FSK_Set_Fre(1);
-	HAL_Delay(20);
+	HAL_Delay(FSK_1_HTime);//原来是20
 	FSK_Set_Fre(0);
-	HAL_Delay(5);
+	HAL_Delay(FSK_D_HTime);
 }
 
 
@@ -75,10 +63,41 @@ void FSK_Send_1(void)
 void FSK_Send_0(void)
 {
 	FSK_Set_Fre(1);
-	HAL_Delay(10);
+	HAL_Delay(FSK_0_HTime);//原来是10
 	FSK_Set_Fre(0);
-	HAL_Delay(5);
+	HAL_Delay(FSK_D_HTime);
 }
+
+
+/*
+ * 发帧尾
+ * 高电平时间是16100-16600us
+ * 包络检波之后的结果是高点平持续50ms，低电平持续20ms
+ * */
+void FSK_Send_End(void)
+{
+	FSK_Set_Fre(1);
+	HAL_Delay(FSK_End_HTime);
+	FSK_Set_Fre(0);
+	HAL_Delay(FSK_D_HTime);
+}
+
+
+/*
+ * 发校验位--仅针对2021电赛的4位数字的校验
+ * 把数组的前四个数字加起来，对2取余
+ * */
+u8 FSK_Send_Check(u8* array)
+{
+	u8 i, sum = 0, res = 0;
+	for (i = 0; i <=3; i++)
+		sum+=array[i];
+	res = sum%2;
+//	printf("%d, %d\r\n", sum, res);
+	return res;
+}
+
+
 
 
 /*
@@ -99,6 +118,7 @@ void FSK_Set_Fre(u8 i)		//入口为1--10K, 入口为0--15K
 		TIM6->ARR = 15;	//12KHz
 		#endif
 		FSK_Out = 0;
+		HAL_DAC_SetValue(&hdac, DAC_CHANNEL_1, DAC_ALIGN_12B_R, 0);
 	}
 
 	else
@@ -111,6 +131,7 @@ void FSK_Set_Fre(u8 i)		//入口为1--10K, 入口为0--15K
 		TIM6->ARR = 17;	//11KHz
 		#endif
 		FSK_Out = 1;
+		HAL_DAC_SetValue(&hdac, DAC_CHANNEL_1, DAC_ALIGN_12B_R, DAC_MAX);
 	}
 }
 
@@ -123,7 +144,7 @@ void FSK_Set_Fre(u8 i)		//入口为1--10K, 入口为0--15K
 void FSK_Send_Char(unsigned char  data_hex, u8* array)
 {
 	u8 i = 0;
-	FSK_Send_Head();
+
 	for (i = 0; i < 8; i++)
 	{
 		if (data_hex & 0x80)
@@ -168,6 +189,7 @@ void FSK_Send_String(char* Temp_Buf,  u8 Length)
 {
 	u8 i = 0;
 	u8 temp_buffer[100] = {0};
+	FSK_Send_Head();//发送帧头
 	for (i = 0; i < Length; i++)
 	{
 		FSK_Send_Char(Temp_Buf[i], temp_buffer);
@@ -194,16 +216,18 @@ void FSK_Send_8421BCD(int data)
 		data = data / 2;
 		array[i] = yushu;
 	}
-	FSK_Send_Head();		//发送帧头
+
 	for (i = 0; i < 4; i++)
 	{
 		if (array[i])
 			FSK_Send_1(); //发1
 		else
 			FSK_Send_0(); //发0
-		printf("%d", array[i]);//打印查看效果
+//		printf("%d", array[i]);//打印查看效果
 	}
-	printf(", %d send ok\r\n", data_foremost);//打印查看效果
+//	printf(", %d send ok\r\n", data_foremost);//打印查看效果.
+
+
 //	测试用
 //	printf("8421BCD:%d-->", data);
 //	for (i = 0; i < 4; i++)
@@ -231,11 +255,24 @@ u8 FSK_Receive_8421BCD(u8* array)
 void FSK_Send_8421BCD_4(u8* array)
 {
 	u8 i = 0;
+	u8 check = 2;
+	check = FSK_Send_Check(array);
+
+	FSK_Send_Head();			//发送帧头
 	for (i = 0; i < 4; i++)
-	{
 		FSK_Send_8421BCD(array[i]);
-	}
-	FSK_Send_End();//帧尾
+
+	if (check)					//校验
+		FSK_Send_1();
+	else
+		FSK_Send_0();
+
+	if (!check)					//再次校验,跟上一次的相反
+		FSK_Send_1();
+	else
+		FSK_Send_0();
+	printf("Check:%d\r\n", check);
+	FSK_Send_End();				//帧尾
 }
 
 

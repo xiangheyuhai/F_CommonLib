@@ -14,6 +14,7 @@ void F_Init(void)
 	printf("DAC_Ok\r\n");
 	#endif
 
+
 	/*LED*/
 	#ifdef F_LED_Blink
 	LED_Init();
@@ -86,7 +87,7 @@ void F_Init(void)
 	#ifdef F_STM32_F4
 	NOKIA_5110_Init();
 	NOKIA_5110_Clear();
-	NOKIA_5110_Write_english_string(0,0,"2021.11.04_test");
+	NOKIA_5110_Write_english_string(0,0,"test");
 	printf("NOKIA_5110_Ok\r\n");
 	#endif
 	#endif
@@ -95,8 +96,11 @@ void F_Init(void)
 	#ifdef Service_Display_OLED_IIC
 	OLED_IIC_Init();
 	OLED_IIC_Clear();
-	sprintf((char *)OLED_IIC_SHOW_BUF, "FJX_TEST_123");
+	sprintf((char *)OLED_IIC_SHOW_BUF, "FSK");
 	OLED_IIC_ShowString(0,1, OLED_IIC_SHOW_BUF,16);
+
+	sprintf((char *)OLED_IIC_SHOW_BUF, "FSK2");
+	OLED_IIC_ShowString(0,5, OLED_IIC_SHOW_BUF,16);
 	printf("OLED_IIC_Ok\r\n");
 	#endif
 
@@ -111,13 +115,6 @@ void F_Init(void)
 	OLED_SPI_ShowString(0,16, OLED_SPI_SHOW_BUF, 16, 1);
 	OLED_SPI_Refresh();
 	printf("OLED_SPI_Ok\r\n");
-	#endif
-
-
-	/*SEG_TM1637*/
-	#ifdef Service_Display_SEG_TM1637
-	SEG_TM1637_DATA_Config(1,1,22,1,0);
-	SEG_TM1637_DATA_Display(8);
 	#endif
 
 
@@ -184,6 +181,11 @@ void F_Init(void)
 	/*AD9959*/
 	#ifdef F_AD9959
 	AD9959_Init();	//初始化
+	Fre_Now = Fre_1;
+	Write_frequence(3,Fre_Now);
+	Write_frequence(0,Fre_Now);
+	Write_frequence(1,Fre_Now);
+	Write_frequence(2,Fre_Now);
 	#ifdef F_AD9959_Sweep_Fre
 	AD9959_Mode = AD9959_Mode_Sweep;//扫频
 	#endif

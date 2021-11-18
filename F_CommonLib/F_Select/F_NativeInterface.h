@@ -266,18 +266,6 @@
 
 
 /*SEG595*/
-#ifdef Service_Display_SEG_TM1637
-#include "stm32f4xx_hal_gpio.h"
-#include "F_Service/F_Display/F_SEG_TM1637/F_SEG_TM1637.c"
-#include "F_Service/F_Display/F_SEG_TM1637/F_SEG_TM1637.h"
-#ifdef F_STM32_F4
-#include "F_Service/F_Display/F_SEG_TM1637/F_SEG_TM1637_Drv/F_SEG_TM1637_Drv_STM32F4/F_SEG_TM1637_Drv_STM32F4.c"
-#include "F_Service/F_Display/F_SEG_TM1637/F_SEG_TM1637_Drv/F_SEG_TM1637_Drv_STM32F4/F_SEG_TM1637_Drv_STM32F4.h"
-#endif
-#endif
-
-
-/*SEG595*/
 #ifdef Service_Display_SEG595
 #include "stm32f4xx_hal_gpio.h"
 #include "F_Service/F_Display/F_SEG595/F_SEG595.c"
@@ -285,6 +273,17 @@
 #ifdef F_STM32_F4
 #include "F_Service/F_Display/F_SEG595/F_SEG595_Drv/F_SEG595_Drv_STM32F4/F_SEG595_Drv_STM32F4.c"
 #include "F_Service/F_Display/F_SEG595/F_SEG595_Drv/F_SEG595_Drv_STM32F4/F_SEG595_Drv_STM32F4.h"
+#endif
+#endif
+
+/*SEG595*/
+#ifdef Service_Display_SEG_TM1637
+#include "stm32f4xx_hal_gpio.h"
+#include "F_Service/F_Display/F_SEG_TM1637/F_SEG_TM1637.c"
+#include "F_Service/F_Display/F_SEG_TM1637/F_SEG_TM1637.h"
+#ifdef F_STM32_F4
+#include "F_Service/F_Display/F_SEG_TM1637/F_SEG_TM1637_Drv/F_SEG_TM1637_Drv_STM32F4/F_SEG_TM1637_Drv_STM32F4.c"
+#include "F_Service/F_Display/F_SEG_TM1637/F_SEG_TM1637_Drv/F_SEG_TM1637_Drv_STM32F4/F_SEG_TM1637_Drv_STM32F4.h"
 #endif
 #endif
 

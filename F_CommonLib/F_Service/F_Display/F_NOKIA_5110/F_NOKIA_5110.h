@@ -4,7 +4,7 @@
 #ifdef Service_Display_NOKIA_5110
 
 extern char NOKIA_5110_SHOW_BUF[30];
-
+extern u8 NOKIA_Light_Flag;
 
 
 
@@ -19,7 +19,7 @@ void NOKIA_5110_Write_chinese_string(unsigned char X, unsigned char Y,
 void NOKIA_5110_Draw_bmp_pixel(unsigned char X,unsigned char Y,unsigned char *map,
                   unsigned char Pix_x,unsigned char Pix_y);
 void NOKIA_5110_Write_byte(unsigned char dat, unsigned char command);
-
+void NOKIA_5110_Light(void);
 
 
 #endif

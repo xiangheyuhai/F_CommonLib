@@ -6,27 +6,31 @@
 
 
 /**************************USER修改**************************/
-#define NOKIA_5110_SCL_Pin 	    	GPIO_PIN_12	//D0
-#define NOKIA_5110_SCL_GPIO_Port  	GPIOC
+#define NOKIA_5110_BLK_Pin 	    	GPIO_PIN_15
+#define NOKIA_5110_BLK_GPIO_Port  	GPIOB
 
-#define NOKIA_5110_SDA_Pin 	    	GPIO_PIN_11	//D1
-#define NOKIA_5110_SDA_GPIO_Port  	GPIOC
+#define NOKIA_5110_SCL_Pin 	    	GPIO_PIN_0	//D0
+#define NOKIA_5110_SCL_GPIO_Port  	GPIOF
 
-#define NOKIA_5110_DC_Pin 	   		GPIO_PIN_15
-#define NOKIA_5110_DC_GPIO_Port  	GPIOG
+#define NOKIA_5110_SDA_Pin 	    	GPIO_PIN_2	//D1
+#define NOKIA_5110_SDA_GPIO_Port  	GPIOF
 
-#define NOKIA_5110_CE_Pin 	    	GPIO_PIN_6
+#define NOKIA_5110_DC_Pin 	   		GPIO_PIN_4
+#define NOKIA_5110_DC_GPIO_Port  	GPIOF
+
+#define NOKIA_5110_CE_Pin 	    	GPIO_PIN_9
 #define NOKIA_5110_CE_GPIO_Port   	GPIOD
 
-#define NOKIA_5110_RES_Pin 	    	GPIO_PIN_6
-#define NOKIA_5110_RES_GPIO_Port  	GPIOC
+#define NOKIA_5110_RES_Pin 	    	GPIO_PIN_14
+#define NOKIA_5110_RES_GPIO_Port  	GPIOD
 
 
-#define NOKIA_5110_SCL 	PCout(12)
-#define NOKIA_5110_SDA 	PCout(11)
-#define NOKIA_5110_DC 	PGout(15)
-#define NOKIA_5110_CE 	PDout(6)
-#define NOKIA_5110_RES  PCout(6)
+#define NOKIA_5110_BLK 	PBout(15)
+#define NOKIA_5110_SCL 	PFout(0)
+#define NOKIA_5110_SDA 	PFout(2)
+#define NOKIA_5110_DC 	PFout(4)
+#define NOKIA_5110_CE 	PDout(9)
+#define NOKIA_5110_RES  PDout(14)
 /**************************USER修改**************************/
 
 void NOKIA_5110_Drv_Init(void);

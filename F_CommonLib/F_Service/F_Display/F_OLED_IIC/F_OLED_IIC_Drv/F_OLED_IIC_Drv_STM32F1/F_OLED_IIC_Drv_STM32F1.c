@@ -1,13 +1,15 @@
 #include "./F_OLED_IIC_Drv_STM32F1.h"
+#include "all_config.h"
 #ifdef Service_Display_OLED_IIC
 #ifdef F_STM32_F1
-#include "all_config.h"
+
 
 
 void OLED_IIC_Drv_Init(void)
 {
 	GPIO_InitTypeDef GPIO_InitStructure = {0},GPIO_InitStructure_1 = {0};
 
+	__HAL_RCC_GPIOA_CLK_ENABLE();
 	__HAL_RCC_GPIOE_CLK_ENABLE();
 
     GPIO_InitStructure.Pin = OLED_IIC_DATA_Pin;
@@ -30,6 +32,7 @@ void OLED_SDA_Input(void)
 {
     GPIO_InitTypeDef GPIO_InitStructure = {0};
 
+    __HAL_RCC_GPIOA_CLK_ENABLE();
     __HAL_RCC_GPIOE_CLK_ENABLE();
 
     GPIO_InitStructure.Pin = OLED_IIC_DATA_Pin;
@@ -44,6 +47,7 @@ void OLED_SDA_Output(void)
 {
     GPIO_InitTypeDef GPIO_InitStructure = {0};
 
+    __HAL_RCC_GPIOA_CLK_ENABLE();
     __HAL_RCC_GPIOE_CLK_ENABLE();
 
     GPIO_InitStructure.Pin = OLED_IIC_DATA_Pin;

@@ -5,7 +5,7 @@
 #include "./F_NOKIA_5110_Drv/F_NOKIA_5110_Drv_STM32F4/F_NOKIA_5110_Drv_STM32F4.h"
 
 char NOKIA_5110_SHOW_BUF[30] = {0};
-
+u8 NOKIA_Light_Flag = 0;
 
 /*-----------------------------------------------------------------------
 LCD_init    : 3310LCD初始化
@@ -98,6 +98,7 @@ LCD_write_english_String  : 英文字符串显示函数
 
 编写日期          ：2004-8-10
 最后修改日期      ：2004-8-10
+//一行14个字符
 -----------------------------------------------------------------------*/
 void NOKIA_5110_Write_english_string(unsigned char X,unsigned char Y,char *s)
   {
@@ -222,6 +223,11 @@ void NOKIA_5110_Write_byte(unsigned char dat, unsigned char command)
   }
 
 
+void NOKIA_5110_Light(void)
+{
+	NOKIA_Light_Flag = ~NOKIA_Light_Flag;
+	NOKIA_5110_BLK = NOKIA_Light_Flag;
+}
 
 
 
